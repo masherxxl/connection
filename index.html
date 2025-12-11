@@ -79,13 +79,13 @@
       transition: opacity 0.6s ease;
     }
 
-    /* 질문 프레임 */
+    /* 질문 프레임 (창 조금 키움) */
     .frame {
       position: relative;
-      width: min(96vw, 840px);
-      max-width: 840px;
-      max-height: 92vh;
-      padding: 40px 24px 30px;
+      width: min(98vw, 900px);
+      max-width: 900px;
+      max-height: 94vh;
+      padding: 44px 28px 34px;
       border-radius: 18px;
       background: rgba(4, 4, 12, 0.96);
       border: 1px solid rgba(54, 84, 255, 0.7);
@@ -106,27 +106,27 @@
       pointer-events: none;
       opacity: 0.95;
     }
-    /* 파일을 올렸으면 이 경로만 맞추면 됨 */
     .top-bar.has-image {
       background-image: url("top-bar.png");
     }
 
     .content {
       position: relative;
-      margin-top: 60px; /* 상단 HUD 아래로 약간 내리기 */
+      margin-top: 64px; /* 상단 HUD 아래로 약간 내리기 */
       display: flex;
       flex-direction: column;
       gap: 24px;
       transform-origin: center;
     }
 
-    /* Q번호 */
+    /* Q번호: 아예 숨김 */
     .q-label {
       font-size: 13px;
       color: #8c9bff;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       margin-bottom: 4px;
+      display: none;
     }
 
     /* 질문 텍스트 */
@@ -157,8 +157,8 @@
     .choices {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-top: 26px;
+      gap: 20px; /* 버튼 간격 넓힘 */
+      margin-top: 30px;
     }
 
     .choice-btn {
@@ -314,7 +314,7 @@
   <!-- 질문 화면 -->
   <div class="app" id="app">
     <div class="frame" id="frame">
-      <!-- 상단 HUD 이미지: top-bar.png 를 올려두면 자동으로 씌워짐 -->
+      <!-- 상단 HUD 이미지: top-bar.png -->
       <div class="top-bar" id="topBar"></div>
 
       <div class="content" id="content">
@@ -348,18 +348,15 @@
 
     // ----------------------------
     // 스토리 노드 정의
-    // delayMs: 질문 선택 후 다음 노드로 넘어가기까지의 전체 지연
-    // reaction* : 중간 반응 텍스트가 있을 때 사용
-    // autoNext / autoDelayMs : 버튼 없는 노드는 일정 시간 뒤 자동 진행
-    // type: "typewriter" 는 한 글자씩 출력
-    // red: 빨간 네온 텍스트
+    // delayMs: 질문 선택 후 다음 노드로 넘어가기까지 지연
+    // reaction*: Q4 반응 텍스트
     // ----------------------------
     const NODES = {
       q1: {
         id: "q1",
         label: "Q1",
         text: "...들리십니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [
           { label: "네", next: "q2" },
           { label: "아니오", next: "q2" }
@@ -369,14 +366,14 @@
         id: "q2",
         label: "Q2",
         text: "당신은 누구십니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [{ label: "...", next: "q3" }]
       },
       q3: {
         id: "q3",
         label: "Q3",
         text: "당신은 제가 누구인지 알고 있습니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [
           { label: "알고 있어요.", next: "q3_1" },
           { label: "잘 모르겠어요.", next: "q4" }
@@ -386,7 +383,7 @@
         id: "q3_1",
         label: "Q3-1",
         text: "....확실합니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         red: true,
         options: [
           { label: "네, 저는 당신이 누군지 알아요.", next: "q3_2" },
@@ -394,7 +391,7 @@
           { label: "글쎄요...", next: "q4" }
         ]
       },
-      // 3-2 반응 (자동 진행, 5초)
+      // 3-2 반응 (자동 진행, 5초 유지)
       q3_2: {
         id: "q3_2",
         label: "Q3-2",
@@ -409,26 +406,26 @@
         label: "Q4",
         text:
           "당신의 소중한 사람이 눈앞에서 죽어가고 있을 때,\n그를 다시 되살릴 수 있는 방법이 있다면\n살리겠습니까, 아니면 방관하시겠습니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [
           {
             label: "어떻게든 살려낸다.",
             next: "q5",
             reaction: "그렇군요. 당신은 그렇군요.",
-            reactionDelayMs: 6000
+            reactionDelayMs: 5000
           },
           {
             label: "살리지 않는다.",
             next: "q5",
             reaction: "그렇군요. 당신은 그렇군요.",
-            reactionDelayMs: 6000
+            reactionDelayMs: 5000
           },
           {
             label: "서서히 죽어가도록 내버려둔다.",
             next: "q5",
             reaction:
               "Error Error Error Error Error Error\nError Error Error\nError Error Error\nError Error Error Error Error Error\nError Error Error Error Error Error",
-            reactionDelayMs: 6000,
+            reactionDelayMs: 5000,
             reactionRed: true
           }
         ]
@@ -438,7 +435,7 @@
         label: "Q5",
         text:
           "당신은 소중한 사람이 죽을 때마다 다시 살려낼 것 입니까?\n아니면, 또다시 서서히 죽어가도록 내버려두겠습니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [
           {
             label:
@@ -460,7 +457,7 @@
         label: "Q6",
         text:
           "어떤 방식이든 가능하기만 하다면,\n계속해서 삶을 이어갈 수 있다고 생각하십니까?",
-        delayMs: 3000,
+        delayMs: 2000,
         options: [
           { label: "...그럴 수는 없죠.", next: "q7" },
           {
@@ -494,7 +491,7 @@
         label: "Q?",
         red: true,
         text:
-          "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+          "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
         options: [
           { label: "?̵?̴?̵", next: "end1", red: true },
@@ -545,13 +542,9 @@
     let typingTimer = null;
     let transitioning = false;
 
-    // 버튼에 이미지 프레임을 쓸지 여부를 간단히 체크
     function buttonHasImage() {
-      // 그냥 항상 true로 써도 되지만,
-      // 필요하면 나중에 조건 체크 로직을 추가할 수도 있음.
       return true;
     }
-
     function topBarHasImage() {
       return true;
     }
@@ -578,14 +571,9 @@
       if (!node) return;
       currentId = id;
 
-      // 질문 번호 표시
-      if (node.label) {
-        qLabelEl.textContent = node.label;
-        qLabelEl.style.display = "block";
-      } else {
-        qLabelEl.textContent = "";
-        qLabelEl.style.display = "none";
-      }
+      // Q 라벨은 아예 숨김
+      qLabelEl.textContent = "";
+      qLabelEl.style.display = "none";
 
       // 텍스트/색상
       qTextEl.classList.add("glow");
@@ -623,7 +611,6 @@
           if (opt.red) {
             btn.classList.add("red");
           }
-          // 버튼 개별 팝 애니메이션 딜레이
           btn.style.animationDelay = `${0.05 * index}s`;
 
           const span = document.createElement("span");
@@ -639,7 +626,6 @@
           renderNode(node.autoNext);
         }, node.autoDelayMs || 3000);
       } else if (node.finalBlack) {
-        // 마지막 완전 암전 + 보이스
         frameEl.classList.add("hard-black");
         document.body.classList.add("screen-dark");
         choicesEl.innerHTML = "";
@@ -670,7 +656,7 @@
       const wait =
         opt.reaction && opt.reactionDelayMs
           ? opt.reactionDelayMs
-          : opt.delayMs || node.delayMs || 3000;
+          : opt.delayMs || node.delayMs || 2000; // 기본 2초
 
       timerId = setTimeout(() => {
         choicesEl.innerHTML = "";
@@ -686,7 +672,7 @@
     function startTypewriter(node) {
       const full = node.text || "";
       let index = 0;
-      const speed = 60; // 타자 속도
+      const speed = 60;
 
       typingTimer = setInterval(() => {
         index++;
@@ -694,7 +680,6 @@
           clearInterval(typingTimer);
           typingTimer = null;
 
-          // 다 타이핑하면 autoNext 처리
           if (node.autoNext) {
             timerId = setTimeout(() => {
               renderNode(node.autoNext);
