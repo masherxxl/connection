@@ -22,7 +22,7 @@
         "Noto Sans KR", sans-serif;
       display: flex;
       justify-content: center;
-      align-items: flex-start;   /* 화면 맨 위로 붙이기 */
+      align-items: flex-start;
       min-height: 100vh;
       overflow-y: auto;
       padding: 8px;
@@ -78,7 +78,7 @@
       transition: opacity 0.6s ease;
     }
 
-    /* 프레임: 그냥 레이아웃 박스 (배경X) */
+    /* 프레임 */
     .frame {
       position: relative;
       width: 100%;
@@ -86,10 +86,10 @@
       margin: 0 auto;
     }
 
-    /* 맨 위 HUD 바 = top-bar.png */
+    /* HUD */
     .top-bar {
       width: 100%;
-      height: 80px; /* 세로 고정 → 안 찌그러지게 */
+      height: 80px;
       background-image: url("top-bar.png");
       background-repeat: no-repeat;
       background-position: center top;
@@ -103,11 +103,11 @@
       flex-direction: column;
       gap: 24px;
       transform-origin: center;
-      margin-top: 52px; /* HUD 밑으로 살짝 내리기 */
+      margin-top: 52px;
       padding: 0 8px;
     }
 
-    /* Q번호: 질문에서만 사용 */
+    /* Q 라벨 */
     .q-label {
       font-size: 27px;
       color: #ffffff;
@@ -116,10 +116,10 @@
       text-shadow:
         0 0 6px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(255, 255, 255, 0.9);
-      display: none; /* 노드에서 필요할 때만 켬 */
+      display: none;
     }
 
-    /* 질문/반응 텍스트 기본 */
+    /* 질문/반응 텍스트 */
     .q-text {
       font-size: 25px;
       line-height: 1.6;
@@ -143,7 +143,7 @@
         0 0 24px rgba(255, 40, 72, 0.95);
     }
 
-    /* 파란 네온 텍스트 (유감이군요 / 보너스 등) */
+    /* 파란 네온 텍스트 */
     .blue {
       color: #3654ff;
       text-shadow:
@@ -151,7 +151,7 @@
         0 0 18px rgba(54, 84, 255, 0.9);
     }
 
-    /* 빨간 박스 강조용 */
+    /* 빨간 박스 강조 */
     .box-red {
       display: inline-block;
       padding: 16px 24px;
@@ -165,22 +165,22 @@
       font-weight: 700;
     }
 
-    /* 선택지 전체 컨테이너 */
+    /* 선택지 컨테이너 */
     .choices {
       display: flex;
       flex-direction: column;
       gap: 24px;
-      margin-top: 60px;  /* 버튼을 더 아래로 */
+      margin-top: 60px;
     }
 
-    /* 버튼 자체가 frame.png 한 장 */
+    /* 버튼 */
     .choice-btn {
       position: relative;
       display: flex;
       align-items: center;
       width: 100%;
-      max-width: 700px;      /* 너무 넓지 않게 */
-      height: 80px;          /* 세로 두께 */
+      max-width: 700px;
+      height: 80px;
       margin: 0 auto;
       border: none;
       border-radius: 0;
@@ -192,7 +192,7 @@
       background-color: transparent;
       background-image: url("frame.png");
       background-position: center;
-      background-size: 100% auto;   /* 세로 비율 유지 */
+      background-size: 100% auto;
       background-repeat: no-repeat;
       outline: none;
       overflow: hidden;
@@ -205,11 +205,11 @@
       text-shadow:
         0 0 4px rgba(0, 0, 0, 0.9),
         0 0 12px rgba(0, 0, 0, 0.8);
-      white-space: normal;          /* 여러 줄 허용 */
+      white-space: normal;
       word-break: keep-all;
       overflow: hidden;
       text-overflow: clip;
-      margin-left: 19px;            /* 살짝 오른쪽으로 */
+      margin-left: 19px;   /* 텍스트 살짝 오른쪽으로 */
     }
 
     .choice-btn::before {
@@ -274,7 +274,7 @@
       }
     }
 
-    /* 텍스트 페이드 아웃 */
+    /* 텍스트 페이드아웃 */
     .fade-out {
       animation: textFadeOut 1s ease forwards;
     }
@@ -282,7 +282,7 @@
       to { opacity: 0; }
     }
 
-    /* 프레임 흔들림 (지진 효과) */
+    /* 지진 효과 */
     .shake {
       animation: shake 0.35s ease-in-out infinite;
     }
@@ -294,7 +294,7 @@
       100% { transform: translate(1px, 1px); }
     }
 
-    /* END 단계에서 전체 암전 */
+    /* 화면 암전 */
     .screen-dark {
       animation: fadeToBlack 2.2s ease forwards;
     }
@@ -305,7 +305,6 @@
       }
     }
 
-    /* 완전 검은 화면 전환용 */
     .hard-black {
       background: #000 !important;
       color: #000 !important;
@@ -313,7 +312,7 @@
       border-color: #000 !important;
     }
 
-    /* 엔딩용 메시지 오버레이 */
+    /* 엔딩 메시지 오버레이 */
     .msg-overlay {
       position: fixed;
       inset: 0;
@@ -393,12 +392,12 @@
 </head>
 
 <body>
-  <!-- 배경 BGM (파일명: bgm.mp3 로 업로드) -->
+  <!-- 배경 BGM -->
   <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
-  <!-- 마지막 보이스 (파일명: voice.mp3 로 업로드) -->
+  <!-- 마지막 보이스 -->
   <audio id="voice" src="voice.mp3" preload="auto"></audio>
 
-  <!-- 인트로: "연결합니다" -->
+  <!-- 인트로 -->
   <div class="intro" id="intro">
     <div class="intro-text">연결합니다</div>
   </div>
@@ -428,9 +427,7 @@
   </div>
 
   <script>
-    // ----------------------------
-    // 오디오: 자동재생 우회
-    // ----------------------------
+    // 오디오
     const bgmEl   = document.getElementById("bgm");
     const voiceEl = document.getElementById("voice");
 
@@ -448,12 +445,9 @@
       });
     }
 
-    // 버튼 등장 지연 (기존보다 1초 느리게)
-    const BUTTON_DELAY_MS = 1200;
+    const BUTTON_DELAY_MS = 1200; // 버튼 조금 늦게 등장
 
-    // ----------------------------
-    // 스토리 노드 정의
-    // ----------------------------
+    // 스토리 노드
     const NODES = {
       // 0번 질문 (...들리십니까?)
       q0: {
@@ -461,16 +455,16 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 180,
-        fontSize: 30, // 기본보다 10p 크게
+        fontSize: 30,
         text: "...들리십니까?",
         delayMs: 2000,
         options: [
-          { label: "네",   next: "q0_success" },
+          { label: "네",    next: "q0_success" },
           { label: "아니오", next: "q0_regret" }
         ]
       },
 
-      // 0-1 반응: 성공적으로 연결 되었습니다.
+      // 0-1 성공적으로 연결
       q0_success: {
         id: "q0_success",
         label: "",
@@ -482,7 +476,7 @@
         autoDelayMs: 2000
       },
 
-      // 0-2 반응: 유감이군요.
+      // 0-2 유감이군요
       q0_regret: {
         id: "q0_regret",
         label: "",
@@ -495,7 +489,7 @@
         autoDelayMs: 2000
       },
 
-      // 0-3 반응: 그러면... 바로 질문을 시작하도록 하겠습니다
+      // 0-3 질문 시작
       q0_start: {
         id: "q0_start",
         label: "",
@@ -507,19 +501,18 @@
         autoDelayMs: 2000
       },
 
-      // 1번 질문: Q1
+      // 1번: Q1
       q1: {
         id: "q1",
         label: "Q1",
         text: "당신은 누구입니까?",
         delayMs: 2000,
         options: [
-          { label: "...",          next: "q1_r1" },
+          { label: "...",           next: "q1_r1" },
           { label: "답하지 않는다.", next: "q1_r2" }
         ]
       },
 
-      // 1번 질문 이후 반응 1
       q1_r1: {
         id: "q1_r1",
         label: "",
@@ -530,7 +523,6 @@
         autoDelayMs: 2000
       },
 
-      // 1번 질문 이후 반응 2
       q1_r2: {
         id: "q1_r2",
         label: "",
@@ -541,7 +533,7 @@
         autoDelayMs: 2000
       },
 
-      // 2번 질문: Q2
+      // 2번: Q2
       q2: {
         id: "q2",
         label: "Q2",
@@ -553,7 +545,6 @@
         ]
       },
 
-      // 2번 질문에서 "잘 모르겠습니다." 선택 시 반응
       q2_unknown: {
         id: "q2_unknown",
         label: "",
@@ -564,14 +555,14 @@
         autoDelayMs: 2000
       },
 
-      // 2-1 질문: ....확실합니까?
+      // 2-1: ....확실합니까?
       q2_1: {
         id: "q2_1",
         label: "",
         red: true,
         type: "typewriter",
         typeSpeedMs: 250,
-        fontSize: 30, // 들리십니까보다 5p 정도 크게
+        fontSize: 30,
         text: "....확실합니까?",
         delayMs: 2000,
         options: [
@@ -581,7 +572,7 @@
         ]
       },
 
-      // 2-2 반응: 서버 로그 데이터...
+      // 2-2: 로그 검사
       q2_2: {
         id: "q2_2",
         label: "",
@@ -597,7 +588,7 @@
         autoDelayMs: 4000
       },
 
-      // 2-2 전용 컷: <점검 완료>
+      // 2-2 컷: <점검 완료>
       q2_2_cut: {
         id: "q2_2_cut",
         label: "",
@@ -611,7 +602,7 @@
         autoDelayMs: 4000
       },
 
-      // 3번 질문: Q3
+      // 3번: Q3
       q3: {
         id: "q3",
         label: "Q3",
@@ -625,7 +616,6 @@
         ]
       },
 
-      // 3번 질문 반응들
       q3_r1: {
         id: "q3_r1",
         label: "",
@@ -635,6 +625,7 @@
         autoNext: "q4",
         autoDelayMs: 4000
       },
+
       q3_r2: {
         id: "q3_r2",
         label: "",
@@ -644,6 +635,7 @@
         autoNext: "q4",
         autoDelayMs: 4000
       },
+
       q3_r3: {
         id: "q3_r3",
         label: "",
@@ -658,7 +650,7 @@
         autoDelayMs: 4000
       },
 
-      // 4번 질문: Q4
+      // 4번: Q4
       q4: {
         id: "q4",
         label: "Q4",
@@ -682,7 +674,7 @@
         ]
       },
 
-      // 5번 질문: Q5
+      // 5번: Q5
       q5: {
         id: "q5",
         label: "Q5",
@@ -703,7 +695,7 @@
         ]
       },
 
-      // 6번 질문: 죽음은 단 한 번의 종료.. (Q6)
+      // 6번: Q6
       q6: {
         id: "q6",
         label: "Q6",
@@ -711,14 +703,14 @@
 "죽음은 단 한 번의 종료라고 생각하십니까?\n아니면, 계속해서 보류될 수도 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
-          { label: "그저 단 한번의 종료 일겁니다.",            next: "q7" },
+          { label: "그저 단 한번의 종료일겁니다.",             next: "q7" },
           { label: "어쩌면...기술적으로 보류될 수도 있습니다.", next: "q7" },
-          { label: "그 어딘가의 경계입니다.",                 next: "q7" },
+          { label: "그 어딘가의 경계입니다.",                  next: "q7" },
           { label: "모르겠습니다. 생각 해본 적이 없습니다...", next: "q7", isThird: true }
         ]
       },
 
-      // 7번 질문: 생명은, 몸이 아닌... (Q7)
+      // 7번: Q7
       q7: {
         id: "q7",
         label: "Q7",
@@ -726,12 +718,12 @@
 "생명은, 몸이 아닌 \n스스로 의식을 가진 개체에게도 \n부여될 수 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
-          { label: "네, 그럴 수 있다고 생각해요.",              next: "q8" },
+          { label: "네, 그럴 수 있다고 생각해요.",                  next: "q8" },
           { label: "아니요...그래도 그건 생명이라고 부르기 어려워요.", next: "q8" }
         ]
       },
 
-      // 8번 질문: 데이터 개체 (Q8)
+      // 8번: Q8
       q8: {
         id: "q8",
         label: "Q8",
@@ -743,7 +735,7 @@
         ]
       },
 
-      // 8-1 질문
+      // 8-1
       q8_1: {
         id: "q8_1",
         label: "",
@@ -753,12 +745,11 @@
 "여기- 당신이 지금 막 만든 데이터 개체가 당신에게 스스로 질문을 던져옵니다.\n이 시점에서, 그 개체를 완전히 삭제할 권리가 아직도 당신에게 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
-          { label: "네, 그건 여전히 제가 만든 개체이니까요.",     next: "q8_interesting" },
+          { label: "네, 그건 여전히 제가 만든 개체이니까요.",       next: "q8_interesting" },
           { label: "아니요, 이제는 제 것이라고 설명하기 어렵습니다.", next: "q8_understood" }
         ]
       },
 
-      // 8번 질문에서 2번, 또는 8-1에서 2번: 잘 이해했습니다.
       q8_no: {
         id: "q8_no",
         label: "",
@@ -781,7 +772,6 @@
         autoDelayMs: 2000
       },
 
-      // 8-1에서 1번 선택시: 점점 흥미로워집니다.
       q8_interesting: {
         id: "q8_interesting",
         label: "",
@@ -793,7 +783,7 @@
         autoDelayMs: 2000
       },
 
-      // 9번 질문: 자기 정의
+      // 9번: 최종 자기 정의 질문
       q9: {
         id: "q9",
         label: "",
@@ -807,7 +797,7 @@
         ]
       },
 
-      // 보너스 씬 (3번 선택지를 3회 이상 눌렀을 때)
+      // 보너스: 3번 선택 3회 이상
       bonus: {
         id: "bonus",
         label: "",
@@ -817,286 +807,284 @@
         fontSize: 40,
         shake: true,
         text:
-"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
-autoNext: "lastQ",
-autoDelayMs: 4000
-},
+"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
+        autoNext: "lastQ",
+        autoDelayMs: 4000
+      },
 
-  // 마지막 질문
-  lastQ: {
-    id: "lastQ",
-    label: "",
-    red: true,
-    type: "typewriter",
-    typeSpeedMs: 5,
-    fontSize: 35, // 들리십니까(30)보다 5p 크게
-    shake: true,
-    text: "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪̮͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͂̉͆̍͆̒̃̈́?”,
-delayMs: 5000,
-options: [
-{ label: "?̵?̴?̵", next: "end1", red: true },
-{ label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ", next: "end1", red: true },
-{ label: "???", next: "end1", red: true }
-]
-},
+      // 마지막 질문
+      lastQ: {
+        id: "lastQ",
+        label: "",
+        red: true,
+        type: "typewriter",
+        typeSpeedMs: 5,
+        fontSize: 35,
+        shake: true,
+        text:
+"당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+        delayMs: 5000,
+        options: [
+          { label: "?̵?̴?̵",                                          next: "end1", red: true },
+          { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ",            next: "end1", red: true },
+          { label: "???",                                            next: "end1", red: true }
+        ]
+      },
 
-  // 마지막 이후 반응 01
-  end1: {
-    id: "end1",
-    label: "",
-    type: "typewriter",
-    typeSpeedMs: 185,
-    fontSize: 40, // 들리십니까보다 10p 크게
-    text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다-",
-autoNext: "end2",
-autoDelayMs: 3000
-},
+      // 마지막 이후 반응 01
+      end1: {
+        id: "end1",
+        label: "",
+        type: "typewriter",
+        typeSpeedMs: 185,
+        fontSize: 40,
+        text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다-",
+        autoNext: "end2",
+        autoDelayMs: 3000
+      },
 
-  // 반응 02 : Error로 깨지는 문장
-  end2: {
-    id: "end2",
-    label: "",
-    red: true,
-    type: "typewriter",
-    typeSpeedMs: 50,
-    fontSize: 30,
-    text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
-autoNext: "end3",
-autoDelayMs: 3000
-},
+      // 반응 02
+      end2: {
+        id: "end2",
+        label: "",
+        red: true,
+        type: "typewriter",
+        typeSpeedMs: 50,
+        fontSize: 30,
+        text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+        autoNext: "end3",
+        autoDelayMs: 3000
+      },
 
-  // 반응 03 : 완전 암전 + 보이스 + 메시지 버튼
-  end3: {
-    id: "end3",
-    label: "",
-    text: "",
-    finalBlack: true
-  }
-};
-
-// ----------------------------
-// 렌더링 / 상태
-// ----------------------------
-const appEl     = document.getElementById("app");
-const frameEl   = document.getElementById("frame");
-const contentEl = document.getElementById("content");
-const qLabelEl  = document.getElementById("qLabel");
-const qTextEl   = document.getElementById("qText");
-const choicesEl = document.getElementById("choices");
-
-const msgOverlay = document.getElementById("msgOverlay");
-const msgClose   = document.getElementById("msgClose");
-
-if (msgClose && msgOverlay) {
-  msgClose.addEventListener("click", () => {
-    msgOverlay.classList.remove("show");
-  });
-  msgOverlay.addEventListener("click", (e) => {
-    if (e.target === msgOverlay) {
-      msgOverlay.classList.remove("show");
-    }
-  });
-}
-
-let currentId = "q0";
-let timerId = null;
-let typingTimer = null;
-let transitioning = false;
-let thirdChoiceCount = 0; // 3번 선택 누적
-
-function clearTimers() {
-  if (timerId) {
-    clearTimeout(timerId);
-    timerId = null;
-  }
-  if (typingTimer) {
-    clearInterval(typingTimer);
-    typingTimer = null;
-  }
-}
-
-function renderChoices(node) {
-  choicesEl.innerHTML = "";
-  choicesEl.classList.remove("choices-hide", "choices-enter");
-
-  if (!node.options || !node.options.length) return;
-
-  choicesEl.classList.add("choices-enter");
-  node.options.forEach((opt, index) => {
-    const btn = document.createElement("button");
-    btn.className = "choice-btn";
-    if (opt.red) btn.classList.add("red");
-    btn.style.animationDelay = `${0.05 * index}s`;
-
-    const span = document.createElement("span");
-    span.textContent = opt.label;
-    btn.appendChild(span);
-
-    btn.addEventListener("click", () => handleChoice(node, opt));
-    choicesEl.appendChild(btn);
-  });
-}
-
-function renderNode(id) {
-  clearTimers();
-  transitioning = false;
-  const node = NODES[id];
-  if (!node) return;
-  currentId = id;
-
-  // Q 라벨 (Q1~Q8만 label 있음)
-  if (node.label) {
-    qLabelEl.textContent = node.label;
-    qLabelEl.style.display = "block";
-  } else {
-    qLabelEl.textContent = "";
-    qLabelEl.style.display = "none";
-  }
-
-  // 스타일 초기화
-  qTextEl.className = "q-text glow";
-  frameEl.classList.remove("shake");
-  qTextEl.classList.remove("box-red");
-  qTextEl.style.fontSize = (node.fontSize || 25) + "px";
-
-  // 색상
-  if (node.red)  qTextEl.classList.add("red");
-  if (node.blue) qTextEl.classList.add("blue");
-
-  // 박스/지진 연출
-  if (node.boxRed) {
-    qTextEl.classList.add("box-red");
-  }
-  if (node.shake) {
-    frameEl.classList.add("shake");
-  }
-
-  // 텍스트 / 타자
-  if (node.type === "typewriter") {
-    qTextEl.textContent = "";
-    choicesEl.innerHTML = "";
-    choicesEl.classList.remove("choices-hide", "choices-enter");
-    startTypewriter(node);
-  } else {
-    qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
-    renderChoices(node);
-  }
-
-  // 질문 등장 애니메이션
-  contentEl.classList.remove("question-enter");
-  void contentEl.offsetWidth;
-  contentEl.classList.add("question-enter");
-
-  // 타입라이터 아닌 자동 진행 노드 & 엔딩 처리
-  if (node.type !== "typewriter") {
-    if ((!node.options || !node.options.length) && node.autoNext) {
-      timerId = setTimeout(() => {
-        renderNode(node.autoNext);
-      }, node.autoDelayMs || 1700);
-    } else if (node.finalBlack) {
-      // 암흑 엔딩 + 보이스 + BGM stop + 메시지 버튼
-      frameEl.classList.add("hard-black");
-      document.body.classList.add("screen-dark");
-      choicesEl.innerHTML = "";
-      qTextEl.textContent = "";
-
-      if (bgmEl) {
-        bgmEl.pause();
-        bgmEl.currentTime = 0;
+      // 반응 03 : 암전
+      end3: {
+        id: "end3",
+        label: "",
+        text: "",
+        finalBlack: true
       }
+    };
 
-      if (voiceEl) {
-        voiceEl.play().catch(() => {});
-      }
+    // 렌더링 / 상태
+    const appEl     = document.getElementById("app");
+    const frameEl   = document.getElementById("frame");
+    const contentEl = document.getElementById("content");
+    const qLabelEl  = document.getElementById("qLabel");
+    const qTextEl   = document.getElementById("qText");
+    const choicesEl = document.getElementById("choices");
 
-      const msgBtn = document.createElement("button");
-      msgBtn.className = "choice-btn";
-      msgBtn.style.marginTop = "80px";
-      const span = document.createElement("span");
-      span.textContent = "메시지 보기";
-      msgBtn.appendChild(span);
+    const msgOverlay = document.getElementById("msgOverlay");
+    const msgClose   = document.getElementById("msgClose");
 
-      msgBtn.addEventListener("click", () => {
-        if (msgOverlay) {
-          msgOverlay.classList.add("show");
+    if (msgClose && msgOverlay) {
+      msgClose.addEventListener("click", () => {
+        msgOverlay.classList.remove("show");
+      });
+      msgOverlay.addEventListener("click", (e) => {
+        if (e.target === msgOverlay) {
+          msgOverlay.classList.remove("show");
         }
       });
-
-      contentEl.appendChild(msgBtn);
     }
-  }
-}
 
-function handleChoice(node, opt) {
-  if (transitioning) return;
-  transitioning = true;
+    let currentId = "q0";
+    let timerId = null;
+    let typingTimer = null;
+    let transitioning = false;
+    let thirdChoiceCount = 0;
 
-  if (opt.isThird) {
-    thirdChoiceCount++;
-  }
+    function clearTimers() {
+      if (timerId) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+      if (typingTimer) {
+        clearInterval(typingTimer);
+        typingTimer = null;
+      }
+    }
 
-  choicesEl.classList.add("choices-hide");
+    function renderChoices(node) {
+      choicesEl.innerHTML = "";
+      choicesEl.classList.remove("choices-hide", "choices-enter");
 
-  let nextId = opt.next;
-  // Q6에서 3번 선택을 누적 3회 이상 했으면 보너스
-  if (node.id === "q6" && opt.isThird && thirdChoiceCount >= 3) {
-    nextId = "bonus";
-  }
+      if (!node.options || !node.options.length) return;
 
-  const wait = node.delayMs || 2000;
+      choicesEl.classList.add("choices-enter");
+      node.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        if (opt.red) btn.classList.add("red");
+        btn.style.animationDelay = `${0.05 * index}s`;
 
-  timerId = setTimeout(() => {
-    choicesEl.innerHTML = "";
-    choicesEl.classList.remove("choices-hide");
-    renderNode(nextId);
-  }, wait);
-}
+        const span = document.createElement("span");
+        span.textContent = opt.label;
+        btn.appendChild(span);
 
-function startTypewriter(node) {
-  const full = node.text || "";
-  let index = 0;
-  const speed = node.typeSpeedMs || 60;
+        btn.addEventListener("click", () => handleChoice(node, opt));
+        choicesEl.appendChild(btn);
+      });
+    }
 
-  typingTimer = setInterval(() => {
-    index++;
-    if (index > full.length) {
-      clearInterval(typingTimer);
-      typingTimer = null;
+    function renderNode(id) {
+      clearTimers();
+      transitioning = false;
+      const node = NODES[id];
+      if (!node) return;
+      currentId = id;
 
-      // 버튼 있는 노드 → 타이핑 끝난 후 버튼 페이드인
-      if (node.options && node.options.length) {
+      // 라벨
+      if (node.label) {
+        qLabelEl.textContent = node.label;
+        qLabelEl.style.display = "block";
+      } else {
+        qLabelEl.textContent = "";
+        qLabelEl.style.display = "none";
+      }
+
+      // 기본 스타일 초기화
+      qTextEl.className = "q-text glow";
+      frameEl.classList.remove("shake");
+      qTextEl.classList.remove("box-red");
+      qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+
+      // 색상
+      if (node.red)  qTextEl.classList.add("red");
+      if (node.blue) qTextEl.classList.add("blue");
+
+      // 박스/지진
+      if (node.boxRed) {
+        qTextEl.classList.add("box-red");
+      }
+      if (node.shake) {
+        frameEl.classList.add("shake");
+      }
+
+      // 텍스트 + 타자
+      if (node.type === "typewriter") {
+        qTextEl.textContent = "";
+        choicesEl.innerHTML = "";
+        choicesEl.classList.remove("choices-hide", "choices-enter");
+        startTypewriter(node);
+      } else {
+        qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+        renderChoices(node);
+      }
+
+      contentEl.classList.remove("question-enter");
+      void contentEl.offsetWidth;
+      contentEl.classList.add("question-enter");
+
+      // 타입라이터 아닌 노드 자동 진행 / 엔딩 처리
+      if (node.type !== "typewriter") {
+        if ((!node.options || !node.options.length) && node.autoNext) {
+          timerId = setTimeout(() => {
+            renderNode(node.autoNext);
+          }, node.autoDelayMs || 1700);
+        } else if (node.finalBlack) {
+          frameEl.classList.add("hard-black");
+          document.body.classList.add("screen-dark");
+          choicesEl.innerHTML = "";
+          qTextEl.textContent = "";
+
+          if (bgmEl) {
+            bgmEl.pause();
+            bgmEl.currentTime = 0;
+          }
+
+          if (voiceEl) {
+            voiceEl.play().catch(() => {});
+          }
+
+          const msgBtn = document.createElement("button");
+          msgBtn.className = "choice-btn";
+          msgBtn.style.marginTop = "80px";
+          const span = document.createElement("span");
+          span.textContent = "메시지 보기";
+          msgBtn.appendChild(span);
+
+          msgBtn.addEventListener("click", () => {
+            if (msgOverlay) {
+              msgOverlay.classList.add("show");
+            }
+          });
+
+          contentEl.appendChild(msgBtn);
+        }
+      }
+    }
+
+    function handleChoice(node, opt) {
+      if (transitioning) return;
+      transitioning = true;
+
+      if (opt.isThird) {
+        thirdChoiceCount++;
+      }
+
+      choicesEl.classList.add("choices-hide");
+
+      let nextId = opt.next;
+      // Q6에서 3번 이상 → 보너스
+      if (node.id === "q6" && opt.isThird && thirdChoiceCount >= 3) {
+        nextId = "bonus";
+      }
+
+      const wait = node.delayMs || 2000;
+
+      timerId = setTimeout(() => {
+        choicesEl.innerHTML = "";
+        choicesEl.classList.remove("choices-hide");
+        renderNode(nextId);
+      }, wait);
+    }
+
+    function startTypewriter(node) {
+      const full = node.text || "";
+      let index = 0;
+      const speed = node.typeSpeedMs || 60;
+
+      typingTimer = setInterval(() => {
+        index++;
+        if (index > full.length) {
+          clearInterval(typingTimer);
+          typingTimer = null;
+
+          // 버튼 있는 노드는 타이핑 완료 후 버튼 등장
+          if (node.options && node.options.length) {
+            setTimeout(() => {
+              renderChoices(node);
+            }, BUTTON_DELAY_MS);
+          }
+
+          // 자동 진행
+          if (node.autoNext) {
+            const delay = node.autoDelayMs || 1700;
+            timerId = setTimeout(() => {
+              renderNode(node.autoNext);
+            }, delay);
+          }
+          return;
+        }
+        qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
+      }, speed);
+    }
+
+    // 인트로 → 본 화면
+    const introEl = document.getElementById("intro");
+
+    window.addEventListener("load", () => {
+      tryStartBgm();
+
+      setTimeout(() => {
+        introEl.classList.add("fade-out");
         setTimeout(() => {
-          renderChoices(node);
-        }, BUTTON_DELAY_MS || 1200);
-      }
-
-      // 자동 진행
-      if (node.autoNext) {
-        const delay = node.autoDelayMs || 1700;
-        timerId = setTimeout(() => {
-          renderNode(node.autoNext);
-        }, delay);
-      }
-      return;
-    }
-    qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
-  }, speed);
-}
-
-// ----------------------------
-// 인트로 → 본 화면 시작
-// ----------------------------
-const introEl = document.getElementById("intro");
-
-window.addEventListener("load", () => {
-  tryStartBgm();
-
-  setTimeout(() => {
-    introEl.classList.add("fade-out");
-    setTimeout(() => {
-      introEl.style.display = "none";
-      appEl.classList.add("visible");
-      renderNode("q0");
-    }, 800);
-  }, 5000);
-});
+          introEl.style.display = "none";
+          appEl.classList.add("visible");
+          renderNode("q0");
+        }, 800);
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
