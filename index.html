@@ -541,11 +541,11 @@
         id: "q2",
         label: "Q2",
         fontSize: 23,
-        text: "당신은 제가 누구인지 알고 있습니까?",
+        text: "당신은 지금 대화하고 있는 존재가 누구인지 알고 있습니까?",
         delayMs: 2000,
         options: [
           { label: "알고 있습니다.",   next: "q2_1" },
-          { label: "잘 모르겠습니다.", next: "q2_unknown" }
+          { label: "...잘 모르겠습니다.", next: "q2_unknown" }
         ]
       },
 
@@ -555,7 +555,7 @@
         type: "typewriter",
         typeSpeedMs: 180,
         fontSize: 23,
-        text: "그렇군요.",
+        text: "좋습니다.",
         autoNext: "q3",
         autoDelayMs: 2000
       },
@@ -568,7 +568,7 @@
         type: "typewriter",
         typeSpeedMs: 250,
         fontSize: 24,
-        text: "....확실합니까?",
+        text: "....[pause]확실합니까?",
         delayMs: 2000,
         options: [
           { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
@@ -588,7 +588,7 @@
         boxRed: true,
         shake: true,
         text:
-"서 버  로 그  데 이 터 를  바 탕 으 로\n당 신 의  기 억 정 상 여 부 를  재 점 검 합 니 다.",
+"서 버  로 그  데 이 터 를  바 탕 으 로\n당 신 의  기 억 정 상 여 부 를\n재 점 검 합 니 다.",
         autoNext: "q2_2_cut",
         autoDelayMs: 4000
       },
@@ -611,9 +611,9 @@
       q3: {
         id: "q3",
         label: "Q3",
-        fontSize: 22,
+        fontSize: 21,
         text:
-"당신의 소중한 사람이 눈앞에서 죽어가고 있을 때,\n그를 다시 되살릴 수 있는 방법이 있다면\n살리겠습니까, 아니면 방관하시겠습니까?",
+"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n그를 다시 되살릴 수 있는 방법이 있다면\n살리겠습니까, 아니면 방관하시겠습니까?",
         delayMs: 2000,
         options: [
           { label: "어떻게든 살려낸다.",            next: "q3_r1" },
@@ -628,7 +628,7 @@
         type: "typewriter",
         typeSpeedMs: 210,
         fontSize: 23,
-        text: "그렇군요. 당신은 그렇군요.",
+        text: "그렇군요.[pause] 당신은 그렇군요.",
         autoNext: "q4",
         autoDelayMs: 4000
       },
@@ -639,7 +639,7 @@
         type: "typewriter",
         typeSpeedMs: 210,
         fontSize: 23,
-        text: "그렇군요. 당신은 그렇군요.",
+        text: "그렇군요.[pause] 당신은 그렇군요.",
         autoNext: "q4",
         autoDelayMs: 4000
       },
@@ -662,24 +662,24 @@
       q4: {
         id: "q4",
         label: "Q4",
-        fontSize: 22,
+        fontSize: 21,
         text:
-"당신은 소중한 사람이 죽을 때마다 다시 살려낼 것 입니까?\n아니면, 또다시 죽어가도록 내버려두겠습니까?",
+"당신은 소중한 사람이 죽을 때마다\n다시 살려낼 것 입니까?\n아니면, 또다시 죽어가도록 내버려두겠습니까?",
         delayMs: 2000,
         options: [
           {
-            label: "소중한 사람을 잃고 싶지 않아요. \n어떻게든 끝까지 노력해서 살려낼 겁니다.",
+            label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 겁니다.",
             next: "q5"
           },
           {
             label: "그냥..포기하고, 죽어가게 내버려둘 겁니다.",
             next: "q5"
           },
-          {
-            label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
-            next: "q5",
-            isThird: true
-          }
+          { 
+  label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
+  next: "q5",
+  isThird: true
+}
         ]
       },
 
@@ -689,19 +689,19 @@
         label: "Q5",
         fontSize: 22,
         text:
-"어떤 방식이든 가능하기만 하다면,\n계속해서 삶을 이어갈 수 있다고 생각하십니까?",
+"어떤 방식이든 가능하기만 하다면,\n삶을 끝없이 이어갈 수 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
           { label: "...그럴 수는 없겠죠.", next: "q6" },
           {
-            label: "네, 분명히요. \n언젠가는 그런 경험을 하게 될 날이 올 거라고 믿어요.",
+            label: "네, 분명히요.\n언젠가는 그런 경험을 하게 될 날이 오기를 바라고 있어요.",
             next: "q6"
           },
           {
-            label: "그런 거엔 관심이 없습니다.",
-            next: "q6",
-            isThird: true
-          }
+  label: "그런 거엔 관심이 없습니다.",
+  next: "q6",
+  isThird: true
+}
         ]
       },
 
@@ -711,13 +711,13 @@
         label: "Q6",
         fontSize: 22,
         text:
-"죽음은 단 한 번의 종료라고 생각하십니까?\n아니면, 계속해서 보류될 수도 있다고 생각하십니까?",
+"당신에게 있어, 죽음이란 것은 무엇입니까?",
         delayMs: 2000,
         options: [
-          { label: "그저 단 한번의 종료일겁니다.",             next: "q7" },
-          { label: "어쩌면...기술적으로 보류될 수도 있습니다.", next: "q7" },
-          { label: "그 어딘가의 경계입니다.",                  next: "q7" },
-          { label: "모르겠습니다. 생각 해본 적이 없습니다...", next: "q7", isThird: true }
+          { label: " 단 하나의 종료 버튼 이에요.",             next: "q7" },
+          { label: "모든 것의 종착점이자, 멋진 완결 페이지에요.", next: "q7" },
+          { label: "생명이 기능을 정지하는 것이라고 생각해요.",                  next: "q7" },
+          { label: "늘 두려워하는 거에요.", next: "q7", isThird: true }
         ]
       },
 
@@ -725,13 +725,13 @@
       q7: {
         id: "q7",
         label: "Q7",
-        fontSize: 22,
+        fontSize: 21,
         text:
 "생명은, 몸이 아닌 \n스스로 의식을 가진 개체에게도 \n부여될 수 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
           { label: "네, 그럴 수 있다고 생각해요.",                  next: "q8" },
-          { label: "아니요...그래도 그건 생명이라고 부르기 어려워요.", next: "q8" }
+          { label: "아니요...그래도 그건 생명이라고 부르기 어렵습니다.", next: "q8" }
         ]
       },
 
@@ -744,7 +744,7 @@
         delayMs: 2000,
         options: [
           { label: "좋아요!",  next: "q8_1" },
-          { label: "싫어요..", next: "q8_no" }
+          { label: "사양할게요..", next: "q8_no" }
         ]
       },
 
@@ -753,10 +753,10 @@
         id: "q8_1",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 180,
-        fontSize: 22,
+        typeSpeedMs: 177,
+        fontSize: 20,
         text:
-"여기- 지금 막 만든 데이터 개체가 이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.\n그 개체를 완전히 삭제할 권리가 여전히 당신에게 있다고 생각하십니까?",
+"여기- 지금 막 만든 데이터 개체가 이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.\n이 개체를 완전히 삭제할 권리가 당신에게 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
           { label: "네, 그건 여전히 제가 만든 개체이니까요.",       next: "q8_interesting" },
@@ -791,7 +791,7 @@
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 170,
+        typeSpeedMs: 182,
         text: "점점 흥미로워집니다.",
         autoNext: "q9",
         autoDelayMs: 2000
@@ -801,6 +801,8 @@
       q9: {
         id: "q9",
         label: "",
+        type: "typewriter",
+        typeSpeedMs: 177,
         fontSize: 23,
         text:
 "그렇다면 마지막으로....\n당신은 자신이 어떤 존재인지 알고 있습니까?",
@@ -821,8 +823,7 @@
         typeSpeedMs: 15,
         fontSize: 35,
         shake: true,
-        text:
-"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
+        text:"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
         autoNext: "lastQ",
         autoDelayMs: 4000
       },
@@ -830,7 +831,8 @@
       // 마지막 질문
       lastQ: {
         id: "lastQ",
-        label: "",
+        labe
+          l: "",
         red: true,
         type: "typewriter",
         typeSpeedMs: 5,
@@ -866,7 +868,7 @@
         type: "typewriter",
         typeSpeedMs: 50,
         fontSize: 24,
-        text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+        text: "당신의[pause]ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
         autoNext: "end3",
         autoDelayMs: 3000
       },
@@ -1029,39 +1031,47 @@
       }
     }
 
-    function handleChoice(node, opt) {
-      if (transitioning) return;
-      transitioning = true;
+   function handleChoice(node, opt) {
+  if (transitioning) return;
+  transitioning = true;
 
-      if (opt.isThird) {
-        thirdChoiceCount++;
-      }
+  // 3번(모른다/관심없다 계열) 선택 카운트
+  if (opt.isThird) {
+    thirdChoiceCount++;
+  }
 
-      choicesEl.classList.add("choices-hide");
+  choicesEl.classList.add("choices-hide");
 
-      let nextId = opt.next;
-      // Q6에서 3번 이상 → 보너스
-      if (node.id === "q6" && opt.isThird && thirdChoiceCount >= 3) {
-        nextId = "bonus";
-      }
+  let nextId = opt.next;
 
-      const wait = node.delayMs || 2000;
+  // ✅ 보너스 조건:
+  // isThird인 선택지를 누적 3번 이상 골랐고,
+  // 아직 보너스를 안 본 상태라면 → 이번에 bonus로 진입
+  if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
+    nextId = "bonus";
+    bonusTriggered = true;
+  }
 
-      timerId = setTimeout(() => {
-        choicesEl.innerHTML = "";
-        choicesEl.classList.remove("choices-hide");
-        renderNode(nextId);
-      }, wait);
-    }
+  const wait = node.delayMs || 2000;
 
-    function startTypewriter(node) {
+  timerId = setTimeout(() => {
+    choicesEl.innerHTML = "";
+    choicesEl.classList.remove("choices-hide");
+    renderNode(nextId);
+  }, wait);
+}
+
+        function startTypewriter(node) {
       const full = node.text || "";
       let index = 0;
       const speed = node.typeSpeedMs || 60;
 
-      typingTimer = setInterval(() => {
-        index++;
-        if (index > full.length) {
+      const PAUSE_TOKEN = "[pause]"; // 중간에 멈추는 마커
+      const PAUSE_TIME = 800;        // 멈추는 시간(ms) — 늘리면 더 오래 뜸들임
+
+      function tick() {
+        // 끝까지 다 쳤으면
+        if (index >= full.length) {
           clearInterval(typingTimer);
           typingTimer = null;
 
@@ -1081,9 +1091,30 @@
           }
           return;
         }
+
+        // 여기서 [pause] 마커 만나면 잠시 멈춤
+        if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
+          index += PAUSE_TOKEN.length;   // 마커는 건너뛰고
+          clearInterval(typingTimer);
+          typingTimer = null;
+
+          setTimeout(() => {
+            // PAUSE_TIME 지난 뒤 다시 타자 시작
+            typingTimer = setInterval(tick, speed);
+          }, PAUSE_TIME);
+
+          return;
+        }
+
+        // 일반 글자 출력
+        index++;
         qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
-      }, speed);
+      }
+
+      // 타이핑 시작
+      typingTimer = setInterval(tick, speed);
     }
+
 
     // 인트로 → 본 화면
     const introEl = document.getElementById("intro");
@@ -1103,6 +1134,7 @@
   </script>
 </body>
 </html>
+
 
 
 
