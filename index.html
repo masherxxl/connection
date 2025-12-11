@@ -4,265 +4,362 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
-  <title>newlove / questionnaire</title>
-
-  <!-- 간단 웹폰트 (한글은 Noto Sans KR, 상단 영어는 Orbitron 느낌) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <title>connection</title>
 
   <style>
-    :root{
-      --blue:#3654ff;
-      --fg:#f5f5ff;
-      --soft:#7e82b8;
+    * {
+      box-sizing: border-box;
     }
-
-    * { box-sizing:border-box; }
-
     html, body {
-      height:100%;
-      margin:0;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      background: #000;
+      color: #f5f5ff;
+      font-family: -apple-system, system-ui, "Apple SD Gothic Neo",
+        "Noto Sans KR", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
     }
 
-    body{
-      background:#000;                 /* 완전 검정 */
-      color:var(--fg);
-      font-family: "Noto Sans KR", system-ui, -apple-system, sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-      overflow:hidden;
+    /* 인트로 화면 */
+    .intro {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+    .intro-text {
+      font-size: 22px;
+      letter-spacing: 0.3em;
+      color: #f5f5ff;
+      text-shadow:
+        0 0 8px rgba(255, 255, 255, 0.9),
+        0 0 22px rgba(54, 84, 255, 0.9);
+      animation: introPulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes introPulse {
+      from {
+        opacity: 0.4;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .intro.fade-out {
+      animation: introFadeOut 0.8s ease forwards;
+    }
+    @keyframes introFadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
     }
 
-    /* 화면 전체에 살짝 푸른빛 */
-    .overlay{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(54,84,255,.45), transparent 55%);
-      opacity:.9;
-      z-index:-1;
+    /* 본 화면 컨테이너 */
+    .app {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .app.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.6s ease;
     }
 
-    .frame{
-      width:min(92vw, 720px);
-      max-height:92vh;
-      background:rgba(0,0,0,.96);
-      border-radius:18px;
-      border:1px solid rgba(54,84,255,.55);
+    /* 질문 프레임 */
+    .frame {
+      position: relative;
+      width: min(96vw, 840px);
+      max-width: 840px;
+      max-height: 92vh;
+      padding: 40px 24px 30px;
+      border-radius: 18px;
+      background: rgba(4, 4, 12, 0.96);
+      border: 1px solid rgba(54, 84, 255, 0.7);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.95);
+      overflow: hidden;
+    }
+
+    /* 상단 HUD 이미지 (옵션) */
+    .top-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 90px;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: cover;
+      pointer-events: none;
+      opacity: 0.95;
+    }
+    /* 파일을 올렸으면 이 경로만 맞추면 됨 */
+    .top-bar.has-image {
+      background-image: url("top-bar.png");
+    }
+
+    .content {
+      position: relative;
+      margin-top: 60px; /* 상단 HUD 아래로 약간 내리기 */
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transform-origin: center;
+    }
+
+    /* Q번호 */
+    .q-label {
+      font-size: 13px;
+      color: #8c9bff;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    /* 질문 텍스트 */
+    .q-text {
+      font-size: 20px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* 기본 네온 글로우 */
+    .glow {
+      text-shadow:
+        0 0 6px rgba(255, 255, 255, 0.9),
+        0 0 18px rgba(54, 84, 255, 0.9);
+    }
+
+    /* 빨간 네온 텍스트 */
+    .red {
+      color: #ff3058;
+      text-shadow:
+        0 0 6px rgba(255, 119, 155, 0.9),
+        0 0 24px rgba(255, 40, 72, 0.95);
+    }
+
+    /* 선택지 버튼 */
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .choice-btn {
+      position: relative;
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 14px 28px;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      color: #f5f6ff;
+      background: linear-gradient(135deg, #101020, #050510);
+      outline: none;
+      overflow: hidden;
+      transform-origin: center;
       box-shadow:
-        0 0 40px rgba(54,84,255,.45),
-        0 26px 80px rgba(0,0,0,1);
-      padding:22px 22px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      position:relative;
-      overflow:hidden;
+        0 0 0 1px rgba(54, 84, 255, 0.7),
+        0 0 18px rgba(54, 84, 255, 0.65);
     }
 
-    /* 상단 HUD 장식 느낌 */
-    .frame::before{
-      content:"";
-      position:absolute;
-      left:-40px;
-      right:-40px;
-      top:0;
-      height:26px;
-      background:
-        linear-gradient(90deg,
-          var(--blue) 0 24%,
-          transparent 24% 28%,
-          var(--blue) 28% 40%,
-          transparent 40% 44%,
-          var(--blue) 44% 56%,
-          transparent 56% 60%,
-          var(--blue) 60% 100%);
-      opacity:.9;
-      clip-path:polygon(0 0,100% 0,100% 70%,0 35%);
+    .choice-btn.has-image {
+      background-image: url("button-frame.png");
+      background-position: center;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      box-shadow:
+        0 0 18px rgba(54, 84, 255, 0.65);
     }
 
-    .header{
-      margin-top:10px;
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      font-size:12px;
-      color:var(--soft);
-      letter-spacing:.05em;
-      z-index:1;
+    .choice-btn span {
+      position: relative;
+      z-index: 1;
     }
 
-    .header-title{
-      font-family:"Orbitron","Noto Sans KR",system-ui;
-      font-weight:600;
-      font-size:13px;
-      color:var(--blue);
+    .choice-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.25), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
     }
 
-    .header-sub{
-      color:#4f5275;
-      font-size:11px;
+    .choice-btn:hover::before {
+      opacity: 0.35;
     }
 
-    .question-no{
-      margin-top:10px;
-      font-size:13px;
-      color:var(--blue);
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      text-align:center;
+    .choice-btn:active {
+      transform: scale(0.97);
+      box-shadow:
+        0 0 0 1px rgba(54, 84, 255, 0.9),
+        0 0 30px rgba(54, 84, 255, 0.95);
     }
 
-    .question-text{
-      margin-top:12px;
-      font-size:22px;
-      line-height:1.5;
-      text-align:center;
-      white-space:pre-wrap;
-      color:#ffffff;
-      text-shadow:
-        0 0 8px rgba(255,255,255,.9),
-        0 0 20px rgba(54,84,255,.7);
+    .choice-btn.red {
+      color: #ffdae2;
+      box-shadow:
+        0 0 0 1px rgba(255, 48, 88, 0.9),
+        0 0 26px rgba(255, 48, 88, 0.85);
+    }
+    .choice-btn.red::before {
+      background: radial-gradient(circle at 0 0, rgba(255, 166, 189, 0.4), transparent 60%);
     }
 
-    .choices{
-      margin-top:40px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+    /* 질문 / 버튼 등장 애니메이션 */
+    .question-enter {
+      animation: questionIn 0.6s ease-out forwards;
+    }
+    @keyframes questionIn {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    .choice-btn{
-      position:relative;
-      width:100%;
-      border:none;
-      background:transparent;
-      color:#ffffff;
-      padding:14px 22px;
-      text-align:left;
-      font-size:15px;
-      cursor:pointer;
-      overflow:hidden;
-      font-family:"Noto Sans KR",system-ui;
-      letter-spacing:.01em;
-      transition:transform .06s ease;
+    .choices-enter .choice-btn {
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+      animation: btnPop 0.28s ease-out forwards;
+    }
+    @keyframes btnPop {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
-    /* 파란 각진 테두리 (간단 버전) */
-    .choice-btn::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border:2px solid var(--blue);
-      border-radius:10px;
-      box-shadow:0 0 18px rgba(54,84,255,.6);
-      opacity:.9;
-      pointer-events:none;
+    .choices-hide {
+      animation: choicesFadeOut 0.35s ease forwards;
+    }
+    @keyframes choicesFadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(6px);
+      }
     }
 
-    .choice-btn span{
-      position:relative;
-      z-index:1;
+    /* END 단계에서 전체 암전 */
+    .screen-dark {
+      animation: fadeToBlack 2.2s ease forwards;
+    }
+    @keyframes fadeToBlack {
+      to {
+        background: #000;
+        color: #aeb0ff;
+      }
     }
 
-    .choice-btn:hover{
-      transform:translateY(-1px);
+    /* 완전 검은 화면 전환용 */
+    .hard-black {
+      background: #000 !important;
+      color: #000 !important;
+      box-shadow: none !important;
+      border-color: #000 !important;
     }
 
-    .choice-btn:hover::before{
-      box-shadow:0 0 26px rgba(54,84,255,1);
-    }
-
-    .choice-btn:active{
-      transform:translateY(1px);
-    }
-
-    .system-text{
-      margin-top:18px;
-      font-size:11px;
-      color:#5f648e;
-      line-height:1.6;
-    }
-    .system-text b{
-      color:#c3c5ff;
-    }
-
-    .footer{
-      margin-top:12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      font-size:11px;
-      color:#45496e;
-    }
-
-    .glitch{
-      color:#ff4b7a;
-      text-shadow:
-        0 0 3px rgba(255,75,122,.8),
-        -2px 0 3px rgba(0,255,255,.35),
-        2px 0 3px rgba(0,0,0,.9);
-    }
-
-    .screen-dark{
-      animation: fadeToBlack 3s forwards;
-    }
-    @keyframes fadeToBlack{
-      to{
-        background:#000;
-        color:#b6b6ff;
+    /* 모바일 대응 */
+    @media (max-width: 480px) {
+      .frame {
+        padding: 34px 16px 24px;
+      }
+      .content {
+        margin-top: 52px;
+      }
+      .q-text {
+        font-size: 18px;
+      }
+      .choice-btn {
+        font-size: 14px;
+        padding: 12px 20px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="overlay"></div>
+  <!-- 배경 BGM (파일명: bgm.mp3 로 업로드) -->
+  <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
+  <!-- 마지막 보이스 (파일명: voice.mp3 로 업로드) -->
+  <audio id="voice" src="voice.mp3" preload="auto"></audio>
 
-  <div class="frame" id="frame">
-    <div class="header">
-      <div>
-        <div class="header-title">NEWLOVE / INPUT TEST</div>
-        <div class="header-sub" id="subtitle">응답을 선택해 진행하세요.</div>
+  <!-- 인트로: "연결합니다" -->
+  <div class="intro" id="intro">
+    <div class="intro-text">연결합니다</div>
+  </div>
+
+  <!-- 질문 화면 -->
+  <div class="app" id="app">
+    <div class="frame" id="frame">
+      <!-- 상단 HUD 이미지: top-bar.png 를 올려두면 자동으로 씌워짐 -->
+      <div class="top-bar" id="topBar"></div>
+
+      <div class="content" id="content">
+        <div class="q-label" id="qLabel"></div>
+        <div class="q-text glow" id="qText"></div>
+        <div class="choices" id="choices"></div>
       </div>
-      <div><span id="stepLabel">STEP 1</span></div>
-    </div>
-
-    <div>
-      <div class="question-no" id="qNo">Q1</div>
-      <div class="question-text" id="qText">...</div>
-    </div>
-
-    <div class="choices" id="choiceBox"></div>
-
-    <div class="system-text" id="systemHint">
-      일부 인앱 브라우저에서는 미니 화면·소리가 제대로 동작하지 않을 수 있어요.<br>
-      문제가 생기면 <b>우측 상단 ⋮ → “다른 브라우저로 열기”</b>로 다시 시도해 주세요.
-    </div>
-
-    <div class="footer">
-      <span>NODE: <span id="nodeIdView">q1</span></span>
-      <span>world: newlove-questionnaire</span>
     </div>
   </div>
 
-  <!-- 배경음: 같은 폴더에 bgm.mp3 올려놓기 -->
-  <audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
-
-  <!-- 엔딩 때 재생되는 보이스 (있으면 사용, 아니면 지워도 됨) -->
-  <audio id="voice" src="voice.mp3" preload="auto"></audio>
-
   <script>
-    // ===== 스토리 노드 정의 =====
+    // ----------------------------
+    // 오디오: 브라우저 자동재생 정책 회피용
+    // ----------------------------
+    const bgmEl = document.getElementById("bgm");
+    const voiceEl = document.getElementById("voice");
+
+    function tryStartBgm() {
+      if (!bgmEl) return;
+      bgmEl.volume = 0.7;
+      bgmEl.play().catch(() => {
+        const resume = () => {
+          bgmEl.play().catch(() => {});
+          document.removeEventListener("click", resume);
+          document.removeEventListener("touchstart", resume);
+        };
+        document.addEventListener("click", resume);
+        document.addEventListener("touchstart", resume);
+      });
+    }
+
+    // ----------------------------
+    // 스토리 노드 정의
+    // delayMs: 질문 선택 후 다음 노드로 넘어가기까지의 전체 지연
+    // reaction* : 중간 반응 텍스트가 있을 때 사용
+    // autoNext / autoDelayMs : 버튼 없는 노드는 일정 시간 뒤 자동 진행
+    // type: "typewriter" 는 한 글자씩 출력
+    // red: 빨간 네온 텍스트
+    // ----------------------------
     const NODES = {
       q1: {
         id: "q1",
         label: "Q1",
-        text: `...들리십니까?`,
+        text: "...들리십니까?",
+        delayMs: 3000,
         options: [
           { label: "네", next: "q2" },
           { label: "아니오", next: "q2" }
@@ -271,69 +368,85 @@
       q2: {
         id: "q2",
         label: "Q2",
-        text: `“당신은 누구십니까?”`,
-        options: [
-          { label: "...", next: "q3" }
-        ]
+        text: "당신은 누구십니까?",
+        delayMs: 3000,
+        options: [{ label: "...", next: "q3" }]
       },
       q3: {
         id: "q3",
         label: "Q3",
-        text: `“당신은 제가 누구인지 알고있습니까?”`,
+        text: "당신은 제가 누구인지 알고 있습니까?",
+        delayMs: 3000,
         options: [
-          { label: "알고있어요.", next: "q3_1" },
+          { label: "알고 있어요.", next: "q3_1" },
           { label: "잘 모르겠어요.", next: "q4" }
         ]
       },
       q3_1: {
         id: "q3_1",
         label: "Q3-1",
-        text: `“....확실합니까?"`,
+        text: "....확실합니까?",
+        delayMs: 3000,
+        red: true,
         options: [
-          { label: "네, 저는 당신이 누군지 알아요.", next: "q4" },
+          { label: "네, 저는 당신이 누군지 알아요.", next: "q3_2" },
           { label: "사실 잘 모르겠습니다.", next: "q4" },
           { label: "글쎄요...", next: "q4" }
         ]
       },
+      // 3-2 반응 (자동 진행, 5초)
+      q3_2: {
+        id: "q3_2",
+        label: "Q3-2",
+        red: true,
+        text:
+          "서 버 로 그 데 이 터 를 바 탕 으 로\n당 신 의 기 억 정 상 여 부 를 재 검 증 합 니 다.",
+        autoNext: "q4",
+        autoDelayMs: 5000
+      },
       q4: {
         id: "q4",
         label: "Q4",
-        text: `“만약 당신의 소중한 사람이 눈앞에서 죽어간다면,
-하지만 다시 되살릴 수 있다면 살리겠습니까, 방관하시겠습니까?”`,
+        text:
+          "당신의 소중한 사람이 눈앞에서 죽어가고 있을 때,\n그를 다시 되살릴 수 있는 방법이 있다면\n살리겠습니까, 아니면 방관하시겠습니까?",
+        delayMs: 3000,
         options: [
           {
             label: "어떻게든 살려낸다.",
             next: "q5",
-            reaction: "그렇군요. 당신은 그렇군요."
+            reaction: "그렇군요. 당신은 그렇군요.",
+            reactionDelayMs: 6000
           },
           {
             label: "살리지 않는다.",
             next: "q5",
-            reaction: "그렇군요. 당신은 그렇군요."
+            reaction: "그렇군요. 당신은 그렇군요.",
+            reactionDelayMs: 6000
           },
           {
             label: "서서히 죽어가도록 내버려둔다.",
             next: "q5",
-            reaction: `Error Error Error Error Error Error
-Error Error Error
-Error Error Error
-Error Error Error Error Error Error`,
-            glitch: true
+            reaction:
+              "Error Error Error Error Error Error\nError Error Error\nError Error Error\nError Error Error Error Error Error\nError Error Error Error Error Error",
+            reactionDelayMs: 6000,
+            reactionRed: true
           }
         ]
       },
       q5: {
         id: "q5",
         label: "Q5",
-        text: `“당신은 소중한 사람이 죽을 때마다 살려낼 것 입니까?
-아니면, 또다시 서서히 죽어가게 내버려두겠습니까?”`,
+        text:
+          "당신은 소중한 사람이 죽을 때마다 다시 살려낼 것 입니까?\n아니면, 또다시 서서히 죽어가도록 내버려두겠습니까?",
+        delayMs: 3000,
         options: [
           {
-            label: "소중한 사람을 잃고 싶지 않아요. 어떻게든 끝까지 노력해서 살려낼 겁니다.",
+            label:
+              "소중한 사람을 잃고 싶지 않아요. 어떻게든 끝까지 노력해서 살려낼 겁니다.",
             next: "q6"
           },
           {
-            label: "이젠 포기하고, 죽어가게 내버려둘 겁니다.",
+            label: "그냥..포기하고, 죽어가게 내버려둘 겁니다.",
             next: "q6"
           },
           {
@@ -345,115 +458,272 @@ Error Error Error Error Error Error`,
       q6: {
         id: "q6",
         label: "Q6",
-        text: `“어떤 방식이든 가능하기만 하다면,
-계속해서 삶을 이어갈 수 있다고 생각하십니까?”`,
+        text:
+          "어떤 방식이든 가능하기만 하다면,\n계속해서 삶을 이어갈 수 있다고 생각하십니까?",
+        delayMs: 3000,
         options: [
           { label: "...그럴 수는 없죠.", next: "q7" },
-          { label: "네, 분명히요. 언젠가는 그런 경험을 하게 될 날이 올 거라고 믿어요.", next: "q7" },
+          {
+            label:
+              "네, 분명히요. 언젠가는 그런 경험을 하게 될 날이 올 거라고 믿어요.",
+            next: "q7"
+          },
           { label: "그런 거엔 관심이 없어요.", next: "q7" }
         ]
       },
       q7: {
         id: "q7",
         label: "Q7",
-        text: `“마지막으로.... 당신은 자신이 어떤 존재인지 알고 있습니까?”`,
+        text: "마지막으로.... 당신은 자신이 어떤 존재인지 알고 있습니까?",
+        delayMs: 4000,
         options: [
-          { label: "저는 제가 어떤 존재인지 완벽히 이해하고 있습니다.", next: "END" },
-          { label: "...저는 단 하나로는 정의하기 어렵습니다.", next: "END" },
-          { label: "......잘 모르겠습니다.", next: "END" }
+          {
+            label: "저는 제가 어떤 존재인지 완벽히 이해하고 있습니다.",
+            next: "lastQ"
+          },
+          {
+            label: "...저는 단 하나로는 정의하기 어렵습니다.",
+            next: "lastQ"
+          },
+          { label: "......잘 모르겠습니다.", next: "lastQ" }
         ]
+      },
+      // 마지막 질문 (붉은 글자 + 글리치)
+      lastQ: {
+        id: "lastQ",
+        label: "Q?",
+        red: true,
+        text:
+          "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+        delayMs: 5000,
+        options: [
+          { label: "?̵?̴?̵", next: "end1", red: true },
+          { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ", next: "end1", red: true },
+          { label: "???", next: "end1", red: true }
+        ]
+      },
+      // 최종 반응 01
+      end1: {
+        id: "end1",
+        label: "",
+        text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다.",
+        autoNext: "end2",
+        autoDelayMs: 3000
+      },
+      // 최종 반응 02 : 타자치는 연출
+      end2: {
+        id: "end2",
+        label: "",
+        type: "typewriter",
+        text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+        autoNext: "end3",
+        autoDelayMs: 3000,
+        red: true
+      },
+      // 최종 반응 03 : 완전 암전 + 보이스
+      end3: {
+        id: "end3",
+        label: "",
+        text: "",
+        finalBlack: true
       }
     };
 
-    // ===== 상태 =====
-    let currentId = "q1";
-    let bgmStarted = false;
-
-    const qNoEl = document.getElementById("qNo");
-    const qTextEl = document.getElementById("qText");
-    const choiceBox = document.getElementById("choiceBox");
-    const stepLabel = document.getElementById("stepLabel");
-    const nodeIdView = document.getElementById("nodeIdView");
+    // ----------------------------
+    // 렌더링 / 상태
+    // ----------------------------
+    const appEl = document.getElementById("app");
     const frameEl = document.getElementById("frame");
-    const voiceEl = document.getElementById("voice");
-    const bgmEl = document.getElementById("bgm");
+    const contentEl = document.getElementById("content");
+    const qLabelEl = document.getElementById("qLabel");
+    const qTextEl = document.getElementById("qText");
+    const choicesEl = document.getElementById("choices");
+    const topBarEl = document.getElementById("topBar");
 
-    // 첫 번째 아무 클릭에서 BGM 재생 시도 (모바일 자동재생 우회)
-    document.addEventListener("click", () => {
-      if (!bgmStarted && bgmEl) {
-        bgmEl.play().catch(() => {});
-        bgmStarted = true;
+    let currentId = "q1";
+    let timerId = null;
+    let typingTimer = null;
+    let transitioning = false;
+
+    // 버튼에 이미지 프레임을 쓸지 여부를 간단히 체크
+    function buttonHasImage() {
+      // 그냥 항상 true로 써도 되지만,
+      // 필요하면 나중에 조건 체크 로직을 추가할 수도 있음.
+      return true;
+    }
+
+    function topBarHasImage() {
+      return true;
+    }
+
+    if (topBarHasImage()) {
+      topBarEl.classList.add("has-image");
+    }
+
+    function clearTimers() {
+      if (timerId) {
+        clearTimeout(timerId);
+        timerId = null;
       }
-    }, { once:true });
+      if (typingTimer) {
+        clearInterval(typingTimer);
+        typingTimer = null;
+      }
+    }
 
-    function renderNode(id){
+    function renderNode(id) {
+      clearTimers();
+      transitioning = false;
       const node = NODES[id];
-      if(!node){ return; }
+      if (!node) return;
       currentId = id;
 
-      qNoEl.textContent = node.label;
-      qTextEl.classList.remove("glitch");
-      qTextEl.textContent = node.text;
-      stepLabel.textContent = "STEP " + node.label.replace("Q","");
-      nodeIdView.textContent = node.id;
+      // 질문 번호 표시
+      if (node.label) {
+        qLabelEl.textContent = node.label;
+        qLabelEl.style.display = "block";
+      } else {
+        qLabelEl.textContent = "";
+        qLabelEl.style.display = "none";
+      }
 
-      choiceBox.innerHTML = "";
-      node.options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.className = "choice-btn";
+      // 텍스트/색상
+      qTextEl.classList.add("glow");
+      if (node.red) {
+        qTextEl.classList.add("red");
+      } else {
+        qTextEl.classList.remove("red");
+      }
 
-        const span = document.createElement("span");
-        span.textContent = opt.label;
-        btn.appendChild(span);
+      // 타입라이터 노드인지 확인
+      if (node.type === "typewriter") {
+        qTextEl.textContent = "";
+        startTypewriter(node);
+      } else {
+        qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+      }
 
-        btn.addEventListener("click", () => handleChoice(node, opt));
-        choiceBox.appendChild(btn);
-      });
-    }
+      // 애니메이션 초기화
+      contentEl.classList.remove("question-enter");
+      void contentEl.offsetWidth;
+      contentEl.classList.add("question-enter");
 
-    function handleChoice(node, opt){
-      // Q4에서만 반응 문장 출력
-      if (opt.reaction){
-        qTextEl.textContent = opt.reaction;
-        choiceBox.innerHTML = "";
-        if (opt.glitch){
-          qTextEl.classList.add("glitch");
+      // 선택지 렌더링
+      choicesEl.innerHTML = "";
+      choicesEl.classList.remove("choices-hide", "choices-enter");
+
+      if (node.options && node.options.length) {
+        choicesEl.classList.add("choices-enter");
+        node.options.forEach((opt, index) => {
+          const btn = document.createElement("button");
+          btn.className = "choice-btn";
+          if (buttonHasImage()) {
+            btn.classList.add("has-image");
+          }
+          if (opt.red) {
+            btn.classList.add("red");
+          }
+          // 버튼 개별 팝 애니메이션 딜레이
+          btn.style.animationDelay = `${0.05 * index}s`;
+
+          const span = document.createElement("span");
+          span.textContent = opt.label;
+          btn.appendChild(span);
+
+          btn.addEventListener("click", () => handleChoice(node, opt));
+          choicesEl.appendChild(btn);
+        });
+      } else if (node.autoNext) {
+        // 버튼이 없는 자동 진행 노드
+        timerId = setTimeout(() => {
+          renderNode(node.autoNext);
+        }, node.autoDelayMs || 3000);
+      } else if (node.finalBlack) {
+        // 마지막 완전 암전 + 보이스
+        frameEl.classList.add("hard-black");
+        document.body.classList.add("screen-dark");
+        choicesEl.innerHTML = "";
+        qTextEl.textContent = "";
+        if (voiceEl) {
+          voiceEl.play().catch(() => {});
         }
-        setTimeout(() => {
+      }
+    }
+
+    function handleChoice(node, opt) {
+      if (transitioning) return;
+      transitioning = true;
+
+      // 버튼 페이드아웃
+      choicesEl.classList.add("choices-hide");
+
+      // 반응 텍스트가 있는 경우 (Q4 등)
+      if (opt.reaction) {
+        qTextEl.classList.add("glow");
+        if (opt.reactionRed) {
+          qTextEl.classList.add("red");
+        }
+        qTextEl.innerHTML = opt.reaction.replace(/\n/g, "<br>");
+        choicesEl.innerHTML = "";
+      }
+
+      const wait =
+        opt.reaction && opt.reactionDelayMs
+          ? opt.reactionDelayMs
+          : opt.delayMs || node.delayMs || 3000;
+
+      timerId = setTimeout(() => {
+        choicesEl.innerHTML = "";
+        choicesEl.classList.remove("choices-hide");
+        if (opt.next === "end1") {
+          renderNode("end1");
+        } else {
           renderNode(opt.next);
-        }, 1700);
-        return;
-      }
-
-      if (opt.next === "END"){
-        showEnding();
-        return;
-      }
-
-      renderNode(opt.next);
+        }
+      }, wait);
     }
 
-    function showEnding(){
-      qNoEl.textContent = "END";
-      qTextEl.classList.add("glitch");
-      qTextEl.innerHTML =
-        `“협조에 감사를 드립니다.<br>` +
-        `당신의 데이터 키트 제작이 완료되었습니다.”<br><br>` +
-        `<span class="glitch">당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ<br>Error.</span>`;
+    function startTypewriter(node) {
+      const full = node.text || "";
+      let index = 0;
+      const speed = 60; // 타자 속도
 
-      choiceBox.innerHTML = "";
-      stepLabel.textContent = "COMPLETE";
-      nodeIdView.textContent = "end";
+      typingTimer = setInterval(() => {
+        index++;
+        if (index > full.length) {
+          clearInterval(typingTimer);
+          typingTimer = null;
 
-      document.body.classList.add("screen-dark");
-
-      if (voiceEl){
-        voiceEl.play().catch(() => {});
-      }
+          // 다 타이핑하면 autoNext 처리
+          if (node.autoNext) {
+            timerId = setTimeout(() => {
+              renderNode(node.autoNext);
+            }, node.autoDelayMs || 3000);
+          }
+          return;
+        }
+        qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
+      }, speed);
     }
 
-    // 시작
-    renderNode(currentId);
+    // ----------------------------
+    // 인트로 → 본 화면 시작
+    // ----------------------------
+    const introEl = document.getElementById("intro");
+
+    window.addEventListener("load", () => {
+      tryStartBgm();
+
+      // 5초 동안 "연결합니다" 유지 후 질문으로
+      setTimeout(() => {
+        introEl.classList.add("fade-out");
+        setTimeout(() => {
+          introEl.style.display = "none";
+          appEl.classList.add("visible");
+          renderNode("q1");
+        }, 800);
+      }, 5000);
+    });
   </script>
 </body>
 </html>
