@@ -166,7 +166,7 @@
       align-items: center;
       width: 100%;
       max-width: 720px;      /* 너무 넓지 않게 */
-      height: 110px;          /* 세로 두께 업 */
+      height: 140px;          /* 세로 두께 업 */
       margin: 0 auto;
       border: none;
       border-radius: 0;
@@ -195,7 +195,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
+ margin-left: 10px;   /* ⬅ 텍스트를 살짝 오른쪽으로 밀기 */
+}
     .choice-btn::before {
       content: "";
       position: absolute;
@@ -485,6 +486,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 255,
+        fontSize: 30,
         text: "....확실합니까?",
         delayMs: 2000,
         options: [
@@ -501,6 +503,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 65,
+        fontSize: 30,
         text:
 "서 버  로 그  데 이 터 를 바 탕 으 로\n당 신 의  기 억 정 상 여 부 를  재 점 검 합 니 다.",
         autoNext: "q2_2_cut",
@@ -514,6 +517,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 200,
+        fontSize: 35,
         text: "<점검 완료>",
         autoNext: "q3",
         autoDelayMs: 4000
@@ -557,7 +561,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 15,
-         fontSize: 27,
+         fontSize: 30,
         text:
 "Error Error Error Error Error Error \nError Error Error\nError Error Error \nError Error Error Error Error Error\nError Error Error Error Error Error-",
         autoNext: "q4",
@@ -642,7 +646,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 15,
-         fontSize: 24,
+        fontSize: 27,
         text:
 "당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
         autoNext: "lastQ",
@@ -656,6 +660,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 5,
+        fontSize: 27,
         text:
 "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
@@ -672,7 +677,7 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 185,
-         fontSize: 23,
+        fontSize: 30,
         text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다-",
         autoNext: "end2",
         autoDelayMs: 3000
@@ -685,7 +690,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 60,
-         fontSize: 23,
+         fontSize: 30,
         text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
         autoNext: "end3",
         autoDelayMs: 3000
@@ -920,5 +925,6 @@
   </script>
 </body>
 </html>
+
 
 
