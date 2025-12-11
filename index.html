@@ -676,10 +676,10 @@
             next: "q5"
           },
           { 
-  label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
-  next: "q5",
-  isThird: true
-}
+            label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
+            next: "q5",
+            isThird: true
+          }
         ]
       },
 
@@ -698,10 +698,10 @@
             next: "q6"
           },
           {
-  label: "그런 거엔 관심이 없습니다.",
-  next: "q6",
-  isThird: true
-}
+            label: "그런 거엔 관심이 없습니다.",
+            next: "q6",
+            isThird: true
+          }
         ]
       },
 
@@ -714,10 +714,10 @@
 "당신에게 있어, 죽음이란 것은 무엇입니까?",
         delayMs: 2000,
         options: [
-          { label: " 단 하나의 종료 버튼 이에요.",             next: "q7" },
+          { label: " 단 하나의 종료 버튼이에요.",             next: "q7" },
           { label: "모든 것의 종착점이자, 멋진 완결 페이지에요.", next: "q7" },
-          { label: "생명이 기능을 정지하는 것이라고 생각해요.",                  next: "q7" },
-          { label: "늘 두려워하는 거에요.", next: "q7", isThird: true }
+          { label: "생명이 기능을 정지하는 것이라고 생각해요.",   next: "q7" },
+          { label: "늘 두려워하는 거에요.",                     next: "q7", isThird: true }
         ]
       },
 
@@ -743,7 +743,7 @@
         text: "당신만의 살아 움직이는 작은 데이터 개체를 생성 해보시겠습니까?",
         delayMs: 2000,
         options: [
-          { label: "좋아요!",  next: "q8_1" },
+          { label: "좋아요!",    next: "q8_1" },
           { label: "사양할게요..", next: "q8_no" }
         ]
       },
@@ -808,7 +808,7 @@
 "그렇다면 마지막으로....\n당신은 자신이 어떤 존재인지 알고 있습니까?",
         delayMs: 2000,
         options: [
-          { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.",  next: "lastQ" },
+          { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.", next: "lastQ" },
           { label: "...저는 단 하나의 말로 정의하기 어렵습니다.",         next: "lastQ" },
           { label: "......솔직히, 잘 모르겠습니다.",                         next: "lastQ", isThird: true }
         ]
@@ -823,7 +823,8 @@
         typeSpeedMs: 15,
         fontSize: 35,
         shake: true,
-        text:"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
+        text:
+"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
         autoNext: "lastQ",
         autoDelayMs: 4000
       },
@@ -831,8 +832,7 @@
       // 마지막 질문
       lastQ: {
         id: "lastQ",
-        labe
-          l: "",
+        label: "",
         red: true,
         type: "typewriter",
         typeSpeedMs: 5,
@@ -909,6 +909,7 @@
     let typingTimer = null;
     let transitioning = false;
     let thirdChoiceCount = 0;
+    let bonusTriggered = false;  // ✅ 보너스 한 번만 발동용
 
     function clearTimers() {
       if (timerId) {
@@ -1031,58 +1032,53 @@
       }
     }
 
-   function handleChoice(node, opt) {
-  if (transitioning) return;
-  transitioning = true;
+    function handleChoice(node, opt) {
+      if (transitioning) return;
+      transitioning = true;
 
-  // 3번(모른다/관심없다 계열) 선택 카운트
-  if (opt.isThird) {
-    thirdChoiceCount++;
-  }
+      // 3번(모른다/관심없다 계열) 선택 카운트
+      if (opt.isThird) {
+        thirdChoiceCount++;
+      }
 
-  choicesEl.classList.add("choices-hide");
+      choicesEl.classList.add("choices-hide");
 
-  let nextId = opt.next;
+      let nextId = opt.next;
 
-  // ✅ 보너스 조건:
-  // isThird인 선택지를 누적 3번 이상 골랐고,
-  // 아직 보너스를 안 본 상태라면 → 이번에 bonus로 진입
-  if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
-    nextId = "bonus";
-    bonusTriggered = true;
-  }
+      // 보너스 조건: isThird 선택 3회 이상 + 아직 보너스 안 봄
+      if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
+        nextId = "bonus";
+        bonusTriggered = true;
+      }
 
-  const wait = node.delayMs || 2000;
+      const wait = node.delayMs || 2000;
 
-  timerId = setTimeout(() => {
-    choicesEl.innerHTML = "";
-    choicesEl.classList.remove("choices-hide");
-    renderNode(nextId);
-  }, wait);
-}
+      timerId = setTimeout(() => {
+        choicesEl.innerHTML = "";
+        choicesEl.classList.remove("choices-hide");
+        renderNode(nextId);
+      }, wait);
+    }
 
-        function startTypewriter(node) {
+    function startTypewriter(node) {
       const full = node.text || "";
       let index = 0;
       const speed = node.typeSpeedMs || 60;
 
-      const PAUSE_TOKEN = "[pause]"; // 중간에 멈추는 마커
-      const PAUSE_TIME = 800;        // 멈추는 시간(ms) — 늘리면 더 오래 뜸들임
+      const PAUSE_TOKEN = "[pause]";
+      const PAUSE_TIME = 800;
 
       function tick() {
-        // 끝까지 다 쳤으면
         if (index >= full.length) {
           clearInterval(typingTimer);
           typingTimer = null;
 
-          // 버튼 있는 노드는 타이핑 완료 후 버튼 등장
           if (node.options && node.options.length) {
             setTimeout(() => {
               renderChoices(node);
             }, BUTTON_DELAY_MS);
           }
 
-          // 자동 진행
           if (node.autoNext) {
             const delay = node.autoDelayMs || 1700;
             timerId = setTimeout(() => {
@@ -1092,29 +1088,24 @@
           return;
         }
 
-        // 여기서 [pause] 마커 만나면 잠시 멈춤
         if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
-          index += PAUSE_TOKEN.length;   // 마커는 건너뛰고
+          index += PAUSE_TOKEN.length;
           clearInterval(typingTimer);
           typingTimer = null;
 
           setTimeout(() => {
-            // PAUSE_TIME 지난 뒤 다시 타자 시작
             typingTimer = setInterval(tick, speed);
           }, PAUSE_TIME);
 
           return;
         }
 
-        // 일반 글자 출력
         index++;
         qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
       }
 
-      // 타이핑 시작
       typingTimer = setInterval(tick, speed);
     }
-
 
     // 인트로 → 본 화면
     const introEl = document.getElementById("intro");
@@ -1134,7 +1125,3 @@
   </script>
 </body>
 </html>
-
-
-
-
