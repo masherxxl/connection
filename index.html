@@ -175,29 +175,33 @@
 
     /* 버튼 */
     .choice-btn {
-      position: relative;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      max-width: 700px;
-      height: 80px;
-      margin: 0 auto;
-      border: none;
-      border-radius: 0;
-      padding: 0 64px;
-      text-align: left;
-      font-size: 20px;
-      cursor: pointer;
-      color: #f5f6ff;
-      background-color: transparent;
-      background-image: url("frame.png");
-      background-position: center;
-      background-size: 100% auto;
-      background-repeat: no-repeat;
-      outline: none;
-      overflow: hidden;
-      transform-origin: center;
-    }
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+
+  /* 두 줄이 핵심 */
+  aspect-ratio: 7 / 1;   /* 가로 : 세로 = 7 : 1 */
+  height: auto;          /* 고정 높이 삭제 */
+
+  margin: 0 auto;
+  border: none;
+  border-radius: 0;
+  padding: 0 64px;
+  text-align: left;
+  font-size: 20px;
+  cursor: pointer;
+  color: #f5f6ff;
+  background-color: transparent;
+  background-image: url("frame.png");
+  background-position: center;
+  background-size: 100% 100%;  /* 꽉 채우고 싶으면 이렇게 */
+  background-repeat: no-repeat;
+  outline: none;
+  overflow: hidden;
+  transform-origin: center;
+}
 
     .choice-btn span {
       position: relative;
@@ -568,7 +572,7 @@
         type: "typewriter",
         typeSpeedMs: 250,
         fontSize: 24,
-        text: "....[pause]확실합니까?",
+        text: "...[pause] 확실합니까?",
         delayMs: 2000,
         options: [
           { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
@@ -613,7 +617,7 @@
         label: "Q3",
         fontSize: 20,
         text:
-"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n그를 다시 되살릴 수 있는 방법이 있다면\n살리겠습니까, 아니면 방관하시겠습니까?",
+"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n그를 다시 살릴 수 있는 방법을 알게된다면\n살리겠습니까, 아니면 방관하시겠습니까?",
         delayMs: 2000,
         options: [
           { label: "어떻게든 살려낸다.",            next: "q3_r1" },
@@ -664,15 +668,15 @@
         label: "Q4",
         fontSize: 20,
         text:
-"당신은 소중한 사람이 죽을 때마다\n다시 살려낼 것 입니까?\n아니면, 또다시 죽어가도록 내버려두겠습니까?",
+"당신은 소중한 사람이 죽을 때마다\n다시 살려낼 것 입니까?\n아니면, 죽어가도록 내버려두겠습니까?",
         delayMs: 2000,
         options: [
           {
-            label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 겁니다.",
+            label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 것 같아요.",
             next: "q5"
           },
           {
-            label: "그냥..포기하고, 죽어가게 내버려둘 겁니다.",
+            label: "그냥...포기한 채로, 내버려둘 것 같아요.",
             next: "q5"
           },
           { 
@@ -692,7 +696,7 @@
 "어떤 방식이든 가능하기만 하다면,\n삶을 끝없이 이어갈 수 있다고 생각하십니까?",
         delayMs: 2000,
         options: [
-          { label: "...그럴 수는 없겠죠.", next: "q6" },
+          { label: "...그럴 수는 없을거에요.", next: "q6" },
           {
             label: "네, 분명히요.\n언젠가는 그런 경험을 하게 될 날이 오기를 바라고 있어요.",
             next: "q6"
@@ -1125,5 +1129,6 @@
   </script>
 </body>
 </html>
+
 
 
