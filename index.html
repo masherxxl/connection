@@ -377,7 +377,7 @@
 @media (max-width: 480px) {
   .choice-btn {
     max-width: 100%;      /* 화면 폭 채우기 */
-    aspect-ratio: 3 / 1;
+    aspect-ratio: 2 / 1;
     height: auto;        
 
     padding: 4px 32px;    /* 양옆 여백은 조금 줄여서 답답하지 않게 */
@@ -545,7 +545,7 @@
         id: "q2",
         label: "Q2",
         fontSize: 22,
-        text: "당신은 지금 대화하고 있는 존재가 누구인지 알고 있습니까?",
+        text: "지금 말을 걸고 있는 존재가 누구인지 알고 있습니까?",
         delayMs: 2000,
         options: [
           { label: "알고 있습니다.",   next: "q2_1" },
@@ -555,7 +555,7 @@
 
       q2_unknown: {
         id: "q2_unknown",
-        label: "",
+        label: "",3
         type: "typewriter",
         typeSpeedMs: 180,
         fontSize: 23,
@@ -1065,51 +1065,59 @@
     }
 
     function startTypewriter(node) {
-      const full = node.text || "";
-      let index = 0;
-      const speed = node.typeSpeedMs || 60;
+  const full  = node.text || "";
+  let index   = 0;
+  const speed = node.typeSpeedMs || 60;
 
-      const PAUSE_TOKEN = "[pause]";
-      const PAUSE_TIME = 800;
+  const PAUSE_TOKEN = "[pause]";
+  const PAUSE_TIME  = 800;   // 멈추는 시간(ms)
 
-      function tick() {
-        if (index >= full.length) {
-          clearInterval(typingTimer);
-          typingTimer = null;
+  function tick() {
+    // 다 쳤으면 마무리
+    if (index >= full.length) {
+      clearInterval(typingTimer);
+      typingTimer = null;
 
-          if (node.options && node.options.length) {
-            setTimeout(() => {
-              renderChoices(node);
-            }, BUTTON_DELAY_MS);
-          }
-
-          if (node.autoNext) {
-            const delay = node.autoDelayMs || 1700;
-            timerId = setTimeout(() => {
-              renderNode(node.autoNext);
-            }, delay);
-          }
-          return;
-        }
-
-        if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
-          index += PAUSE_TOKEN.length;
-          clearInterval(typingTimer);
-          typingTimer = null;
-
-          setTimeout(() => {
-            typingTimer = setInterval(tick, speed);
-          }, PAUSE_TIME);
-
-          return;
-        }
-
-        index++;
-        qTextEl.innerHTML = full.slice(0, index).replace(/\n/g, "<br>");
+      // 버튼 있는 노드는 타이핑 끝나고 버튼 등장
+      if (node.options && node.options.length) {
+        setTimeout(() => {
+          renderChoices(node);
+        }, BUTTON_DELAY_MS);
       }
 
-      typingTimer = setInterval(tick, speed);
+      // autoNext 있으면 다음 노드로
+      if (node.autoNext) {
+        const delay = node.autoDelayMs || 1700;
+        timerId = setTimeout(() => {
+          renderNode(node.autoNext);
+        }, delay);
+      }
+      return;
     }
+
+    // 여기서 [pause] 만나면 잠깐 멈추기
+    if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
+      index += PAUSE_TOKEN.length;   // 텍스트 인덱스는 앞으로 쭉 넘기고
+      clearInterval(typingTimer);
+      typingTimer = null;
+
+      setTimeout(() => {
+        typingTimer = setInterval(tick, speed);  // 다시 타자 시작
+      }, PAUSE_TIME);
+
+      return;
+    }
+
+    // 일반 글자 한 글자 추가
+    index++;
+
+    // 👉 여기서 화면에 보이는 쪽에서는 [pause]를 전부 삭제해서 뿌림
+    const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+    qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
+  }
+
+  typingTimer = setInterval(tick, speed);
+}
 
     // 인트로 → 본 화면
     const introEl = document.getElementById("intro");
@@ -1129,6 +1137,7 @@
   </script>
 </body>
 </html>
+
 
 
 
