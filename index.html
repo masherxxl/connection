@@ -22,9 +22,9 @@
         "Noto Sans KR", sans-serif;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;   /* 화면 맨 위로 붙이기 */
       min-height: 100vh;
-      overflow-y: auto; 
+      overflow-y: auto;
       padding: 8px;
     }
 
@@ -65,10 +65,10 @@
     .app {
       width: 100%;
       max-width: 900px;
-      margin: 16px auto;
+      margin: 8px auto 16px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       opacity: 0;
       pointer-events: none;
     }
@@ -78,22 +78,23 @@
       transition: opacity 0.6s ease;
     }
 
-    /* 질문 프레임 = top-bar.png 전체를 창으로 사용 */
+    /* 프레임: 그냥 레이아웃 박스 (배경X) */
     .frame {
       position: relative;
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 80px 24px 32px; /* 이미지 안쪽 여백 (필요시 조절) */
-      background-color: #000;
-      background-image: url("top-bar.png"); /* 창 이미지 */
-      background-size: contain;            /* 비율 유지 */
-      background-position: center center;
+    }
+
+    /* 맨 위 HUD 바 = top-bar.png */
+    .top-bar {
+      width: 100%;
+      height: 80px; /* 세로 고정 → 안 찌그러지게 */
+      background-image: url("top-bar.png");
       background-repeat: no-repeat;
-      border: none;
-      border-radius: 0;
-      box-shadow: none;
-      overflow: visible; /* 안에서 잘리지 않게 */
+      background-position: center top;
+      background-size: contain;
+      pointer-events: none;
     }
 
     .content {
@@ -102,9 +103,11 @@
       flex-direction: column;
       gap: 24px;
       transform-origin: center;
+      margin-top: 52px; /* HUD 밑으로 살짝 내리기 */
+      padding: 0 8px;
     }
 
-    /* Q번호: 질문 바로 위, 질문과 같은 크기/색/글로우 */
+    /* Q번호: Q1~Q6에서만 사용, 질문과 같은 크기/색/글로우 */
     .q-label {
       font-size: 20px;
       color: #ffffff;
@@ -113,7 +116,7 @@
       text-shadow:
         0 0 6px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(54, 84, 255, 0.9);
-      display: none; 
+      display: none; /* 노드에서 필요할 때만 켬 */
     }
 
     /* 질문 텍스트 */
@@ -148,26 +151,32 @@
         0 0 18px rgba(54, 84, 255, 0.9);
     }
 
-    /* 선택지 버튼 */
+    /* 선택지 전체 컨테이너 */
     .choices {
       display: flex;
       flex-direction: column;
-      gap: 20px; /* 버튼 간격 넓힘 */
+      gap: 20px;
       margin-top: 30px;
     }
 
+    /* 버튼 자체가 frame.png 한 장 */
     .choice-btn {
       position: relative;
+      display: flex;
+      align-items: center;
       width: 100%;
+      max-width: 720px;      /* 너무 넓지 않게 */
+      height: 64px;          /* 세로 두께 고정 */
+      margin: 0 auto;
       border: none;
-      border-radius: 0; /* 버튼 자체가 이미지 */
-      padding: 16px 36px; /* 버튼 두께 조금 키움 */
+      border-radius: 0;
+      padding: 0 32px;
       text-align: left;
       font-size: 15px;
       cursor: pointer;
       color: #f5f6ff;
       background-color: transparent;
-      background-image: url("frame.png");  /* 버튼 이미지 */
+      background-image: url("frame.png");
       background-position: center;
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -182,6 +191,9 @@
       text-shadow:
         0 0 4px rgba(0, 0, 0, 0.9),
         0 0 12px rgba(0, 0, 0, 0.8);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .choice-btn::before {
@@ -267,8 +279,12 @@
 
     /* 모바일 대응 */
     @media (max-width: 480px) {
-      .frame {
-        padding: 64px 14px 24px;
+      .top-bar {
+        height: 64px;
+      }
+      .content {
+        margin-top: 40px;
+        padding: 0 4px;
       }
       .q-text {
         font-size: 18px;
@@ -277,8 +293,9 @@
         font-size: 18px;
       }
       .choice-btn {
+        height: 60px;
+        padding: 0 20px;
         font-size: 14px;
-        padding: 14px 22px;
       }
     }
   </style>
@@ -298,6 +315,8 @@
   <!-- 질문 화면 -->
   <div class="app" id="app">
     <div class="frame" id="frame">
+      <div class="top-bar"></div>
+
       <div class="content" id="content">
         <div class="q-label glow" id="qLabel"></div>
         <div class="q-text glow" id="qText"></div>
@@ -341,9 +360,9 @@
       // 0번 질문 (...들리십니까?)
       q0: {
         id: "q0",
-        label: "",
+        label: "", // Q 없음
         type: "typewriter",
-        typeSpeedMs: 200, // 0.2초
+        typeSpeedMs: 170, // 0.18초
         text: "...들리십니까?",
         delayMs: 2000,
         options: [
@@ -358,7 +377,7 @@
         label: "",
         blue: true,
         type: "typewriter",
-        typeSpeedMs: 200,
+        typeSpeedMs: 170,
         text: "유감이군요.",
         autoNext: "q1",
         autoDelayMs: 2000
@@ -380,7 +399,7 @@
         id: "q1_react",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 200,
+        typeSpeedMs: 170,
         text: "...대답이 없으시군요.",
         autoNext: "q2",
         autoDelayMs: 2000
@@ -398,13 +417,13 @@
         ]
       },
 
-      // 2-1 질문: ....확실합니까?
+      // 2-1 질문: ....확실합니까? (Q 표시는 없음!)
       q2_1: {
         id: "q2_1",
-        label: "Q2-1",
+        label: "",       // <= Q2-1 안 뜨게
         red: true,
         type: "typewriter",
-        typeSpeedMs: 400, // 0.4초
+        typeSpeedMs: 250,
         text: "....확실합니까?",
         delayMs: 2000,
         options: [
@@ -414,15 +433,15 @@
         ]
       },
 
-      // 2-2 반응: 서 버 로 그 데 이 터...
+      // 2-2 반응
       q2_2: {
         id: "q2_2",
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 200, // 0.2초
+        typeSpeedMs: 120,
         text:
-"서 버 로 그 데 이 터 를 바 탕 으 로\n당 신 의 기 억 정 상 여 부 를 재 검 토 합 니 다.",
+"서 버  로 그  데 이 터 를 바 탕 으 로\n당 신 의  기 억 정 상 여 부 를  재 검 토 합 니 다.",
         autoNext: "q2_2_cut",
         autoDelayMs: 4000
       },
@@ -433,8 +452,8 @@
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 600, // 0.6초
-        text: "검토 완료",
+        typeSpeedMs: 200,
+        text: "<검토 완료>",
         autoNext: "q3",
         autoDelayMs: 4000
       },
@@ -458,7 +477,7 @@
         id: "q3_r1",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 250,
+        typeSpeedMs: 200,
         text: "그렇군요. 당신은 그렇군요.",
         autoNext: "q4",
         autoDelayMs: 4000
@@ -467,7 +486,7 @@
         id: "q3_r2",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 250,
+        typeSpeedMs: 200,
         text: "그렇군요. 당신은 그렇군요.",
         autoNext: "q4",
         autoDelayMs: 4000
@@ -477,7 +496,7 @@
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 250,
+        typeSpeedMs: 70,
         text:
 "Error Error Error Error Error Error \nError Error Error\nError Error Error \nError Error Error Error Error Error\nError Error Error Error Error Error",
         autoNext: "q4",
@@ -489,7 +508,7 @@
         id: "q4",
         label: "Q4",
         text:
-"당신은 소중한 사람이 죽을 때마다 다시 살려낼 것 입니까?\n아니면, 또다시 서서히 죽어가도록 내버려두겠습니까?",
+"소중한 사람이 죽을 때마다 다시 살려낼 것 입니까?\n아니면, 또다시 서서히 죽어가도록 내버려두겠습니까?",
         delayMs: 2000,
         options: [
           {
@@ -534,7 +553,7 @@
         id: "q6",
         label: "Q6",
         type: "typewriter",
-        typeSpeedMs: 250,
+        typeSpeedMs: 200,
         text:
 "마지막으로.... 당신은 자신이 어떤 존재인지 알고 있습니까?",
         delayMs: 4000,
@@ -550,7 +569,7 @@
           {
             label: "......잘 모르겠습니다.",
             next: "lastQ",
-            isThird: true // 보너스 조건용
+            isThird: true
           }
         ]
       },
@@ -559,11 +578,11 @@
       bonus: {
         id: "bonus",
         label: "",
-        blue: true,
+        red: true,
         type: "typewriter",
-        typeSpeedMs: 250,
+        typeSpeedMs: 70,
         text:
-"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲ",
+"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
         autoNext: "lastQ",
         autoDelayMs: 4000
       },
@@ -574,9 +593,9 @@
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 70, // 0.07초
+        typeSpeedMs: 20, // 더 빠른 글리치
         text:
-"당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̪̜̭̦͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀ͫͬ̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+"당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
         options: [
           { label: "?̵?̴?̵", next: "end1", red: true },
@@ -590,7 +609,7 @@
         id: "end1",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 350,
+        typeSpeedMs: 180,
         text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다-",
         autoNext: "end2",
         autoDelayMs: 3000
@@ -602,8 +621,8 @@
         label: "",
         red: true,
         type: "typewriter",
-        typeSpeedMs: 350,
-        text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+        typeSpeedMs: 110,
+        text: "당신의ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
         autoNext: "end3",
         autoDelayMs: 3000
       },
@@ -620,11 +639,11 @@
     // ----------------------------
     // 렌더링 / 상태
     // ----------------------------
-    const appEl = document.getElementById("app");
-    const frameEl = document.getElementById("frame");
+    const appEl     = document.getElementById("app");
+    const frameEl   = document.getElementById("frame");
     const contentEl = document.getElementById("content");
-    const qLabelEl = document.getElementById("qLabel");
-    const qTextEl = document.getElementById("qText");
+    const qLabelEl  = document.getElementById("qLabel");
+    const qTextEl   = document.getElementById("qText");
     const choicesEl = document.getElementById("choices");
 
     let currentId = "q0";
@@ -648,23 +667,22 @@
       choicesEl.innerHTML = "";
       choicesEl.classList.remove("choices-hide", "choices-enter");
 
-      if (node.options && node.options.length) {
-        choicesEl.classList.add("choices-enter");
-        node.options.forEach((opt, index) => {
-          const btn = document.createElement("button");
-          btn.className = "choice-btn";
-          if (opt.red) btn.classList.add("red");
+      if (!node.options || !node.options.length) return;
 
-          btn.style.animationDelay = `${0.05 * index}s`;
+      choicesEl.classList.add("choices-enter");
+      node.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        if (opt.red) btn.classList.add("red");
+        btn.style.animationDelay = `${0.05 * index}s`;
 
-          const span = document.createElement("span");
-          span.textContent = opt.label;
-          btn.appendChild(span);
+        const span = document.createElement("span");
+        span.textContent = opt.label;
+        btn.appendChild(span);
 
-          btn.addEventListener("click", () => handleChoice(node, opt));
-          choicesEl.appendChild(btn);
-        });
-      }
+        btn.addEventListener("click", () => handleChoice(node, opt));
+        choicesEl.appendChild(btn);
+      });
     }
 
     function renderNode(id) {
@@ -674,7 +692,7 @@
       if (!node) return;
       currentId = id;
 
-      // Q 라벨 표시 (있을 때만)
+      // Q 라벨 표시 (Q1~Q6만 label이 있음)
       if (node.label) {
         qLabelEl.textContent = node.label;
         qLabelEl.style.display = "block";
@@ -686,7 +704,7 @@
       // 색상 클래스
       qTextEl.classList.add("glow");
       qTextEl.classList.remove("red", "blue");
-      if (node.red) qTextEl.classList.add("red");
+      if (node.red)  qTextEl.classList.add("red");
       if (node.blue) qTextEl.classList.add("blue");
 
       // 텍스트/타자
@@ -700,17 +718,17 @@
         renderChoices(node);
       }
 
-      // 애니메이션 초기화
+      // 질문 등장 애니메이션
       contentEl.classList.remove("question-enter");
       void contentEl.offsetWidth;
       contentEl.classList.add("question-enter");
 
-      // 버튼 없는 자동 진행 노드 (타자 없는 타입)
-      if (!node.type || node.type !== "typewriter") {
+      // 타입라이터 아닌 자동 진행 노드
+      if (node.type !== "typewriter") {
         if ((!node.options || !node.options.length) && node.autoNext) {
           timerId = setTimeout(() => {
             renderNode(node.autoNext);
-          }, node.autoDelayMs || 3000);
+          }, node.autoDelayMs || 1700);
         } else if (node.finalBlack) {
           frameEl.classList.add("hard-black");
           document.body.classList.add("screen-dark");
@@ -737,8 +755,6 @@
 
       // 다음 노드 결정
       let nextId = opt.next;
-
-      // Q6에서 3번만 3회 이상 눌렀으면 bonus로
       if (node.id === "q6" && opt.isThird && thirdChoiceCount >= 3) {
         nextId = "bonus";
       }
@@ -755,7 +771,7 @@
     function startTypewriter(node) {
       const full = node.text || "";
       let index = 0;
-      const speed = node.typeSpeedMs || 40; // 기본은 꽤 빠르게
+      const speed = node.typeSpeedMs || 60;
 
       typingTimer = setInterval(() => {
         index++;
@@ -763,16 +779,16 @@
           clearInterval(typingTimer);
           typingTimer = null;
 
-          // 버튼 있는 노드라면, 타자 끝난 후에 버튼 페이드인
+          // 버튼 있는 노드: 타이핑 끝난 후에만 페이드인
           if (node.options && node.options.length) {
-            timerId = setTimeout(() => {
+            setTimeout(() => {
               renderChoices(node);
             }, 200); // 살짝 숨 고르고 등장
           }
 
-          // autoNext 처리
+          // 자동 진행
           if (node.autoNext) {
-            const delay = node.autoDelayMs || 3000;
+            const delay = node.autoDelayMs || 1700;
             timerId = setTimeout(() => {
               renderNode(node.autoNext);
             }, delay);
