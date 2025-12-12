@@ -28,6 +28,12 @@
       padding: 2px 8px 8px;
     }
 
+    /* 특정 노드에서 탑바 숨기기 */
+.top-bar.topbar-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
   /* 404  효과 없음 */
 .error-corner {
   position: fixed;
@@ -588,14 +594,11 @@
 </head>
 
 <body>
-  <!-- 배경 BGM -->
+  <audio id="sfxIntro" src="sfx-intro.mp3" preload="auto"></audio>
   <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
-  <!-- 마지막 보이스 -->
   <audio id="voice" src="voice.mp3" preload="auto"></audio>
-<!-- 결정적 순간 효과음 -->
 <audio id="sfxHit" src="sfx-hit.mp3" preload="auto"></audio>
   
-  <!-- 인트로 -->
   <div class="intro" id="intro">
     <div class="intro-text">연결합니다</div>
   </div>
@@ -628,7 +631,24 @@
        // 오디오
     const bgmEl    = document.getElementById("bgm");
     const voiceEl  = document.getElementById("voice");
-    const sfxHitEl = document.getElementById("sfxHit");   // 효과음
+    const sfxHitEl = document.getElementById("sfxHit");
+    const sfxIntroEl = document.getElementById("sfxIntro");
+
+    function playIntroSfx() {
+  if (!sfxIntroEl) return;
+  sfxIntroEl.volume = 0.9;
+  sfxIntroEl.currentTime = 0;
+  sfxIntroEl.play().catch(() => {
+    const resume = () => {
+      sfxIntroEl.currentTime = 0;
+      sfxIntroEl.play().catch(() => {});
+      document.removeEventListener("click", resume);
+      document.removeEventListener("touchstart", resume);
+    };
+    document.addEventListener("click", resume, { once: true });
+    document.addEventListener("touchstart", resume, { once: true });
+  });
+}
 
     function tryStartBgm() {
       if (!bgmEl) return;
@@ -904,6 +924,7 @@
     noEnterAnim: true,
     cornerText: true, 
     stopBgmHard: true,
+    hideTopBar: true,
     autoNext: "q5",
     autoDelayMs: 4000
   },
@@ -1149,6 +1170,7 @@
     // 렌더링 / 상태
     const appEl     = document.getElementById("app");
     const frameEl   = document.getElementById("frame");
+    const topBarEl = document.querySelector(".top-bar");
     const contentEl = document.getElementById("content");
     const qLabelEl  = document.getElementById("qLabel");
     const qTextEl   = document.getElementById("qText");
@@ -1218,6 +1240,9 @@
   const node = NODES[id];
   if (!node) return;
   currentId = id;
+  if (topBarEl) {
+  topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
+}
 
   // 들어오는 순간 브금 바로 OFF
   if (node.stopBgmHard) {
@@ -1427,6 +1452,7 @@
     const introEl = document.getElementById("intro");
 
     window.addEventListener("load", () => {
+      playIntroSfx();
       tryStartBgm();
 
       setTimeout(() => {
@@ -1441,6 +1467,7 @@
   </script>
 </body>
 </html>
+
 
 
 
