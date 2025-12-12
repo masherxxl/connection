@@ -600,7 +600,7 @@
     <div class="msg-window">
       <div class="msg-header">SYSTEM MESSAGE</div>
       <div class="msg-body" id="msgBody">
-에러 발생!&#10;뒤로가기를 눌러주세요!
+에러 발생!&#10;Room "11번"과의 연결이 끊겼습니다.
       </div>
       <button class="msg-close" id="msgClose">확인</button>
     </div>
@@ -760,8 +760,10 @@
       q2: {
         id: "q2",
         label: "Q2",
+        type: "typewriter",
+        typeSpeedMs: 170,
         fontSize: 22,
-        text: "당신은 지금 말을 걸고 있는 존재가 \n누구인지 알고 있습니까?",
+        text: "지금 [pause]말을 걸고 있는 존재가\n누구인지 알고 있습니까?",
         delayMs: 2000,
         options: [
           { label: "알고 있습니다.",     next: "q2_1" },
@@ -1386,6 +1388,7 @@
   </script>
 </body>
 </html>
+
 
 
 
