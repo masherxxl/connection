@@ -28,6 +28,85 @@
       padding: 2px 8px 8px;
     }
 
+    /* 불안하게 깜빡이는 텍스트 */
+.flicker {
+  animation: flicker 1.4s infinite;
+}
+
+@keyframes flicker {
+  0%   { opacity: 1;   text-shadow: 0 0 8px rgba(255,255,255,0.8); }
+  10%  { opacity: 0.3; text-shadow: 0 0 2px rgba(255,255,255,0.4); }
+  20%  { opacity: 0.8; }
+  35%  { opacity: 0.2; }
+  50%  { opacity: 1;   text-shadow: 0 0 14px rgba(255,255,255,1); }
+  70%  { opacity: 0.4; }
+  85%  { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+    /* 글리치 텍스트 효과 */
+.glitch {
+  animation: glitch 0.6s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0, 0);
+    text-shadow:
+      1px 0 rgba(255, 0, 255, 0.8),
+      -1px -1px rgba(0, 255, 255, 0.8);
+  }
+  20% {
+    transform: translate(-1px, 1px);
+    text-shadow:
+      -2px 0 rgba(255, 0, 255, 0.6),
+      2px 2px rgba(0, 255, 255, 0.6);
+  }
+  40% {
+    transform: translate(1px, -1px);
+    text-shadow:
+      2px -1px rgba(255, 0, 255, 0.9),
+      -2px 1px rgba(0, 255, 255, 0.9);
+  }
+  60% {
+    transform: translate(0, 0);
+    text-shadow:
+      -1px 1px rgba(255, 0, 255, 0.5),
+      1px -1px rgba(0, 255, 255, 0.5);
+  }
+  80% {
+    transform: translate(1px, 0);
+    text-shadow:
+      2px 0 rgba(255, 0, 255, 0.7),
+      -2px 0 rgba(0, 255, 255, 0.7);
+  }
+  100% {
+    transform: translate(0, 0);
+    text-shadow:
+      0 0 4px rgba(255, 255, 255, 0.8);
+  }
+}
+
+    /* 압박감 텍스트 – 자간이 좁아졌다 넓어졌다 */
+.pressure-text {
+  animation: pressureText 1.4s ease-in-out infinite;
+}
+
+@keyframes pressureText {
+  0% {
+    letter-spacing: 0em;
+  }
+  40% {
+    letter-spacing: -0.08em;   /* 글자들이 서로 가까워짐 */
+  }
+  70% {
+    letter-spacing: -0.03em;
+  }
+  100% {
+    letter-spacing: 0em;
+  }
+}
+
     /* 인트로 화면 */
     .intro {
       position: fixed;
@@ -201,6 +280,73 @@
       overflow: hidden;
       transform-origin: center;
     }
+
+    /* ───── 불안한(위험한) 버튼 연출 ───── */
+.choice-btn.ominous-btn {
+  /* 기본 버튼 스타일 그대로 두고, 위에 덮어씌우는 효과만 추가 */
+  animation: ominousPulse 1.7s ease-in-out infinite;
+}
+
+/* 버튼 위에 지나가는 붉은 스캔 라인 */
+.choice-btn.ominous-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 70, 100, 0) 0%,
+    rgba(255, 70, 100, 0.35) 50%,
+    rgba(255, 70, 100, 0) 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  animation: ominousScan 2.6s linear infinite;
+}
+
+/* 전체적으로 숨이 가빠지는 느낌 */
+@keyframes ominousPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+    box-shadow: 0 0 0 rgba(255, 40, 72, 0);
+  }
+  40% {
+    transform: scale(1.02);
+    filter: brightness(1.05) saturate(1.2);
+    box-shadow: 0 0 14px rgba(255, 40, 72, 0.55);
+  }
+  70% {
+    transform: scale(0.99);
+    filter: brightness(0.95) saturate(0.9);
+    box-shadow: 0 0 4px rgba(255, 40, 72, 0.25);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+    box-shadow: 0 0 0 rgba(255, 40, 72, 0);
+  }
+}
+
+/* 위에서 아래로 슬쩍 지나가는 불길한 빛 */
+@keyframes ominousScan {
+  0% {
+    opacity: 0;
+    transform: translateY(-120%);
+  }
+  20% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.4;
+    transform: translateY(40%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(140%);
+  }
+}
 
     .choice-btn span {
       position: relative;
@@ -400,13 +546,13 @@
       }
 
       .choices {
-        gap:-5px;
+        gap: 1px;
         margin-top: 30px;
       }
 
       .choice-btn {
         max-width: 100%;
-        aspect-ratio: 2.3 / 1;
+        aspect-ratio: 4 / 1;
         height: auto;
         padding: 4px 32px;
         font-size: 15px;
@@ -610,6 +756,7 @@
         typeSpeedMs: 65,
         fontSize: 21,
         boxRed: true,
+        glitch: true,
         shake: true,
         text:
 "서 버  로 그  데 이 터 를  바 탕 으 로 \n당 신 의  기 억 정 상 여 부 를 \n재 점 검 합 니 다.",
@@ -817,6 +964,7 @@
         type: "typewriter",
         typeSpeedMs: 177,
         fontSize: 23,
+        pressure: true,
         text:
 "그렇다면 마지막으로....\n당신은 자신이 어떤 존재인지 알고 있습니까?",
         delayMs: 2000,
@@ -853,9 +1001,24 @@
 "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
         options: [
-          { label: "?̵?̴?̵",                                          next: "end1", red: true },
-          { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ",            next: "end1", red: true },
-          { label: "???",                                            next: "end1", red: true }
+          { 
+            label: "?̵?̴?̵",
+            next: "end1",
+            red: true,
+            ominous: true
+          },
+          { 
+            label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ",
+            next: "end1",
+            red: true,
+            ominous: true
+          },
+          { 
+            label: "???",
+            next: "end1",
+            red: true,
+            ominous: true
+          }
         ]
       },
 
@@ -940,7 +1103,11 @@
       node.options.forEach((opt, index) => {
         const btn = document.createElement("button");
         btn.className = "choice-btn";
+        
         if (opt.red) btn.classList.add("red");
+
+        if (opt.ominous) btn.classList.add("ominous-btn");
+        
         btn.style.animationDelay = `${0.05 * index}s`;
 
         const span = document.createElement("span");
@@ -952,87 +1119,111 @@
       });
     }
 
-    function renderNode(id) {
-      clearTimers();
-      transitioning = false;
-      const node = NODES[id];
-      if (!node) return;
-      currentId = id;
+  function renderNode(id) {
+  clearTimers();
+  transitioning = false;
+  const node = NODES[id];
+  if (!node) return;
+  currentId = id;
 
-      if (node.label) {
-        qLabelEl.textContent = node.label;
-        qLabelEl.style.display = "block";
-      } else {
-        qLabelEl.textContent = "";
-        qLabelEl.style.display = "none";
+  // ── Q 라벨 (Q1, Q2 ) ─────────────────
+  if (node.label) {
+    qLabelEl.textContent = node.label;
+    qLabelEl.style.display = "block";
+  } else {
+    qLabelEl.textContent = "";
+    qLabelEl.style.display = "none";
+  }
+
+  // ── 기본 스타일 초기화 ─────────────────────
+  qTextEl.className = "q-text glow";   // 기본 텍스트에ㅔ 네온
+  frameEl.classList.remove("shake");
+  qTextEl.classList.remove("box-red");
+  qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+
+  qTextEl.classList.remove("flicker");
+  qTextEl.classList.remove("glitch");
+  qTextEl.classList.remove("pressure-text");
+
+  // ── 색상 / 박스 / 지진 효과 ─────────────────
+  if (node.red)  qTextEl.classList.add("red");
+  if (node.blue) qTextEl.classList.add("blue");
+
+  if (node.boxRed) {
+    qTextEl.classList.add("box-red");
+  }
+  if (node.shake) {
+    frameEl.classList.add("shake");
+  }
+
+  // ── 추가 연출 플래그 (텍스트용) ──────────────
+  if (node.flicker) {
+    qTextEl.classList.add("flicker");
+  }
+  if (node.glitch) {
+    qTextEl.classList.add("glitch");
+  }
+  if (node.pressure) {
+    qTextEl.classList.add("pressure-text");
+  }
+
+  // ── 텍스트 렌더링 / 타자 연출 ───────────────
+  if (node.type === "typewriter") {
+    qTextEl.textContent = "";
+    choicesEl.innerHTML = "";
+    choicesEl.classList.remove("choices-hide", "choices-enter");
+    startTypewriter(node);
+  } else {
+    // 일반 고정 텍스트
+    qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+    renderChoices(node);
+  }
+
+  // ── 질문 박스 등장 애니메이션 ───────────────
+  contentEl.classList.remove("question-enter");
+  void contentEl.offsetWidth; // 강제 리플로우
+  contentEl.classList.add("question-enter");
+
+  // ── 타입라이터 아닌 노드의 자동 진행 / 엔딩 처리 ─
+  if (node.type !== "typewriter") {
+    if ((!node.options || !node.options.length) && node.autoNext) {
+      // 선택지 없고 autoNext 있으면 자동 진행
+      timerId = setTimeout(() => {
+        renderNode(node.autoNext);
+      }, node.autoDelayMs || 1700);
+    } else if (node.finalBlack) {
+      // 엔딩: 화면 암전  보이스 메시지 버튼
+      frameEl.classList.add("hard-black");
+      document.body.classList.add("screen-dark");
+      choicesEl.innerHTML = "";
+      qTextEl.textContent = "";
+
+      if (bgmEl) {
+        bgmEl.pause();
+        bgmEl.currentTime = 0;
       }
 
-      qTextEl.className = "q-text glow";
-      frameEl.classList.remove("shake");
-      qTextEl.classList.remove("box-red");
-      qTextEl.style.fontSize = (node.fontSize || 25) + "px";
-
-      if (node.red)  qTextEl.classList.add("red");
-      if (node.blue) qTextEl.classList.add("blue");
-
-      if (node.boxRed) {
-        qTextEl.classList.add("box-red");
-      }
-      if (node.shake) {
-        frameEl.classList.add("shake");
+      if (voiceEl) {
+        voiceEl.play().catch(() => {});
       }
 
-      if (node.type === "typewriter") {
-        qTextEl.textContent = "";
-        choicesEl.innerHTML = "";
-        choicesEl.classList.remove("choices-hide", "choices-enter");
-        startTypewriter(node);
-      } else {
-        qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
-        renderChoices(node);
-      }
+      const msgBtn = document.createElement("button");
+      msgBtn.className = "choice-btn";
+      msgBtn.style.marginTop = "80px";
+      const span = document.createElement("span");
+      span.textContent = "메시지 보기";
+      msgBtn.appendChild(span);
 
-      contentEl.classList.remove("question-enter");
-      void contentEl.offsetWidth;
-      contentEl.classList.add("question-enter");
-
-      if (node.type !== "typewriter") {
-        if ((!node.options || !node.options.length) && node.autoNext) {
-          timerId = setTimeout(() => {
-            renderNode(node.autoNext);
-          }, node.autoDelayMs || 1700);
-        } else if (node.finalBlack) {
-          frameEl.classList.add("hard-black");
-          document.body.classList.add("screen-dark");
-          choicesEl.innerHTML = "";
-          qTextEl.textContent = "";
-
-          if (bgmEl) {
-            bgmEl.pause();
-            bgmEl.currentTime = 0;
-          }
-
-          if (voiceEl) {
-            voiceEl.play().catch(() => {});
-          }
-
-          const msgBtn = document.createElement("button");
-          msgBtn.className = "choice-btn";
-          msgBtn.style.marginTop = "80px";
-          const span = document.createElement("span");
-          span.textContent = "메시지 보기";
-          msgBtn.appendChild(span);
-
-          msgBtn.addEventListener("click", () => {
-            if (msgOverlay) {
-              msgOverlay.classList.add("show");
-            }
-          });
-
-          contentEl.appendChild(msgBtn);
+      msgBtn.addEventListener("click", () => {
+        if (msgOverlay) {
+          msgOverlay.classList.add("show");
         }
-      }
+      });
+
+      contentEl.appendChild(msgBtn);
     }
+  }
+}
 
     function handleChoice(node, opt) {
       if (transitioning) return;
@@ -1125,6 +1316,7 @@
   </script>
 </body>
 </html>
+
 
 
 
