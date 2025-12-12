@@ -28,6 +28,24 @@
       padding: 2px 8px 8px;
     }
 
+  /* 404  효과 없음 */
+.error-corner {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 0;
+  max-width: calc(100vw - 28px);
+
+  text-align: left !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 16px !important;
+  line-height: 1.35;
+
+  color: #f5f5ff;
+  text-shadow: none !important;
+}
+
     /* 불안하게 깜빡이는 텍스트 */
 .flicker {
   animation: flicker 1.4s infinite;
@@ -883,6 +901,8 @@
     red: true,
     fontSize: 24,
     text: "데이터에 이상이 감지되었습니다!",
+    noEnterAnim: true,
+    cornerText: true, 
     stopBgmHard: true,
     autoNext: "q5",
     autoDelayMs: 4000
@@ -895,6 +915,7 @@
     text:
       "당신은 소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n아니면, 죽어가도록 내버려두겠습니까?",
     delayMs: 2000,
+    startBgm: true,
     options: [
       {
         label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 것 같아요.",
@@ -1229,6 +1250,7 @@
 
   // ── 기본 스타일 초기화 ─────────────────────
   qTextEl.className = "q-text glow";   // 기본 텍스트에ㅔ 네온
+  qTextEl.classList.remove("error-corner");
   frameEl.classList.remove("shake");
   qTextEl.classList.remove("box-red");
   qTextEl.style.fontSize = (node.fontSize || 25) + "px";
@@ -1259,6 +1281,13 @@
     qTextEl.classList.add("pressure-text");
   }
 
+    if (node.cornerText) {
+  qTextEl.classList.add("error-corner");
+  qTextEl.classList.remove("glow");
+  qTextEl.classList.remove("red");
+  qTextEl.classList.remove("blue");
+}
+
   // ── 텍스트 렌더링 / 타자 연출 ───────────────
   if (node.type === "typewriter") {
     qTextEl.textContent = "";
@@ -1272,10 +1301,14 @@
   }
 
   // ── 질문 박스 등장 애니메이션 ───────────────
+  if (!node.noEnterAnim) {
   contentEl.classList.remove("question-enter");
-  void contentEl.offsetWidth; // 강제 리플로우
+  void contentEl.offsetWidth;
   contentEl.classList.add("question-enter");
-
+} else {
+  contentEl.classList.remove("question-enter");
+}
+    
   // ── 타입라이터 아닌 노드의 자동 진행 / 엔딩 처리 ─
   if (node.type !== "typewriter") {
     if ((!node.options || !node.options.length) && node.autoNext) {
@@ -1408,6 +1441,7 @@
   </script>
 </body>
 </html>
+
 
 
 
