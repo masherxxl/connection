@@ -649,10 +649,10 @@
     document.addEventListener("touchstart", resume, { once: true });
   });
 }
-
+    
     function tryStartBgm() {
       if (!bgmEl) return;
-      bgmEl.volume = 0.7;
+     // bgmEl.volume = 0.7;
       bgmEl.play().catch(() => {
         const resume = () => {
           bgmEl.play().catch(() => {});
@@ -709,6 +709,29 @@
       bgmEl.play().catch(() => {});
     }
 
+  function fadeInBgm(durationMs = 1500, targetVolume = 0.7) {
+  if (!bgmEl) return;
+
+  bgmEl.play().catch(() => {});
+
+  const steps = 20;
+  const stepTime = durationMs / steps;
+  const startVolume = bgmEl.volume ?? 0;
+  let currentStep = 0;
+
+  const fadeTimer = setInterval(() => {
+    currentStep++;
+    const t = currentStep / steps;
+    const v = startVolume + (targetVolume - startVolume) * t;
+    bgmEl.volume = Math.min(targetVolume, Math.max(0, v));
+
+    if (currentStep >= steps) {
+      clearInterval(fadeTimer);
+      bgmEl.volume = targetVolume;
+    }
+  }, stepTime);
+}
+    
     const BUTTON_DELAY_MS = 1200;
 
     // 스토리 노드
@@ -1452,21 +1475,26 @@
     const introEl = document.getElementById("intro");
 
     window.addEventListener("load", () => {
-      playIntroSfx();
-      tryStartBgm();
+  playIntroSfx();      // 연결합니다 효과음
 
-      setTimeout(() => {
-        introEl.classList.add("fade-out");
-        setTimeout(() => {
-          introEl.style.display = "none";
-          appEl.classList.add("visible");
-          renderNode("q0");
-        }, 800);
-      }, 5000);
-    });
+  bgmEl.volume = 0;    // 처음엔 브금 0
+  tryStartBgm();       // 브금 재생은 시도(소리는 0)
+
+  setTimeout(() => {
+    introEl.classList.add("fade-out");
+    setTimeout(() => {
+      introEl.style.display = "none";
+      appEl.classList.add("visible");
+
+      renderNode("q0");        // 들리십니까 화면 먼저
+      fadeInBgm(1800, 0.7);    // 그 다음 브금
+    }, 800);
+  }, 5000);
+});
   </script>
 </body>
 </html>
+
 
 
 
