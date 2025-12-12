@@ -674,438 +674,456 @@
     const BUTTON_DELAY_MS = 1200;
 
     // 스토리 노드
-    const NODES = {
-      q0: {
-        id: "q0",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 195,
-        fontSize: 23,
-        text: "[pause][pause]...들리십니까?",
-        delayMs: 2000,
-        options: [
-          { label: "네",    next: "q0_success" },
-          { label: "아니오", next: "q0_regret" }
-        ]
-      },
+  const NODES = {
+  q0: {
+    id: "q0",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 195,
+    fontSize: 23,
+    text: "[pause][pause]...들리십니까?",
+    delayMs: 2000,
+    options: [
+      { label: "네", next: "q0_success" },
+      { label: "아니오", next: "q0_regret" }
+    ]
+  },
 
-      q0_success: {
-        id: "q0_success",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 190,
-        fontSize: 23,
-        text: "[pause]성공적으로\n[pause]연결 되었습니다.",
-        autoNext: "q0_start",
-        autoDelayMs: 2000
-      },
+  q0_success: {
+    id: "q0_success",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 190,
+    fontSize: 23,
+    text: "[pause]성공적으로\n[pause]연결 되었습니다.",
+    autoNext: "q0_start",
+    autoDelayMs: 2000
+  },
 
-      q0_regret: {
-        id: "q0_regret",
-        label: "",
-        blue: true,
-        type: "typewriter",
-        typeSpeedMs: 180,
-        fontSize: 23,
-        text: "유감이군요.",
-        autoNext: "q0_start",
-        autoDelayMs: 2000
-      },
+  q0_regret: {
+    id: "q0_regret",
+    label: "",
+    blue: true,
+    type: "typewriter",
+    typeSpeedMs: 180,
+    fontSize: 23,
+    text: "유감이군요.",
+    autoNext: "q0_start",
+    autoDelayMs: 2000
+  },
 
-      q0_start: {
-        id: "q0_start",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 185,
-        fontSize: 22,
-        text: "그러면...[pause]\n바로 질문을 시작하도록 할까요.",
-        autoNext: "q1",
-        autoDelayMs: 2000
-      },
+  q0_start: {
+    id: "q0_start",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 185,
+    fontSize: 22,
+    text: "그러면...[pause]\n바로 질문을 시작하도록 할까요.",
+    autoNext: "q1",
+    autoDelayMs: 2000
+  },
 
-      q1: {
-        id: "q1",
-        label: "Q1",
-        type: "typewriter",
-        typeSpeedMs: 170,
-        fontSize: 23,
-        text: "[pause]당신은 누구입니까?",
-        delayMs: 2000,
-        options: [
-          { label: "...",           next: "q1_r1" },
-          { label: "답하지 않는다.", next: "q1_r2" }
-        ]
-      },
+  q1: {
+    id: "q1",
+    label: "Q1",
+    type: "typewriter",
+    typeSpeedMs: 170,
+    fontSize: 23,
+    text: "[pause]당신은 누구입니까?",
+    delayMs: 2000,
+    options: [
+      { label: "...", next: "q1_r1" },
+      { label: "답하지 않는다.", next: "q1_r2" }
+    ]
+  },
 
-      q1_r1: {
-        id: "q1_r1",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 180,
-        fontSize: 23,
-        text: "[pause]...머뭇거리고 계시는군요.",
-        autoNext: "q2",
-        autoDelayMs: 2000
-      },
+  q1_r1: {
+    id: "q1_r1",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 180,
+    fontSize: 23,
+    text: "[pause]...머뭇거리고 계시는군요.",
+    autoNext: "q2",
+    autoDelayMs: 2000
+  },
 
-      q1_r2: {
-        id: "q1_r2",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 180,
-        fontSize: 23,
-        text: "[pause]...대답이 없으시군요.",
-        autoNext: "q2",
-        autoDelayMs: 2000
-      },
+  q1_r2: {
+    id: "q1_r2",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 180,
+    fontSize: 23,
+    text: "[pause]...대답이 없으시군요.",
+    autoNext: "q2",
+    autoDelayMs: 2000
+  },
 
-      q2: {
-        id: "q2",
-        label: "Q2",
-        type: "typewriter",
-        typeSpeedMs: 170,
-        fontSize: 22,
-        text: "지금 [pause]말을 걸고 있는 존재가\n누구인지 알고 있습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "알고 있습니다.",     next: "q2_1" },
-          { label: "...잘 모르겠습니다.", next: "q2_unknown" }
-        ]
-      },
+  q2: {
+    id: "q2",
+    label: "Q2",
+    type: "typewriter",
+    typeSpeedMs: 170,
+    fontSize: 22,
+    text: "지금 [pause]말을 걸고 있는 존재가\n누구인지 알고 있습니까?",
+    delayMs: 2000,
+    options: [
+      { label: "알고 있습니다.", next: "q2_1" },
+      { label: "...잘 모르겠습니다.", next: "q2_unknown" }
+    ]
+  },
 
-      q2_unknown: {
-        id: "q2_unknown",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 180,
-        fontSize: 23,
-        text: "[pause]좋습니다.",
-        autoNext: "q3",
-        autoDelayMs: 2000
-      },
+  q2_unknown: {
+    id: "q2_unknown",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 180,
+    fontSize: 23,
+    text: "[pause]좋습니다.",
+    autoNext: "q3",
+    autoDelayMs: 2000
+  },
 
-      q2_1: {
-        id: "q2_1",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 250,
-        fontSize: 24,
-        text: "...[pause]확실합니까?",
-        delayMs: 2000,
-        options: [
-          { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
-          { label: "사실 잘 모르겠습니다.",          next: "q3"    },
-          { label: "글쎄요...",                        next: "q3"    }
-        ]
-      },
+  q2_1: {
+    id: "q2_1",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 250,
+    fontSize: 24,
+    text: "...[pause]확실합니까?",
+    delayMs: 2000,
+    options: [
+      { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
+      { label: "사실 잘 모르겠습니다.", next: "q3" },
+      { label: "글쎄요...", next: "q3" }
+    ]
+  },
 
-      q2_2: {
-        id: "q2_2",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 65,
-        fontSize: 21,
-        boxRed: true,
-        glitch: true,
-        shake: true,
-        text:
-"서 버  로 그  데 이 터 를  바 탕 으 로 \n당 신 의  기 억 정 상 여 부 를 \n재 점 검 합 니 다.",
-        autoNext: "q2_2_cut",
-        autoDelayMs: 4000
-      },
+  q2_2: {
+    id: "q2_2",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 65,
+    fontSize: 21,
+    boxRed: true,
+    glitch: true,
+    shake: true,
+    text:
+      "서 버  로 그  데 이 터 를  바 탕 으 로 \n당 신 의  기 억 정 상 여 부 를 \n재 점 검 합 니 다.",
+    autoNext: "q2_2_cut",
+    autoDelayMs: 4000
+  },
 
-      q2_2_cut: {
-        id: "q2_2_cut",
-        label: "",
-        red: true,
-        fontSize: 35,
-        boxRed: true,
-        text: "<점검 완료>",
-        autoNext: "q3",
-        autoDelayMs: 4000
-      },
+  q2_2_cut: {
+    id: "q2_2_cut",
+    label: "",
+    red: true,
+    fontSize: 35,
+    boxRed: true,
+    text: "<점검 완료>",
+    autoNext: "q3",
+    autoDelayMs: 4000
+  },
 
-      q3: {
-        id: "q3",
-        label: "Q3",
-        fontSize: 20,
-        text:
-"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면\n살리시겠습니까? 아니면 방관하시겠습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "어떻게든 살려낸다.",            next: "q3_r1" },
-          { label: "살리지 않는다.",                next: "q3_r2" },
-          { label: "서서히 죽어가도록 내버려둔다.", next: "q3_r3", isThird: true }
-        ]
-      },
+  q3: {
+    id: "q3",
+    label: "Q3",
+    type: "typewriter",
+    typeSpeedMs: 170,
+    fontSize: 22,
+    text: "당신에게는 소중한 누군가나\n가족이 있습니까?",
+    delayMs: 2000,
+    options: [
+      { label: ".....", next: "q4" },
+      { label: "답하지 않는다.", next: "q4" }
+    ]
+  },
 
-      q3_r1: {
-        id: "q3_r1",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 210,
-        fontSize: 23,
-        text: ".[pause].[pause].[pause]\n그렇군요.[pause] 당신은 그렇군요.",
-        autoNext: "q4",
-        autoDelayMs: 4000
-      },
+  q4: {
+    id: "q4",
+    label: "Q4",
+    fontSize: 20,
+    text:
+      "당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면\n살리시겠습니까? 아니면 방관하시겠습니까?",
+    delayMs: 2000,
+    options: [
+      { label: "어떻게든 살려낸다.", next: "q4_r1" },
+      { label: "살리지 않는다.", next: "q4_r2" }, // Q5 감정으로 우회
+      { label: "서서히 죽어가도록 내버려둔다.", next: "q4_r3", isThird: true }
+    ]
+  },
 
-      q3_r2: {
-        id: "q3_r2",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 210,
-        fontSize: 23,
-        text: ".[pause].[pause].[pause]\n그렇군요.[pause]\n당신은 그렇군요.",
-        autoNext: "q4",
-        autoDelayMs: 4000
-      },
+  q4_r1: {
+    id: "q4_r1",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 210,
+    fontSize: 23,
+    text: ".[pause].[pause].[pause]\n그렇군요.[pause] 당신은 그렇군요.",
+    autoNext: "q5",
+    autoDelayMs: 4000
+  },
 
-      q3_r3: {
-        id: "q3_r3",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 30,
-        fontSize: 28,
-        shake: true,
-        text:
-"Error Error Error Error Error Error \nError Error Error\nError Error Error \nError Error Error Error Error Error\nError Error Error Error Error Error-",
-        autoNext: "q4",
-        autoDelayMs: 4000
-      },
+  q4_r2: {
+    id: "q4_r2",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 210,
+    fontSize: 23,
+    text: ".[pause].[pause].[pause]\n그렇군요.[pause]\n당신은 그렇군요.",
+    autoNext: "q5_alt", // 감정 Q5
+    autoDelayMs: 4000
+  },
 
-      q4: {
-        id: "q4",
-        label: "Q4",
-        fontSize: 20,
-        text:
-"당신은 소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n아니면, 죽어가도록 내버려두겠습니까?",
-        delayMs: 2000,
-        options: [
-          {
-            label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 것 같아요.",
-            next: "q5"
-          },
-          {
-            label: "그냥...포기한 채로, 내버려둘 것 같아요.",
-            next: "q5"
-          },
-          {
-            label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
-            next: "q5",
-            isThird: true
-          }
-        ]
-      },
+  q4_r3: {
+    id: "q4_r3",
+    label: "",
+    red: true,
+    fontSize: 24,
+    text: "데이터에 이상이 감지되었습니다!",
+    stopBgmHard: true,
+    autoNext: "q5",
+    autoDelayMs: 4000
+  },
 
-      q5: {
-        id: "q5",
-        label: "Q5",
-        fontSize: 21,
-        text:
-"어떤 방식이든 가능하기만 하다면,\n삶을 끝없이 이어갈 수 있다고 생각하십니까?",
-        delayMs: 2000,
-        options: [
-          { label: "...그럴 수는 없을거에요.", next: "q6" },
-          {
-            label: "네, 분명히요.\n언젠가는 그런 경험을 하게 될 날이 오기를 바라고 있어요.",
-            next: "q6"
-          },
-          {
-            label: "그런 거엔 관심이 없습니다.",
-            next: "q6",
-            isThird: true
-          }
-        ]
+  q5: {
+    id: "q5",
+    label: "Q5",
+    fontSize: 20,
+    text:
+      "당신은 소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n아니면, 죽어가도록 내버려두겠습니까?",
+    delayMs: 2000,
+    options: [
+      {
+        label: "소중한 사람을 잃고 싶지 않아요.\n어떻게든 끝까지 노력해서 살려낼 것 같아요.",
+        next: "q6"
       },
-
-      q6: {
-        id: "q6",
-        label: "Q6",
-        fontSize: 22,
-        text:
-"당신에게 있어, 죽음이란 것은 무엇입니까?",
-        delayMs: 2000,
-        options: [
-          { label: " 단 하나의 종료 버튼이에요.",             next: "q7" },
-          { label: "모든 것의 종착점이자, 멋진 완결 페이지에요.", next: "q7" },
-          { label: "생명이 기능을 정지하는 것이라고 생각해요.",   next: "q7" },
-          { label: "늘 두려워하는 거에요.",                     next: "q7", isThird: true }
-        ]
+      {
+        label: "그냥...포기한 채로, 내버려둘 것 같아요.",
+        next: "q6"
       },
-
-      q7: {
-        id: "q7",
-        label: "Q7",
-        fontSize: 21,
-        text:
-"생명은, 몸이 아닌 \n스스로 의식을 가진 개체에게도 \n부여될 수 있다고 생각하십니까?",
-        delayMs: 2000,
-        options: [
-          { label: "네, 그럴 수 있다고 생각해요.",                  next: "q8" },
-          { label: "아니요...그래도 그건 생명이라고 부르기 어렵습니다.", next: "q8" }
-        ]
-      },
-
-      q8: {
-        id: "q8",
-        label: "Q8",
-        fontSize: 23,
-        text: "당신만의 살아 움직이는 작은 데이터 개체를 생성 해보시겠습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "좋아요!",     next: "q8_1" },
-          { label: "사양할게요..", next: "q8_no" }
-        ],
-       fadeOutBgmMs: 1200
-      },
-
-      q8_1: {
-        id: "q8_1",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 173,
-        fontSize: 20,
-        text:
-"여기-[pause] 지금 막 만든 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause]\n이 개체를 삭제할 권리가 당신에게 있다고 생각하십니까?",
-        delayMs: 2000,
-        options: [
-          { label: "네, 그건 제가 만든 개체이니까요.",       next: "q8_interesting" },
-          { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q8_understood" }
-        ],
-        startBgm: true
-      },
-
-      q8_no: {
-        id: "q8_no",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 160,
-        text: "잘 이해했습니다.",
-        autoNext: "q9",
-        autoDelayMs: 2000,
-        startBgm: true
-      },
-
-      q8_understood: {
-        id: "q8_understood",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 160,
-        text: "잘 이해했습니다.",
-        autoNext: "q9",
-        autoDelayMs: 2000
-      },
-
-      q8_interesting: {
-        id: "q8_interesting",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 190,
-        text: "점점 흥미로워집니다.",
-        autoNext: "q9",
-        autoDelayMs: 2000
-      },
-
-      q9: {
-        id: "q9",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 177,
-        fontSize: 23,
-        text:
-"그렇다면 마지막으로....\n당신은 자신이 어떤 존재인지 알고 있습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.", next: "lastQ" },
-          { label: "...저는 단 하나의 말로 정의하기 어렵습니다.",         next: "lastQ" },
-          { label: "......솔직히, 잘 모르겠습니다.",                         next: "lastQ", isThird: true }
-        ]
-      },
-
-      bonus: {
-        id: "bonus",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 15,
-        fontSize: 35,
-        shake: true,
-        text:
-"당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
-        autoNext: "lastQ",
-        autoDelayMs: 4000
-      },
-
-      lastQ: {
-        id: "lastQ",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 5,
-        fontSize: 27,
-        shake: true,
-        text:
-"당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
-        delayMs: 5000,
-        options: [
-          { 
-            label: "?̵?̴?̵",
-            next: "end1",
-            red: true,
-            ominous: true
-          },
-          { 
-            label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ",
-            next: "end1",
-            red: true,
-            ominous: true
-          },
-          { 
-            label: "???",
-            next: "end1",
-            red: true,
-            ominous: true
-          }
-        ]
-      },
-
-      end1: {
-        id: "end1",
-        label: "",
-        type: "typewriter",
-        typeSpeedMs: 185,
-        fontSize: 24,
-        text: "협조해 주셔서 감사합니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
-        autoNext: "end2",
-        autoDelayMs: 3000
-      },
-
-      end2: {
-        id: "end2",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 50,
-        fontSize: 24,
-        text: "당신의[pause][pause][pause]ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
-        autoNext: "end3",
-        autoDelayMs: 3000
-      },
-
-      end3: {
-        id: "end3",
-        label: "",
-        text: "",
-        finalBlack: true
+      {
+        label: "딱히 관심 없어요. 아무렇지도 않을 것 같아요.",
+        next: "q6",
+        isThird: true
       }
-    };
+    ]
+  },
+
+  q5_alt: {
+    id: "q5_alt",
+    label: "Q5",
+    fontSize: 20,
+    text: "살리지 않기로 결정했습니다.\n당신은 어떤 느낌이 드십니까?",
+    delayMs: 2000,
+    options: [
+      { label: "공포", next: "q6" },
+      { label: "안도감", next: "q6" },
+      { label: "죄책감", next: "q6" },
+      { label: "통쾌함", next: "q6", isThird: true }
+    ]
+  },
+
+  q6: {
+    id: "q6",
+    label: "Q6",
+    fontSize: 21,
+    text:
+      "어떤 방식이든 가능하기만 하다면,\n삶을 끝없이 이어 붙일 수 있다고 생각하십니까?",
+    delayMs: 2000,
+    options: [
+      { label: "...그럴 수는 없을거에요.", next: "q7" },
+      {
+        label: "네, 분명히요.\n언젠가는 그런 경험을 하게 될 날이 오기를 바라고 있어요.",
+        next: "q7"
+      },
+      { label: "그런 거엔 관심이 없습니다.", next: "q7", isThird: true }
+    ]
+  },
+
+  q7: {
+    id: "q7",
+    label: "Q7",
+    fontSize: 22,
+    text: "당신에게 있어, ‘죽음’이란 무엇입니까?",
+    delayMs: 2000,
+    options: [
+      { label: " 단 하나의 종료 버튼이에요.", next: "q8" },
+      { label: "모든 것의 종착점이자, 멋진 완결 페이지에요.", next: "q8" },
+      { label: "생명이 기능을 정지하는 것이라고 생각해요.", next: "q8" },
+      { label: "늘 두려워하는 거에요.", next: "q8", isThird: true }
+    ]
+  },
+
+  q8: {
+    id: "q8",
+    label: "Q8",
+    fontSize: 21,
+    text:
+      "몸이 없더라도,\n스스로 의식을 가진 개체에게\n‘생명’이라는 말을 사용할 수 있습니까?",
+    delayMs: 2000,
+    options: [
+      { label: "네, 그럴 수 있다고 생각해요.", next: "q9" },
+      { label: "아니요...그래도 그건 생명이라고 부르기 어렵습니다.", next: "q9" }
+    ]
+  },
+
+  q9: {
+    id: "q9",
+    label: "Q9",
+    fontSize: 23,
+    text:
+      "당신의 기억과 동기화된 작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
+    delayMs: 2000,
+    options: [
+      { label: "좋아요!", next: "q9_1" },
+      { label: "사양할게요..", next: "q9_no" }
+    ],
+    fadeOutBgmMs: 1200
+  },
+
+  q9_1: {
+    id: "q9_1",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 173,
+    fontSize: 20,
+    text:
+      "여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause]\n이 개체를 삭제할 권리가 당신에게 있다고 생각하십니까?",
+    delayMs: 2000,
+    options: [
+      { label: "네, 그건 제가 만든 개체이니까요.", next: "q9_interesting" },
+      { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q9_understood" }
+    ],
+    startBgm: true
+  },
+
+  q9_no: {
+    id: "q9_no",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 160,
+    text: "잘 이해했습니다.",
+    autoNext: "q10",
+    autoDelayMs: 2000,
+    startBgm: true
+  },
+
+  q9_understood: {
+    id: "q9_understood",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 160,
+    text: "잘 이해했습니다.",
+    autoNext: "q10",
+    autoDelayMs: 2000
+  },
+
+  q9_interesting: {
+    id: "q9_interesting",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 190,
+    text: "점점 흥미로워집니다.",
+    autoNext: "q10",
+    autoDelayMs: 2000
+  },
+
+  q10: {
+    id: "q10",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 177,
+    fontSize: 23,
+    text: "마지막으로....\n당신은 자신이 어떤 존재인지 알고 있습니까?",
+    delayMs: 2000,
+    options: [
+      { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.", next: "lastQ" },
+      { label: "...저는 단 하나의 말로 정의하기 어렵습니다.", next: "lastQ" },
+      { label: "......솔직히, 잘 모르겠습니다.", next: "lastQ", isThird: true }
+    ]
+  },
+
+  bonus: {
+    id: "bonus",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 15,
+    fontSize: 35,
+    shake: true,
+    text:
+      "당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
+    autoNext: "lastQ",
+    autoDelayMs: 4000
+  },
+
+  lastQ: {
+    id: "lastQ",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 5,
+    fontSize: 27,
+    shake: true,
+    text:
+      "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+    delayMs: 5000,
+    options: [
+      { label: "?̵?̴?̵", next: "end1", red: true, ominous: true },
+      { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ", next: "end1", red: true, ominous: true },
+      { label: "???", next: "end1", red: true, ominous: true }
+    ]
+  },
+
+  end1: {
+    id: "end1",
+    label: "",
+    type: "typewriter",
+    typeSpeedMs: 185,
+    fontSize: 24,
+    text: "협조해 주셔서 감사합니다.[pause]\n당신의 데이터 검사가 모두 완료되었습니다-",
+    autoNext: "end2",
+    autoDelayMs: 3000
+  },
+
+  end2: {
+    id: "end2",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 70,
+    fontSize: 24,
+    text:
+      "응답기록을 보관하였습니다. [pause][pause][pause]ㅣ당신의 새로ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+    autoNext: "end_swap",
+    autoDelayMs: 3000
+  },
+
+  end_swap: {
+    id: "end_swap",
+    label: "",
+    red: true,
+    type: "typewriter",
+    typeSpeedMs: 60,
+    fontSize: 22,
+    text: "대상 교체를 시작합니다.\n이전 개체와의 연결을 회수합니다.",
+    autoNext: "end3",
+    autoDelayMs: 1800
+  },
+
+  end3: {
+    id: "end3",
+    label: "",
+    text: "",
+    finalBlack: true
+  }
+};
 
     // 렌더링 / 상태
     const appEl     = document.getElementById("app");
@@ -1390,6 +1408,7 @@
   </script>
 </body>
 </html>
+
 
 
 
