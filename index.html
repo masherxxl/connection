@@ -1004,7 +1004,7 @@
     typeSpeedMs: 150,
     fontSize: 21,
     text:
-      "[pause]어떤 방식이든 가능하기만 하다면,\n삶을 끝없이 이어 붙일 수 있다고 생각하십니까?",
+      "[pause]어떤 방식이든 가능하기만 하다면,[pause]\n삶을 끝없이 이어 붙일 수 있다고\n생각하십니까?",
     delayMs: 2000,
     options: [
       { label: "...그럴 수는 없을거에요.", next: "q7" },
@@ -1052,7 +1052,7 @@
     label: "Q9",
     fontSize: 23,
     text:
-      "당신의 기억과 동기화된 작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
+      "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
     delayMs: 2000,
     options: [
       { label: "좋아요!", next: "q9_1" },
@@ -1068,7 +1068,7 @@
     typeSpeedMs: 170,
     fontSize: 20,
     text:
-      "여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause]\n이 개체를 삭제할 권리가 당신에게 있다고 생각하십니까?",
+      "[pause]여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 개체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
     delayMs: 2000,
     options: [
       { label: "네, 그건 제가 만든 개체이니까요.", next: "q9_interesting" },
@@ -1106,7 +1106,7 @@
     red: true,
     type: "typewriter",
     typeSpeedMs: 190,
-    text: "점점[pause] 흥미로워집니다.",
+    text: "[pause]점점흥미로워집니다.",
     autoNext: "q10",
     autoDelayMs: 2000
   },
@@ -1158,49 +1158,60 @@
     ]
   },
 
-  end1: {
-    id: "end1",
-    label: "",
-    type: "typewriter",
-    typeSpeedMs: 185,
-    fontSize: 24,
-    text: "[pause]협조해 주셔서 감사합니다.[pause]\n응답기록을 모두 보관하였습니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
-    autoNext: "end2",
-    autoDelayMs: 3000
-  },
+ end1: {
+  id: "end1",
+  label: "",
+  type: "typewriter",
+  typeSpeedMs: 185,
+  fontSize: 24,
+  text: "[pause]협조해 주셔서 감사합니다.[pause]\n응답기록을 모두 보관하였습니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
+  autoNext: "end2_a", 
+  autoDelayMs: 3000
+},
 
-  end2: {
-    id: "end2",
-    label: "",
-    red: true,
-    type: "typewriter",
-    typeSpeedMs: 70,
-    fontSize: 24,
-    text:
-      "[pause][pause][pause]당신의 새로ㅇ[pause]ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
-    autoNext: "end_swap",
-    autoDelayMs: 3000
-  },
+end2_a: {
+  id: "end2_a",
+  label: "",
+  type: "typewriter",
+  typeSpeedMs: 70,
+  fontSize: 24,
+  text: "[pause][pause][pause]당신의 새로ㅇ",
+  autoNext: "end2_b",
+  autoDelayMs: 120   
+},
 
-  end_swap: {
-    id: "end_swap",
-    label: "",
-    red: true,
-    type: "typewriter",
-    typeSpeedMs: 60,
-    fontSize: 22,
-    text: "대상 교체를 시작합니다.\n이전 개체와의 연결을 종료합니다.",
-    autoNext: "end3",
-    autoDelayMs: 1800
-  },
+end2_b: {
+  id: "end2_b",
+  label: "",
+  red: true,
+  stopBgmHard: true,  
+  type: "typewriter",
+  typeSpeedMs: 70,
+  fontSize: 24,
+  text: "ㅇ[pause]ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+  autoNext: "end_swap",
+  autoDelayMs: 3000
+},
 
-  end3: {
-    id: "end3",
-    label: "",
-    text: "",
-    finalBlack: true
-  }
-};
+end_swap: {
+  id: "end_swap",
+  label: "",
+  red: true,
+  type: "typewriter",
+  typeSpeedMs: 60,
+  fontSize: 22,
+  text: "대상 교체를 시작합니다.\n이전 개체와의 연결을 종료합니다.",
+  autoNext: "end3",
+  autoDelayMs: 1800
+},
+
+end3: {
+  id: "end3",
+  label: "",
+  text: "",
+  finalBlack: true
+},
+
 
     // 렌더링 / 상태
     const appEl     = document.getElementById("app");
@@ -1506,6 +1517,7 @@
   </script>
 </body>
 </html>
+
 
 
 
