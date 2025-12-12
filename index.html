@@ -574,7 +574,9 @@
   <audio id="bgm" src="bgm.mp3" preload="auto" loop></audio>
   <!-- 마지막 보이스 -->
   <audio id="voice" src="voice.mp3" preload="auto"></audio>
-
+<!-- 결정적 순간 효과음 -->
+<audio id="sfxHit" src="sfx-hit.mp3" preload="auto"></audio>
+  
   <!-- 인트로 -->
   <div class="intro" id="intro">
     <div class="intro-text">연결합니다</div>
@@ -605,9 +607,10 @@
   </div>
 
   <script>
-    // 오디오
-    const bgmEl   = document.getElementById("bgm");
-    const voiceEl = document.getElementById("voice");
+       // 오디오
+    const bgmEl    = document.getElementById("bgm");
+    const voiceEl  = document.getElementById("voice");
+    const sfxHitEl = document.getElementById("sfxHit");   // 효과음
 
     function tryStartBgm() {
       if (!bgmEl) return;
@@ -621,6 +624,51 @@
         document.addEventListener("click", resume);
         document.addEventListener("touchstart", resume);
       });
+    }
+
+    // 브금 “확” 꺼버리기
+    function hardStopBgm() {
+      if (!bgmEl) return;
+      bgmEl.pause();
+      bgmEl.currentTime = 0;  // 처음으로 되감기
+    }
+
+    // 브금 서서히 줄이기 (페이드 아웃)
+    function fadeOutBgm(durationMs = 1500) {
+      if (!bgmEl) return;
+
+      const startVolume = bgmEl.volume ?? 0.7;
+      const steps = 20;
+      const stepTime = durationMs / steps;
+      let currentStep = 0;
+
+      const fadeTimer = setInterval(() => {
+        currentStep++;
+        const t = currentStep / steps;
+        const v = startVolume * (1 - t);
+        bgmEl.volume = Math.max(0, v);
+
+        if (currentStep >= steps) {
+          clearInterval(fadeTimer);
+          bgmEl.pause();
+          bgmEl.currentTime = 0;
+          bgmEl.volume = startVolume; // 다음에 다시 켤 때를 위해 원상복귀
+        }
+      }, stepTime);
+    }
+
+    // 효과음 한 번 재생
+    function playHitSfx() {
+      if (!sfxHitEl) return;
+      sfxHitEl.currentTime = 0;
+      sfxHitEl.play().catch(() => {});
+    }
+
+    // 죽어 있던 브금 다시 켜기
+    function resumeBgm(volume = 0.7) {
+      if (!bgmEl) return;
+      bgmEl.volume = volume;
+      bgmEl.play().catch(() => {});
     }
 
     const BUTTON_DELAY_MS = 1200;
@@ -727,7 +775,7 @@
         type: "typewriter",
         typeSpeedMs: 180,
         fontSize: 23,
-        text: "좋습니다.",
+        text: "[pause]좋습니다.",
         autoNext: "q3",
         autoDelayMs: 2000
       },
@@ -907,7 +955,8 @@
         options: [
           { label: "좋아요!",     next: "q8_1" },
           { label: "사양할게요..", next: "q8_no" }
-        ]
+        ],
+       fadeOutBgmMs: 1200
       },
 
       q8_1: {
@@ -922,7 +971,8 @@
         options: [
           { label: "네, 그건 제가 만든 개체이니까요.",       next: "q8_interesting" },
           { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q8_understood" }
-        ]
+        ],
+        startBgm: true
       },
 
       q8_no: {
@@ -933,7 +983,8 @@
         typeSpeedMs: 160,
         text: "잘 이해했습니다.",
         autoNext: "q9",
-        autoDelayMs: 2000
+        autoDelayMs: 2000,
+        startBgm: true
       },
 
       q8_understood: {
@@ -1125,6 +1176,26 @@
   if (!node) return;
   currentId = id;
 
+  // 들어오는 순간 브금 바로 OFF
+  if (node.stopBgmHard) {
+    hardStopBgm();
+  }
+
+  // 들어오는 순간 브금을 서서히 줄임
+  if (node.fadeOutBgmMs) {
+    fadeOutBgm(node.fadeOutBgmMs);
+  }
+
+  // 들어오는 순간 효과음
+  if (node.playSfx === "hit") {
+    playHitSfx();
+  }
+
+  // 이 노드에 들어올 때 브금 다시 켜기
+  if (node.startBgm) {
+    resumeBgm();
+  }
+    
   // ── Q 라벨 (Q1, Q2 ) ─────────────────
   if (node.label) {
     qLabelEl.textContent = node.label;
@@ -1315,6 +1386,7 @@
   </script>
 </body>
 </html>
+
 
 
 
