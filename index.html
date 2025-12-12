@@ -1219,17 +1219,36 @@ end3: {
 
     const msgOverlay = document.getElementById("msgOverlay");
     const msgClose   = document.getElementById("msgClose");
+    
+    if (msgOverlay) {
+  msgOverlay.classList.remove("show");
+  msgOverlay.style.display = "none";
+}
 
-    if (msgClose && msgOverlay) {
-      msgClose.addEventListener("click", () => {
-        msgOverlay.classList.remove("show");
-      });
-      msgOverlay.addEventListener("click", (e) => {
-        if (e.target === msgOverlay) {
-          msgOverlay.classList.remove("show");
-        }
-      });
+    function openMsgOverlay() {
+  if (!msgOverlay) return;
+  msgOverlay.style.display = "flex";
+  requestAnimationFrame(() => msgOverlay.classList.add("show"));
+}
+
+function closeMsgOverlay() {
+  if (!msgOverlay) return;
+  msgOverlay.classList.remove("show");
+  setTimeout(() => {
+    msgOverlay.style.display = "none";
+  }, 300);
+}
+    
+ if (msgClose && msgOverlay) {
+  msgClose.addEventListener("click", () => {
+    closeMsgOverlay();
+  });
+  msgOverlay.addEventListener("click", (e) => {
+    if (e.target === msgOverlay) {
+      closeMsgOverlay();
     }
+  });
+}
 
     let currentId = "q0";
     let timerId = null;
@@ -1398,11 +1417,9 @@ end3: {
       span.textContent = "메시지 보기";
       msgBtn.appendChild(span);
 
-      msgBtn.addEventListener("click", () => {
-        if (msgOverlay) {
-          msgOverlay.classList.add("show");
-        }
-      });
+     msgBtn.addEventListener("click", () => {
+   openMsgOverlay();
+});
 
       contentEl.appendChild(msgBtn);
     }
@@ -1505,6 +1522,7 @@ end3: {
   </script>
 </body>
 </html>
+
 
 
 
