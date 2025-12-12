@@ -28,13 +28,12 @@
       padding: 2px 8px 8px;
     }
 
-    /* 특정 노드에서 탑바 숨기기 */
 .top-bar.topbar-hidden {
   opacity: 0;
   visibility: hidden;
 }
 
-  /* 404  효과 없음 */
+  /* 404 효과 없음 */
 .error-corner {
   position: fixed;
   top: 14px;
@@ -52,7 +51,7 @@
   text-shadow: none !important;
 }
 
-    /* 불안하게 깜빡이는 텍스트 */
+    /* 불안하게 깜빡 텍스트 */
 .flicker {
   animation: flicker 1.4s infinite;
 }
@@ -68,7 +67,7 @@
   100% { opacity: 1; }
 }
 
-    /* 글리치 텍스트 효과 */
+    /* 글리치 효과 */
 .glitch {
   animation: glitch 0.6s infinite;
 }
@@ -111,7 +110,7 @@
   }
 }
 
-    /* 압박감 텍스트 – 자간이 좁아졌다 넓어졌다 */
+    /* 텍스트 자간이 좁아졌다 넓어졌다 */
 .pressure-text {
   animation: pressureText 1.4s ease-in-out infinite;
 }
@@ -130,8 +129,8 @@
     letter-spacing: 0em;
   }
 }
-
-    /* 인트로 화면 */
+    
+    /* 인트로 */
     .intro {
       position: fixed;
       inset: 0;
@@ -164,7 +163,6 @@
       }
     }
 
-    /* 본 화면 컨테이너 */
     .app {
       width: 100%;
       max-width: 900px;
@@ -181,7 +179,6 @@
       transition: opacity 0.6s ease;
     }
 
-    /* 프레임 */
     .frame {
       position: relative;
       width: 100%;
@@ -189,7 +186,6 @@
       margin: 0 auto;
     }
 
-    /* HUD */
     .top-bar {
       width: 100%;
       height: 87px;
@@ -210,7 +206,6 @@
       padding: 0 8px;
     }
 
-    /* Q 라벨 */
     .q-label {
       font-size: 30px;
       color: #ffffff;
@@ -218,27 +213,25 @@
       text-shadow:
         0 0 6px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(255, 255, 255, 0.9);
-      margin-bottom: 2px;  /* Q1과 질문을 바짝 */
+      margin-bottom: 2px; 
       display: none;
     }
 
-    /* 질문/반응 텍스트 */
     .q-text {
       font-size: 22px;
       line-height: 1.6;
       white-space: pre-wrap;
       text-align: center;
-      margin-top: 0;       /* 위 여백 없애기 */
+      margin-top: 0;  
     }
 
-    /* 기본 네온 글로우 */
+  
     .glow {
       text-shadow:
         0 0 6px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(255, 255, 255, 0.9);
     }
 
-    /* 빨간 네온 텍스트 */
     .red {
       color: #ff3058;
       text-shadow:
@@ -246,7 +239,6 @@
         0 0 24px rgba(255, 40, 72, 0.95);
     }
 
-    /* 파란 네온 텍스트 */
     .blue {
       color: #3654ff;
       text-shadow:
@@ -254,7 +246,6 @@
         0 0 18px rgba(54, 84, 255, 0.9);
     }
 
-    /* 빨간 박스 강조 */
     .box-red {
       display: inline-block;
       padding: 16px 24px;
@@ -268,7 +259,6 @@
       font-weight: 700;
     }
 
-    /* 선택지 컨테이너 */
     .choices {
       display: flex;
       flex-direction: column;
@@ -276,7 +266,6 @@
       margin-top: 60px;
     }
 
-    /* 버튼 */
     .choice-btn {
       position: relative;
       display: flex;
@@ -307,11 +296,10 @@
 
     /* ───── 불안한(위험한) 버튼 연출 ───── */
 .choice-btn.ominous-btn {
-  /* 기본 버튼 스타일 그대로 두고, 위에 덮어씌우는 효과만 추가 */
   animation: ominousPulse 1.7s ease-in-out infinite;
 }
 
-/* 버튼 위에 지나가는 붉은 스캔 라인 */
+/* 붉은 스캔 라인 */
 .choice-btn.ominous-btn::after {
   content: "";
   position: absolute;
@@ -329,7 +317,7 @@
   animation: ominousScan 2.6s linear infinite;
 }
 
-/* 전체적으로 숨이 가빠지는 느낌 */
+/* 숨이 가빠지는 느낌 */
 @keyframes ominousPulse {
   0% {
     transform: scale(1);
@@ -353,7 +341,7 @@
   }
 }
 
-/* 위에서 아래로 슬쩍 지나가는 불길한 빛 */
+/* 위 아래로 슬쩍 지나가는 불길한 빛 */
 @keyframes ominousScan {
   0% {
     opacity: 0;
@@ -486,62 +474,71 @@
       border-color: #000 !important;
     }
 
-    /* 엔딩 메시지 오버레이 */
-    .msg-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 30;
-    }
-    .msg-overlay.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .msg-window {
-      width: 90%;
-      max-width: 420px;
-      background: #111317;
-      border-radius: 18px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
-      overflow: hidden;
-      border: 1px solid rgba(54, 84, 255, 0.8);
-      color: #f7f7ff;
-      font-size: 14px;
-    }
-    .msg-header {
-      padding: 10px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      font-size: 12px;
-      text-transform: uppercase;
-      color: #aab3ff;
-    }
-    .msg-body {
-      padding: 18px 16px 12px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
-    .msg-close {
-      width: 100%;
-      border: none;
-      padding: 10px 0 12px;
-      background: #23263a;
-      color: #f5f5ff;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    .msg-close:hover {
-      background: #2f3550;
-    }
+.msg-overlay {
+  background: rgba(0, 0, 0, 0.92); 
+}
 
-    /* ───────── 모바일 전용 설정 ───────── */
+.msg-window {
+  background: #000 !important;   
+  border: 1px solid rgba(255,255,255,0.85) !important; 
+  border-radius: 18px;
+  color: #fff !important;
+ 
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.25),
+    0 0 45px rgba(255,255,255,0.18),
+    0 18px 60px rgba(0,0,0,0.95) !important;
+
+  animation: msgGlowPulse 1.6s ease-in-out infinite;
+}
+
+.msg-header {
+  color: #fff !important;
+  border-bottom: 1px solid rgba(255,255,255,0.18) !important;
+  background: #000 !important;
+}
+
+.msg-body {
+  color: #fff !important;
+}
+
+.msg-close {
+  background: #fff !important;
+  color: #000 !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-top: 1px solid rgba(255,255,255,0.18) !important;
+}
+
+.msg-close:hover {
+  background: rgba(255,255,255,0.92) !important;
+}
+
+@keyframes msgGlowPulse {
+  0% {
+    box-shadow:
+      0 0 14px rgba(255,255,255,0.18),
+      0 0 34px rgba(255,255,255,0.12),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(0);
+  }
+  55% {
+    box-shadow:
+      0 0 22px rgba(255,255,255,0.28),
+      0 0 60px rgba(255,255,255,0.18),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(-1px);
+  }
+  100% {
+    box-shadow:
+      0 0 14px rgba(255,255,255,0.18),
+      0 0 34px rgba(255,255,255,0.12),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(0);
+  }
+}
+
+    /* 모바일 전용 */
     @media (max-width: 480px) {
 
       body {
@@ -603,7 +600,6 @@
     <div class="intro-text">연결합니다</div>
   </div>
 
-  <!-- 질문 화면 -->
   <div class="app" id="app">
     <div class="frame" id="frame">
       <div class="top-bar"></div>
@@ -616,7 +612,7 @@
     </div>
   </div>
 
-  <!-- 엔딩용 메시지 오버레이 -->
+  <!-- 엔딩 메시지 오버레이 -->
   <div class="msg-overlay" id="msgOverlay">
     <div class="msg-window">
       <div class="msg-header">SYSTEM MESSAGE</div>
@@ -664,14 +660,14 @@
       });
     }
 
-    // 브금 “확” 꺼버리기
+    // 브금 꺼버리기
     function hardStopBgm() {
       if (!bgmEl) return;
       bgmEl.pause();
-      bgmEl.currentTime = 0;  // 처음으로 되감기
+      bgmEl.currentTime = 0;  // 되감기
     }
 
-    // 브금 서서히 줄이기 (페이드 아웃)
+    // 브금 페이드 아웃
     function fadeOutBgm(durationMs = 1500) {
       if (!bgmEl) return;
 
@@ -690,19 +686,19 @@
           clearInterval(fadeTimer);
           bgmEl.pause();
           bgmEl.currentTime = 0;
-          bgmEl.volume = startVolume; // 다음에 다시 켤 때를 위해 원상복귀
+          bgmEl.volume = startVolume; // 다시 켤때를 위해 원상복귀
         }
       }, stepTime);
     }
 
-    // 효과음 한 번 재생
+    // 효과음 한번 재생
     function playHitSfx() {
       if (!sfxHitEl) return;
       sfxHitEl.currentTime = 0;
       sfxHitEl.play().catch(() => {});
     }
 
-    // 죽어 있던 브금 다시 켜기
+    // 브금 다시 켜기
     function resumeBgm(volume = 0.7) {
       if (!bgmEl) return;
       bgmEl.volume = volume;
@@ -1211,9 +1207,8 @@ end3: {
   text: "",
   finalBlack: true
 },
+  };
 
-
-    // 렌더링 / 상태
     const appEl     = document.getElementById("app");
     const frameEl   = document.getElementById("frame");
     const topBarEl = document.querySelector(".top-bar");
@@ -1290,22 +1285,18 @@ end3: {
   topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
 }
 
-  // 들어오는 순간 브금 바로 OFF
   if (node.stopBgmHard) {
     hardStopBgm();
   }
 
-  // 들어오는 순간 브금을 서서히 줄임
   if (node.fadeOutBgmMs) {
     fadeOutBgm(node.fadeOutBgmMs);
   }
 
-  // 들어오는 순간 효과음
   if (node.playSfx === "hit") {
     playHitSfx();
   }
 
-  // 이 노드에 들어올 때 브금 다시 켜기
   if (node.startBgm) {
     resumeBgm();
   }
@@ -1320,7 +1311,7 @@ end3: {
   }
 
   // ── 기본 스타일 초기화 ─────────────────────
-  qTextEl.className = "q-text glow";   // 기본 텍스트에ㅔ 네온
+  qTextEl.className = "q-text glow"; 
   qTextEl.classList.remove("error-corner");
   frameEl.classList.remove("shake");
   qTextEl.classList.remove("box-red");
@@ -1330,7 +1321,7 @@ end3: {
   qTextEl.classList.remove("glitch");
   qTextEl.classList.remove("pressure-text");
 
-  // ── 색상 / 박스 / 지진 효과 ─────────────────
+  // ── 색상 박스 지진 ─────────────────
   if (node.red)  qTextEl.classList.add("red");
   if (node.blue) qTextEl.classList.add("blue");
 
@@ -1341,7 +1332,7 @@ end3: {
     frameEl.classList.add("shake");
   }
 
-  // ── 추가 연출 플래그 (텍스트용) ──────────────
+  // ── 추가 연출 플래그 이거 텍스트 ──────────────
   if (node.flicker) {
     qTextEl.classList.add("flicker");
   }
@@ -1359,7 +1350,7 @@ end3: {
   qTextEl.classList.remove("blue");
 }
 
-  // ── 텍스트 렌더링 / 타자 연출 ───────────────
+  // ── 텍스트 렌더링 타자 연출 ───────────────
   if (node.type === "typewriter") {
     qTextEl.textContent = "";
     choicesEl.innerHTML = "";
@@ -1371,7 +1362,7 @@ end3: {
     renderChoices(node);
   }
 
-  // ── 질문 박스 등장 애니메이션 ───────────────
+  // ── 질문 박스 애니메이션 ───────────────
   if (!node.noEnterAnim) {
   contentEl.classList.remove("question-enter");
   void contentEl.offsetWidth;
@@ -1380,15 +1371,12 @@ end3: {
   contentEl.classList.remove("question-enter");
 }
     
-  // ── 타입라이터 아닌 노드의 자동 진행 / 엔딩 처리 ─
   if (node.type !== "typewriter") {
     if ((!node.options || !node.options.length) && node.autoNext) {
-      // 선택지 없고 autoNext 있으면 자동 진행
       timerId = setTimeout(() => {
         renderNode(node.autoNext);
       }, node.autoDelayMs || 1700);
     } else if (node.finalBlack) {
-      // 엔딩: 화면 암전  보이스 메시지 버튼
       frameEl.classList.add("hard-black");
       document.body.classList.add("screen-dark");
       choicesEl.innerHTML = "";
@@ -1498,10 +1486,10 @@ end3: {
     const introEl = document.getElementById("intro");
 
     window.addEventListener("load", () => {
-  playIntroSfx();      // 연결합니다 효과음
+  playIntroSfx();    
 
-  bgmEl.volume = 0;    // 처음엔 브금 0
-  tryStartBgm();       // 브금 재생은 시도(소리는 0)
+  bgmEl.volume = 0;   
+  tryStartBgm();  
 
   setTimeout(() => {
     introEl.classList.add("fade-out");
@@ -1509,14 +1497,15 @@ end3: {
       introEl.style.display = "none";
       appEl.classList.add("visible");
 
-      renderNode("q0");        // 들리십니까 화면 먼저
-      fadeInBgm(1800, 0.7);    // 그 다음 브금
+      renderNode("q0");    
+      fadeInBgm(1800, 0.7); 
     }, 800);
   }, 5000);
 });
   </script>
 </body>
 </html>
+
 
 
 
