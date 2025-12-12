@@ -547,7 +547,7 @@
         type: "typewriter",
         typeSpeedMs: 180,
         fontSize: 23,
-        text: "...머뭇거리고 계시는군요.",
+        text: "[pause]...머뭇거리고 계시는군요.",
         autoNext: "q2",
         autoDelayMs: 2000
       },
@@ -558,7 +558,7 @@
         type: "typewriter",
         typeSpeedMs: 180,
         fontSize: 23,
-        text: "...대답이 없으시군요.",
+        text: "[pause]...대답이 없으시군요.",
         autoNext: "q2",
         autoDelayMs: 2000
       },
@@ -567,7 +567,7 @@
         id: "q2",
         label: "Q2",
         fontSize: 22,
-        text: "당신은 말을 걸고 있는 존재가\n누구인지 알고 있습니까?",
+        text: "당신은 지금 말을 걸고 있는 존재가 \n누구인지 알고 있습니까?",
         delayMs: 2000,
         options: [
           { label: "알고 있습니다.",     next: "q2_1" },
@@ -593,7 +593,7 @@
         type: "typewriter",
         typeSpeedMs: 250,
         fontSize: 24,
-        text: "...[pause] 확실합니까?",
+        text: "...[pause]확실합니까?",
         delayMs: 2000,
         options: [
           { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
@@ -612,7 +612,7 @@
         boxRed: true,
         shake: true,
         text:
-"서 버  로 그  데 이 터 를  바 탕 으 로\n당 신 의  기 억 정 상 여 부 를\n재 점 검 합 니 다.",
+"서 버  로 그  데 이 터 를  바 탕 으 로 \n당 신 의  기 억 정 상 여 부 를 \n재 점 검 합 니 다.",
         autoNext: "q2_2_cut",
         autoDelayMs: 4000
       },
@@ -635,7 +635,7 @@
         label: "Q3",
         fontSize: 20,
         text:
-"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n그를 다시 살릴 수 있는 방법을 알게된다면\n살리겠습니까, 아니면 방관하시겠습니까?",
+"당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때, \n그를 다시 살릴 수 있는 방법을 알게된다면 \n살리겠습니까, 아니면 방관하시겠습니까?",
         delayMs: 2000,
         options: [
           { label: "어떻게든 살려낸다.",            next: "q3_r1" },
@@ -685,7 +685,7 @@
         label: "Q4",
         fontSize: 20,
         text:
-"당신은 소중한 사람이 죽을 때마다\n다시 살려낼 것 입니까?\n아니면, 죽어가도록 내버려두겠습니까?",
+"당신은 소중한 사람이 죽을 때마다 \n다시 살려낼 것 입니까? \n아니면, 죽어가도록 내버려두겠습니까?",
         delayMs: 2000,
         options: [
           {
@@ -867,7 +867,7 @@
         type: "typewriter",
         typeSpeedMs: 185,
         fontSize: 24,
-        text: "협조해 주셔서 감사합니다.\n당신의 데이터 검사가 완료되었습니다-",
+        text: "협조해 주셔서 감사합니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
         autoNext: "end2",
         autoDelayMs: 3000
       },
@@ -879,7 +879,7 @@
         type: "typewriter",
         typeSpeedMs: 50,
         fontSize: 24,
-        text: "당신의[pause]ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+        text: "당신의[pause][pause][pause]ㅣㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
         autoNext: "end3",
         autoDelayMs: 3000
       },
@@ -1127,6 +1127,7 @@
   </script>
 </body>
 </html>
+
 
 
 
