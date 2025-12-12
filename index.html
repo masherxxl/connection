@@ -1113,7 +1113,7 @@
     type: "typewriter",
     typeSpeedMs: 170,
     fontSize: 23,
-    text: "[pause]마지막으로....[pause]\n당신은 자신이 어떤 존재인지 알고 있습니까?",
+    text: "[pause]마지막으로....[pause]\n당신은 자신이 어떤 존재인지\n알고 있습니까?",
     delayMs: 2000,
     options: [
       { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.", next: "lastQ" },
@@ -1158,47 +1158,42 @@
   id: "end1",
   label: "",
   type: "typewriter",
-  typeSpeedMs: 185,
-  fontSize: 24,
+  typeSpeedMs: 175,
+  fontSize: 23,
   text: "[pause]협조해 주셔서 감사합니다.[pause]\n응답기록을 모두 보관하였습니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
-  autoNext: "end2_a", 
+  autoNext: "end2", 
   autoDelayMs: 3000
 },
 
-end2_a: {
-  id: "end2_a",
+end2: {
+  id: "end2",
   label: "",
-  type: "typewriter",
-  typeSpeedMs: 70,
+  type: "typewriterRich", 
   fontSize: 24,
-  text: "[pause][pause][pause]당신의 새로ㅇ",
-  autoNext: "end2_b",
-  autoDelayMs: 120   
-},
 
-end2_b: {
-  id: "end2_b",
-  label: "",
-  red: true,
-  stopBgmHard: true,  
-  type: "typewriter",
-  typeSpeedMs: 70,
-  fontSize: 24,
-  text: "ㅇ[pause]ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+  segments: [
+    { text: "[pause][pause][pause]당신의 새로운 몸ㅇ", className: "glow", speed: 100 },
+
+    { pauseMs: 600 },
+
+    { action: "stopBgmHard" },
+
+    { text: "ㅇ[pause]ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ\nError.",
+      className: "red",
+      speed: 10
+    }
+  ],
+
   autoNext: "end_swap",
   autoDelayMs: 3000
 },
-
 end_swap: {
   id: "end_swap",
   label: "",
-  red: true,
-  type: "typewriter",
-  typeSpeedMs: 60,
   fontSize: 22,
   text: "대상 교체를 시작합니다.\n이전 개체와의 연결을 종료합니다.",
   autoNext: "end3",
-  autoDelayMs: 1800
+  autoDelayMs: 3800
 },
 
 end3: {
@@ -1369,57 +1364,77 @@ function closeMsgOverlay() {
   qTextEl.classList.remove("blue");
 }
 
-  // ── 텍스트 렌더링 타자 연출 ───────────────
-  if (node.type === "typewriter") {
-    qTextEl.textContent = "";
-    choicesEl.innerHTML = "";
-    choicesEl.classList.remove("choices-hide", "choices-enter");
-    startTypewriter(node);
-  } else {
-    // 일반 고정 텍스트
-    qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
-    renderChoices(node);
-  }
+ // ── 텍스트 렌더링 / 타자 연출 ───────────────
+if (node.type === "typewriterRich") {
+  qTextEl.textContent = "";
+  choicesEl.innerHTML = "";
+  choicesEl.classList.remove("choices-hide", "choices-enter");
+  startTypewriterRich(node);
 
-  // ── 질문 박스 애니메이션 ───────────────
-  if (!node.noEnterAnim) {
+} else if (node.type === "typewriter") {
+  qTextEl.textContent = "";
+  choicesEl.innerHTML = "";
+  choicesEl.classList.remove("choices-hide", "choices-enter");
+  startTypewriter(node);
+
+} else {
+  // 일반 고정 텍스트
+  qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+  renderChoices(node);
+}
+
+// ── 질문 박스 애니메이션 ───────────────
+if (!node.noEnterAnim) {
   contentEl.classList.remove("question-enter");
   void contentEl.offsetWidth;
   contentEl.classList.add("question-enter");
 } else {
   contentEl.classList.remove("question-enter");
 }
-    
-  if (node.type !== "typewriter") {
-    if ((!node.options || !node.options.length) && node.autoNext) {
-      timerId = setTimeout(() => {
-        renderNode(node.autoNext);
-      }, node.autoDelayMs || 1700);
-    } else if (node.finalBlack) {
-      frameEl.classList.add("hard-black");
-      document.body.classList.add("screen-dark");
-      choicesEl.innerHTML = "";
-      qTextEl.textContent = "";
 
-      if (bgmEl) {
-        bgmEl.pause();
-        bgmEl.currentTime = 0;
-      }
+const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
 
-      if (voiceEl) {
-        voiceEl.play().catch(() => {});
-      }
+if (!isTyping) {
 
-      const msgBtn = document.createElement("button");
-      msgBtn.className = "choice-btn";
-      msgBtn.style.marginTop = "92px";
-      const span = document.createElement("span");
-      span.textContent = "메시지 보기";
-      msgBtn.appendChild(span);
+  if (node.finalBlack) {
+    frameEl.classList.add("hard-black");
+    document.body.classList.add("screen-dark");
+    choicesEl.innerHTML = "";
+    qTextEl.textContent = "";
 
-     msgBtn.addEventListener("click", () => {
-   openMsgOverlay();
-});
+    if (bgmEl) {
+      bgmEl.pause();
+      bgmEl.currentTime = 0;
+    }
+
+    if (voiceEl) {
+      voiceEl.play().catch(() => {});
+    }
+
+    const oldBtn = contentEl.querySelector(".ending-msg-btn");
+    if (oldBtn) oldBtn.remove();
+
+    const msgBtn = document.createElement("button");
+    msgBtn.className = "choice-btn ending-msg-btn";
+    msgBtn.style.marginTop = "92px";
+
+    const span = document.createElement("span");
+    span.textContent = "메시지 보기";
+    msgBtn.appendChild(span);
+
+    msgBtn.addEventListener("click", () => {
+      openMsgOverlay();
+    });
+
+    contentEl.appendChild(msgBtn);
+  }
+ 
+  else if ((!node.options || !node.options.length) && node.autoNext) {
+    timerId = setTimeout(() => {
+      renderNode(node.autoNext);
+    }, node.autoDelayMs || 1700);
+  }
+}
 
       contentEl.appendChild(msgBtn);
     }
@@ -1452,111 +1467,135 @@ function closeMsgOverlay() {
       }, wait);
     }
 
-    function startTypewriter(node) {
-      const full  = node.text || "";
-      let index   = 0;
-      const speed = node.typeSpeedMs || 60;
+  function startTypewriterRich(node) {
+  const segments = node.segments || [];
+  let segIndex = 0;
 
-      const PAUSE_TOKEN = "[pause]";
-      const PAUSE_TIME  = 800;
+  const PAUSE_TOKEN = "[pause]";
+  const PAUSE_TIME  = 800;
 
-      function tick() {
-        if (index >= full.length) {
-          clearInterval(typingTimer);
-          typingTimer = null;
+  if (typingTimer) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
 
-          if (node.options && node.options.length) {
-            setTimeout(() => {
-              renderChoices(node);
-            }, BUTTON_DELAY_MS);
-          }
+  qTextEl.innerHTML = "";
 
-          if (node.autoNext) {
-            const delay = node.autoDelayMs || 1700;
-            timerId = setTimeout(() => {
-              renderNode(node.autoNext);
-            }, delay);
-          }
-          return;
-        }
+  function finishNode() {
+    if (node.options && node.options.length) {
+      setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
+    }
+    if (node.autoNext) {
+      const delay = node.autoDelayMs || 1700;
+      timerId = setTimeout(() => renderNode(node.autoNext), delay);
+    }
+  }
 
-        if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
-          index += PAUSE_TOKEN.length;
-          clearInterval(typingTimer);
-          typingTimer = null;
-
-          setTimeout(() => {
-            typingTimer = setInterval(tick, speed);
-          }, PAUSE_TIME);
-
-          return;
-        }
-
-        index++;
-        const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
-        qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
-      }
-
-      typingTimer = setInterval(tick, speed);
+  function runNextSegment() {
+    if (segIndex >= segments.length) {
+      finishNode();
+      return;
     }
 
-    const introEl = document.getElementById("intro");
+    const seg = segments[segIndex];
 
-    window.addEventListener("load", () => {
-  playIntroSfx();    
+    if (seg.pauseMs) {
+      setTimeout(() => {
+        segIndex++;
+        runNextSegment();
+      }, seg.pauseMs);
+      return;
+    }
 
-  bgmEl.volume = 0;   
-  tryStartBgm();  
+    if (seg.action === "stopBgmHard") {
+      hardStopBgm();
+      segIndex++;
+      runNextSegment();
+      return;
+    }
 
-  setTimeout(() => {
-    introEl.classList.add("fade-out");
-    setTimeout(() => {
-      introEl.style.display = "none";
-      appEl.classList.add("visible");
+    const span = document.createElement("span");
+    if (seg.className) span.classList.add(seg.className);
+    qTextEl.appendChild(span);
 
-      renderNode("q0");    
-      fadeInBgm(1800, 0.7); 
-    }, 800);
-  }, 5000);
-});
+    const full  = seg.text || "";
+    const speed = seg.speed ?? node.typeSpeedMs ?? 60;
+    let index = 0;
+
+    function tick() {
+      if (index >= full.length) {
+        clearInterval(typingTimer);
+        typingTimer = null;
+        segIndex++;
+        runNextSegment();
+        return;
+      }
+
+      if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
+        index += PAUSE_TOKEN.length;
+        clearInterval(typingTimer);
+        typingTimer = null;
+
+        setTimeout(() => {
+          typingTimer = setInterval(tick, speed);
+        }, PAUSE_TIME);
+        return;
+      }
+
+      index++;
+      span.textContent = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+    }
+
+    typingTimer = setInterval(tick, speed);
+  }
+
+  runNextSegment();
+}
+
+function startTypewriter(node) {
+  const full  = node.text || "";
+  let index   = 0;
+  const speed = node.typeSpeedMs || 60;
+
+  const PAUSE_TOKEN = "[pause]";
+  const PAUSE_TIME  = 800;
+
+  function tick() {
+    if (index >= full.length) {
+      clearInterval(typingTimer);
+      typingTimer = null;
+
+      if (node.options && node.options.length) {
+        setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
+      }
+
+      if (node.autoNext) {
+        const delay = node.autoDelayMs || 1700;
+        timerId = setTimeout(() => renderNode(node.autoNext), delay);
+      }
+      return;
+    }
+
+    if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
+      index += PAUSE_TOKEN.length;
+      clearInterval(typingTimer);
+      typingTimer = null;
+
+      setTimeout(() => {
+        typingTimer = setInterval(tick, speed);
+      }, PAUSE_TIME);
+
+      return;
+    }
+
+    index++;
+    const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+    qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
+  }
+
+  typingTimer = setInterval(tick, speed);
+}
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
