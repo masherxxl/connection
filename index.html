@@ -1289,245 +1289,272 @@ function closeMsgOverlay() {
       });
     }
 
+  <script>
   function renderNode(id) {
-  clearTimers();
-  transitioning = false;
-  const node = NODES[id];
-  if (!node) return;
-  currentId = id;
-  if (topBarEl) {
-  topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
-}
+    clearTimers();
+    transitioning = false;
 
-  if (node.stopBgmHard) {
-    hardStopBgm();
-  }
+    const node = NODES[id];
+    if (!node) return;
 
-  if (node.fadeOutBgmMs) {
-    fadeOutBgm(node.fadeOutBgmMs);
-  }
+    currentId = id;
 
-  if (node.playSfx === "hit") {
-    playHitSfx();
-  }
+    // top bar
+    if (topBarEl) {
+      topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
+    }
 
-  if (node.startBgm) {
-    resumeBgm();
-  }
-    
-  // ── Q 라벨 (Q1, Q2 ) ─────────────────
-  if (node.label) {
-    qLabelEl.textContent = node.label;
-    qLabelEl.style.display = "block";
-  } else {
-    qLabelEl.textContent = "";
-    qLabelEl.style.display = "none";
-  }
+    // audio triggers
+    if (node.stopBgmHard) hardStopBgm();
+    if (node.fadeOutBgmMs) fadeOutBgm(node.fadeOutBgmMs);
+    if (node.playSfx === "hit") playHitSfx();
+    if (node.startBgm) resumeBgm();
 
-  // ── 기본 스타일 초기화 ─────────────────────
-  qTextEl.className = "q-text glow"; 
-  qTextEl.classList.remove("error-corner");
-  frameEl.classList.remove("shake");
-  qTextEl.classList.remove("box-red");
-  qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+    // Q label
+    if (node.label) {
+      qLabelEl.textContent = node.label;
+      qLabelEl.style.display = "block";
+    } else {
+      qLabelEl.textContent = "";
+      qLabelEl.style.display = "none";
+    }
 
-  qTextEl.classList.remove("flicker");
-  qTextEl.classList.remove("glitch");
-  qTextEl.classList.remove("pressure-text");
+    // reset styles
+    qTextEl.className = "q-text glow";
+    qTextEl.classList.remove("error-corner", "box-red", "flicker", "glitch", "pressure-text");
+    frameEl.classList.remove("shake");
+    qTextEl.style.fontSize = (node.fontSize || 25) + "px";
 
-  // ── 색상 박스 지진 ─────────────────
-  if (node.red)  qTextEl.classList.add("red");
-  if (node.blue) qTextEl.classList.add("blue");
+    // colors / effects
+    if (node.red) qTextEl.classList.add("red");
+    if (node.blue) qTextEl.classList.add("blue");
+    if (node.boxRed) qTextEl.classList.add("box-red");
+    if (node.shake) frameEl.classList.add("shake");
+    if (node.flicker) qTextEl.classList.add("flicker");
+    if (node.glitch) qTextEl.classList.add("glitch");
+    if (node.pressure) qTextEl.classList.add("pressure-text");
 
-  if (node.boxRed) {
-    qTextEl.classList.add("box-red");
-  }
-  if (node.shake) {
-    frameEl.classList.add("shake");
-  }
-
-  // ── 추가 연출 플래그 이거 텍스트 ──────────────
-  if (node.flicker) {
-    qTextEl.classList.add("flicker");
-  }
-  if (node.glitch) {
-    qTextEl.classList.add("glitch");
-  }
-  if (node.pressure) {
-    qTextEl.classList.add("pressure-text");
-  }
-
+    // corner style
     if (node.cornerText) {
-  qTextEl.classList.add("error-corner");
-  qTextEl.classList.remove("glow");
-  qTextEl.classList.remove("red");
-  qTextEl.classList.remove("blue");
-}
-
- // ── 텍스트 렌더링 / 타자 연출 ───────────────
-if (node.type === "typewriterRich") {
-  qTextEl.textContent = "";
-  choicesEl.innerHTML = "";
-  choicesEl.classList.remove("choices-hide", "choices-enter");
-  startTypewriterRich(node);
-
-} else if (node.type === "typewriter") {
-  qTextEl.textContent = "";
-  choicesEl.innerHTML = "";
-  choicesEl.classList.remove("choices-hide", "choices-enter");
-  startTypewriter(node);
-
-} else {
-  // 일반 고정 텍스트
-  qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
-  renderChoices(node);
-}
-
-// ── 질문 박스 애니메이션 ───────────────
-if (!node.noEnterAnim) {
-  contentEl.classList.remove("question-enter");
-  void contentEl.offsetWidth;
-  contentEl.classList.add("question-enter");
-} else {
-  contentEl.classList.remove("question-enter");
-}
-
-const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
-
-if (!isTyping) {
-
-  if (node.finalBlack) {
-    frameEl.classList.add("hard-black");
-    document.body.classList.add("screen-dark");
-    choicesEl.innerHTML = "";
-    qTextEl.textContent = "";
-
-    if (bgmEl) {
-      bgmEl.pause();
-      bgmEl.currentTime = 0;
+      qTextEl.classList.add("error-corner");
+      qTextEl.classList.remove("glow", "red", "blue");
     }
 
-    if (voiceEl) {
-      voiceEl.play().catch(() => {});
+    // render text
+    if (node.type === "typewriterRich") {
+      qTextEl.textContent = "";
+      choicesEl.innerHTML = "";
+      choicesEl.classList.remove("choices-hide", "choices-enter");
+      startTypewriterRich(node);
+
+    } else if (node.type === "typewriter") {
+      qTextEl.textContent = "";
+      choicesEl.innerHTML = "";
+      choicesEl.classList.remove("choices-hide", "choices-enter");
+      startTypewriter(node);
+
+    } else {
+      qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+      renderChoices(node);
     }
 
-    const oldBtn = contentEl.querySelector(".ending-msg-btn");
-    if (oldBtn) oldBtn.remove();
+    // enter animation
+    if (!node.noEnterAnim) {
+      contentEl.classList.remove("question-enter");
+      void contentEl.offsetWidth;
+      contentEl.classList.add("question-enter");
+    } else {
+      contentEl.classList.remove("question-enter");
+    }
 
-    const msgBtn = document.createElement("button");
-    msgBtn.className = "choice-btn ending-msg-btn";
-    msgBtn.style.marginTop = "92px";
+    // ✅ typing 노드는 autoNext를 각 타자 함수 내부에서 처리
+    const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
+    if (isTyping) return;
 
-    const span = document.createElement("span");
-    span.textContent = "메시지 보기";
-    msgBtn.appendChild(span);
+    // final black (ending)
+    if (node.finalBlack) {
+      frameEl.classList.add("hard-black");
+      document.body.classList.add("screen-dark");
+      choicesEl.innerHTML = "";
+      qTextEl.textContent = "";
 
-    msgBtn.addEventListener("click", () => {
-      openMsgOverlay();
-    });
+      if (bgmEl) {
+        bgmEl.pause();
+        bgmEl.currentTime = 0;
+      }
 
-    contentEl.appendChild(msgBtn);
-  }
- 
-  else if ((!node.options || !node.options.length) && node.autoNext) {
-    timerId = setTimeout(() => {
-      renderNode(node.autoNext);
-    }, node.autoDelayMs || 1700);
-  }
-}
+      if (voiceEl) {
+        voiceEl.play().catch(() => {});
+      }
 
+      // prevent duplicate button
+      const oldBtn = contentEl.querySelector(".ending-msg-btn");
+      if (oldBtn) oldBtn.remove();
+
+      const msgBtn = document.createElement("button");
+      msgBtn.className = "choice-btn ending-msg-btn";
+      msgBtn.style.marginTop = "92px";
+
+      const span = document.createElement("span");
+      span.textContent = "메시지 보기";
+      msgBtn.appendChild(span);
+
+      msgBtn.addEventListener("click", () => openMsgOverlay());
       contentEl.appendChild(msgBtn);
+
+      return;
+    }
+
+    // normal autoNext (non-typing)
+    if ((!node.options || !node.options.length) && node.autoNext) {
+      timerId = setTimeout(() => {
+        renderNode(node.autoNext);
+      }, node.autoDelayMs || 1700);
     }
   }
-}
 
-    function handleChoice(node, opt) {
-      if (transitioning) return;
-      transitioning = true;
+  function handleChoice(node, opt) {
+    if (transitioning) return;
+    transitioning = true;
 
-      if (opt.isThird) {
-        thirdChoiceCount++;
-      }
-
-      choicesEl.classList.add("choices-hide");
-
-      let nextId = opt.next;
-
-      if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
-        nextId = "bonus";
-        bonusTriggered = true;
-      }
-
-      const wait = node.delayMs || 2000;
-
-      timerId = setTimeout(() => {
-        choicesEl.innerHTML = "";
-        choicesEl.classList.remove("choices-hide");
-        renderNode(nextId);
-      }, wait);
+    if (opt.isThird) {
+      thirdChoiceCount++;
     }
+
+    choicesEl.classList.add("choices-hide");
+
+    let nextId = opt.next;
+
+    if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
+      nextId = "bonus";
+      bonusTriggered = true;
+    }
+
+    const wait = node.delayMs || 2000;
+
+    timerId = setTimeout(() => {
+      choicesEl.innerHTML = "";
+      choicesEl.classList.remove("choices-hide");
+      renderNode(nextId);
+    }, wait);
+  }
 
   function startTypewriterRich(node) {
-  const segments = node.segments || [];
-  let segIndex = 0;
+    const segments = node.segments || [];
+    let segIndex = 0;
 
-  const PAUSE_TOKEN = "[pause]";
-  const PAUSE_TIME  = 800;
+    const PAUSE_TOKEN = "[pause]";
+    const PAUSE_TIME  = 800;
 
-  if (typingTimer) {
-    clearInterval(typingTimer);
-    typingTimer = null;
-  }
-
-  qTextEl.innerHTML = "";
-
-  function finishNode() {
-    if (node.options && node.options.length) {
-      setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
-    }
-    if (node.autoNext) {
-      const delay = node.autoDelayMs || 1700;
-      timerId = setTimeout(() => renderNode(node.autoNext), delay);
-    }
-  }
-
-  function runNextSegment() {
-    if (segIndex >= segments.length) {
-      finishNode();
-      return;
+    if (typingTimer) {
+      clearInterval(typingTimer);
+      typingTimer = null;
     }
 
-    const seg = segments[segIndex];
+    qTextEl.innerHTML = "";
 
-    if (seg.pauseMs) {
-      setTimeout(() => {
+    function finishNode() {
+      if (node.options && node.options.length) {
+        setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
+      }
+
+      if (node.autoNext) {
+        const delay = node.autoDelayMs || 1700;
+        timerId = setTimeout(() => renderNode(node.autoNext), delay);
+      }
+    }
+
+    function runNextSegment() {
+      if (segIndex >= segments.length) {
+        finishNode();
+        return;
+      }
+
+      const seg = segments[segIndex];
+
+      // pause segment
+      if (seg.pauseMs) {
+        setTimeout(() => {
+          segIndex++;
+          runNextSegment();
+        }, seg.pauseMs);
+        return;
+      }
+
+      // action segment
+      if (seg.action === "stopBgmHard") {
+        hardStopBgm();
         segIndex++;
         runNextSegment();
-      }, seg.pauseMs);
-      return;
+        return;
+      }
+
+      // text segment
+      const span = document.createElement("span");
+      if (seg.className) span.classList.add(seg.className);
+      qTextEl.appendChild(span);
+
+      const full  = seg.text || "";
+      const speed = seg.speed ?? node.typeSpeedMs ?? 60;
+      let index = 0;
+
+      function tick() {
+        if (index >= full.length) {
+          clearInterval(typingTimer);
+          typingTimer = null;
+          segIndex++;
+          runNextSegment();
+          return;
+        }
+
+        if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
+          index += PAUSE_TOKEN.length;
+          clearInterval(typingTimer);
+          typingTimer = null;
+
+          setTimeout(() => {
+            typingTimer = setInterval(tick, speed);
+          }, PAUSE_TIME);
+
+          return;
+        }
+
+        index++;
+        span.textContent = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+      }
+
+      typingTimer = setInterval(tick, speed);
     }
 
-    if (seg.action === "stopBgmHard") {
-      hardStopBgm();
-      segIndex++;
-      runNextSegment();
-      return;
-    }
+    runNextSegment();
+  }
 
-    const span = document.createElement("span");
-    if (seg.className) span.classList.add(seg.className);
-    qTextEl.appendChild(span);
+  function startTypewriter(node) {
+    const full  = node.text || "";
+    let index   = 0;
+    const speed = node.typeSpeedMs || 60;
 
-    const full  = seg.text || "";
-    const speed = seg.speed ?? node.typeSpeedMs ?? 60;
-    let index = 0;
+    const PAUSE_TOKEN = "[pause]";
+    const PAUSE_TIME  = 800;
 
     function tick() {
       if (index >= full.length) {
         clearInterval(typingTimer);
         typingTimer = null;
-        segIndex++;
-        runNextSegment();
+
+        if (node.options && node.options.length) {
+          setTimeout(() => {
+            renderChoices(node);
+          }, BUTTON_DELAY_MS);
+        }
+
+        if (node.autoNext) {
+          const delay = node.autoDelayMs || 1700;
+          timerId = setTimeout(() => {
+            renderNode(node.autoNext);
+          }, delay);
+        }
+
         return;
       }
 
@@ -1539,63 +1566,37 @@ if (!isTyping) {
         setTimeout(() => {
           typingTimer = setInterval(tick, speed);
         }, PAUSE_TIME);
+
         return;
       }
 
       index++;
-      span.textContent = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+      const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
+      qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
     }
 
     typingTimer = setInterval(tick, speed);
   }
 
-  runNextSegment();
-}
+  const introEl = document.getElementById("intro");
 
-function startTypewriter(node) {
-  const full  = node.text || "";
-  let index   = 0;
-  const speed = node.typeSpeedMs || 60;
+  window.addEventListener("load", () => {
+    playIntroSfx();
 
-  const PAUSE_TOKEN = "[pause]";
-  const PAUSE_TIME  = 800;
+    bgmEl.volume = 0;
+    tryStartBgm();
 
-  function tick() {
-    if (index >= full.length) {
-      clearInterval(typingTimer);
-      typingTimer = null;
-
-      if (node.options && node.options.length) {
-        setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
-      }
-
-      if (node.autoNext) {
-        const delay = node.autoDelayMs || 1700;
-        timerId = setTimeout(() => renderNode(node.autoNext), delay);
-      }
-      return;
-    }
-
-    if (full.slice(index, index + PAUSE_TOKEN.length) === PAUSE_TOKEN) {
-      index += PAUSE_TOKEN.length;
-      clearInterval(typingTimer);
-      typingTimer = null;
-
+    setTimeout(() => {
+      introEl.classList.add("fade-out");
       setTimeout(() => {
-        typingTimer = setInterval(tick, speed);
-      }, PAUSE_TIME);
+        introEl.style.display = "none";
+        appEl.classList.add("visible");
 
-      return;
-    }
-
-    index++;
-    const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
-    qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
-  }
-
-  typingTimer = setInterval(tick, speed);
-}
-  </script>
+        renderNode("q0");
+        fadeInBgm(1800, 0.7);
+      }, 800);
+    }, 5000);
+  });
+</script>
 </body>
 </html>
-
