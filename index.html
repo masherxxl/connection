@@ -617,7 +617,7 @@
     <div class="msg-window">
       <div class="msg-header">SYSTEM MESSAGE</div>
       <div class="msg-body" id="msgBody">
-에러 발생!&#10;Room "11번"과의 연결이 끊겼습니다.
+에러 발생!&#10;"Room 11"과의 연결이 끊겼습니다.
       </div>
       <button class="msg-close" id="msgClose">확인</button>
     </div>
@@ -775,7 +775,7 @@
     type: "typewriter",
     typeSpeedMs: 185,
     fontSize: 22,
-    text: "그러면...[pause]\n바로 질문을 시작하도록 할까요.",
+    text: "[pause]그러면...[pause]\n바로 질문을 시작하도록 할까요.",
     autoNext: "q1",
     autoDelayMs: 2000
   },
@@ -890,7 +890,7 @@
     type: "typewriter",
     typeSpeedMs: 160,
     fontSize: 22,
-    text: "[pause][pause]당신에게는 소중한 사람이나\n가족이 있습니까?",
+    text: "[pause][pause]당신에게는 소중한 사람이나\n가족이 있습니까?[pause]",
     delayMs: 2000,
     options: [
       { label: ".....", next: "q4" },
@@ -957,7 +957,7 @@
     typeSpeedMs: 150,
     fontSize: 20,
     text:
-      "[pause][pause]소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n아니면, 죽어가도록 내버려두겠습니까?",
+      "[pause][pause]소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n[pause]아니면, 죽어가도록 내버려두겠습니까?",
     delayMs: 2000,
     startBgm: true,
     options: [
@@ -1102,7 +1102,7 @@
     red: true,
     type: "typewriter",
     typeSpeedMs: 190,
-    text: "[pause][pause]점점 [pause]흥미로워집니다.",
+    text: "[pause][pause]점점 흥미로워집니다.",
     autoNext: "q10",
     autoDelayMs: 2000
   },
@@ -1599,6 +1599,7 @@ function closeMsgOverlay() {
 </script>
 </body>
 </html>
+
 
 
 
