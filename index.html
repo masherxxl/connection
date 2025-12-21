@@ -32,6 +32,55 @@
   }
 }
 
+    /* 순간 글리치다요 */
+.glitch-burst{
+  animation: glitchBurst 4.2s infinite;
+  will-change: transform, filter, text-shadow;
+}
+
+@keyframes glitchBurst{
+  0%, 78%{
+    transform: translate(0,0);
+    filter: none;
+    text-shadow: none;
+  }
+  80%{
+    transform: translate(-1px, 0);
+    text-shadow: 2px 0 rgba(255,0,255,0.75), -2px 0 rgba(0,255,255,0.75);
+  }
+  81%{
+    transform: translate(2px, -1px) skewX(-8deg);
+    filter: contrast(1.15) brightness(1.05);
+  }
+  82%{
+    transform: translate(-2px, 1px) skewX(10deg);
+  }
+  83%{
+    transform: translate(0,0);
+    filter: none;
+    text-shadow: none;
+  }
+  100%{
+    transform: translate(0,0);
+  }
+}
+
+.frame.shake-burst{
+  animation: shakeBurst 3.6s infinite;
+  will-change: transform;
+}
+
+@keyframes shakeBurst{
+  0%, 86% { transform: translate(0,0); }
+  87%     { transform: translate(-2px, 1px); }
+  88%     { transform: translate(2px, -1px); }
+  89%     { transform: translate(-1px, -2px); }
+  90%     { transform: translate(1px, 2px); }
+  91%     { transform: translate(0,0); }
+  100%    { transform: translate(0,0); }
+}
+
+    
 @font-face {
   font-family: "DeterminationK2";
   src: url("./DeterminationSansK2.woff2") format("woff2");
@@ -377,23 +426,31 @@
   }
 }
 
-    /* 버튼 글자만 흔들리게 */
-.choice-btn.shaky span {
-  display: inline-block;           /* transform적요옹 */
+    /* 버튼 글자만 잔떨림: 기본은 느리고, 가끔 툭 튄다 */
+.choice-btn.shaky span{
+  display:inline-block;
   will-change: transform;
-  animation: btnJitter 0.12s infinite;
+  animation:
+    btnJitter 0.32s steps(2,end) infinite,
+    btnTwitch 2.8s steps(1,end) infinite;
 }
 
-/*  좀 불규칙하게) */
-@keyframes btnJitter {
-  0%   { transform: translate(0, 0); }
-  20%  { transform: translate(-1px, 1px); }
-  40%  { transform: translate(1px, -1px); }
-  60%  { transform: translate(-1px, -1px); }
-  80%  { transform: translate(1px, 1px); }
-  100% { transform: translate(0, 0); }
+@keyframes btnJitter{
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-0.5px, 0.5px); }
+  50%  { transform: translate(0.5px,-0.5px); }
+  75%  { transform: translate(-0.5px,-0.5px); }
+  100% { transform: translate(0,0); }
 }
 
+/* 대부분 가만히 있다가 아주 짧게만 “툭” */
+@keyframes btnTwitch{
+  0%, 92% { transform: translate(0,0); }
+  93%     { transform: translate(1px,-1px); }
+  94%     { transform: translate(-1px,1px); }
+  95%     { transform: translate(0,0); }
+  100%    { transform: translate(0,0); }
+}
 
 /* 위 아래로 지나가는 불길한 빛 */
 @keyframes ominousScan {
@@ -820,7 +877,7 @@
     id: "q0_success",
     label: "",
     type: "typewriter",
-    typeSpeedMs: 190,
+    typeSpeedMs: 187,
     fontSize: 23,
     text: "[pause][pause]성공적으로\n[pause]연결 되었습니다.",
     autoNext: "q0_start",
@@ -843,7 +900,7 @@
     id: "q0_start",
     label: "",
     type: "typewriter",
-    typeSpeedMs: 185,
+    typeSpeedMs: 183,
     fontSize: 22,
     text: "[pause]그러면...[pause]\n바로 질문을 시작하도록 할까요.",
     autoNext: "q1",
@@ -927,21 +984,25 @@
     ]
   },
 
-  q2_2: {
-    id: "q2_2",
-    label: "",
-    red: true,
-    type: "typewriter",
-    typeSpeedMs: 65,
-    fontSize: 21,
-    boxRed: true,
-    glitch: true,
-    shake: true,
-    text:
-      "서 버  로 그  데 이 터 를  바 탕 으 로 \n당 신 의  기 억 정 상 여 부 를 \n재 점 검 합 니 다.",
-    autoNext: "q2_2_cut",
-    autoDelayMs: 4000
-  },
+q2_2: {
+  id: "q2_2",
+  label: "",
+  red: true,
+  type: "typewriter",
+  typeSpeedMs: 65,
+  fontSize: 21,
+  boxRed: true,
+  glitch: true,
+  shake: true,
+  panic: true,
+  text: `서버 로그 데이터를 기반으로
+당신의 기억 정상 여부를
+재점검합니다.
+[pause]
+CRC mismatch.`,
+  autoNext: "q2_2_cut",
+  autoDelayMs: 4000
+},
 
   q2_2_cut: {
     id: "q2_2_cut",
@@ -988,7 +1049,7 @@
     id: "q4_r1",
     label: "",
     type: "typewriter",
-    typeSpeedMs: 200,
+    typeSpeedMs: 195,
     fontSize: 23,
     text: ".[pause].[pause].[pause]\n그렇군요.[pause] 당신은 그렇군요.",
     autoNext: "q5",
@@ -999,7 +1060,7 @@
     id: "q4_r2",
     label: "",
     type: "typewriter",
-    typeSpeedMs: 200,
+    typeSpeedMs: 195,
     fontSize: 23,
     text: ".[pause].[pause].[pause]\n그렇군요.[pause]\n당신은 그렇군요.",
     autoNext: "q5_alt", // 감정 Q5
@@ -1010,7 +1071,7 @@
     id: "q4_r3",
     label: "",
     red: true,
-    fontSize: 25,
+    fontSize: 30,
     text: "데이터에 이상이 감지되었습니다!",
     noEnterAnim: true,
     cornerText: true, 
@@ -1051,9 +1112,9 @@
     id: "q5_alt",
     label: "Q5",
     type: "typewriter",
-    typeSpeedMs: 170,
+    typeSpeedMs: 173,
     fontSize: 20,
-    text: "[pause]살리지 않기로 결정했습니다.\n당신은 어떤 느낌이 드십니까?",
+    text: "[pause]살리지 않기로 결정했습니다.\n[pause]당신은 어떤 느낌이 드십니까?",
     delayMs: 2000,
 options: [
   { label: "공포", next: "q6", shaky: true },
@@ -1321,7 +1382,7 @@ const msgCloseEl  = document.getElementById("msgClose");
 const ERROR_TEXT = `에러 발생!
 "gateway 0"과의 연결이 끊겼습니다.`;
 
-const MESSAGE_TEXT = `지나간 기록 말고는 아무것도 발견하지 못했습니다.`;
+const MESSAGE_TEXT = `[이제 이 공간에는 아무것도 남아있지 않은 듯 하다.]`;
 
 let overlayMode = null; // "error" | "message" | null
 let endingBtnEl = null;
@@ -1330,7 +1391,9 @@ function openOverlay(mode) {
   overlayMode = mode;
 
   if (msgHeaderEl) {
-    msgHeaderEl.textContent = (mode === "error") ? "SYSTEM ERROR" : "SYSTEM MESSAGE";
+  msgHeaderEl.textContent = (mode === "error") ? "시스템 오류" : "남겨진 기록";
+}
+
   }
   if (msgBodyEl) {
     msgBodyEl.textContent = (mode === "error") ? ERROR_TEXT : MESSAGE_TEXT;
@@ -1457,6 +1520,8 @@ if (msgCloseEl && msgOverlay) {
     qTextEl.classList.remove("error-corner", "box-red", "flicker", "glitch", "pressure-text");
     frameEl.classList.remove("shake");
     qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+    qTextEl.classList.remove("glitch-burst");
+    frameEl.classList.remove("shake-burst");
 
     // colors / effects
     if (node.red) qTextEl.classList.add("red");
@@ -1466,6 +1531,11 @@ if (msgCloseEl && msgOverlay) {
     if (node.flicker) qTextEl.classList.add("flicker");
     if (node.glitch) qTextEl.classList.add("glitch");
     if (node.pressure) qTextEl.classList.add("pressure-text");
+    if (node.panic) {
+      qTextEl.classList.add("glitch-burst");
+      frameEl.classList.add("shake-burst");
+    }
+
 
     // corner style
     if (node.cornerText) {
@@ -1742,5 +1812,6 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
 
 
