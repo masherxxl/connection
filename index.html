@@ -306,12 +306,12 @@
       transform-origin: center;
     }
 
-    /* ───── 불안한(위험한) 버튼 연출 ───── */
+    /* ───── 불안한 버튼 연출 ───── */
 .choice-btn.ominous-btn {
   animation: ominousPulse 1.7s ease-in-out infinite;
 }
 
-/* 붉은 스캔 라인 */
+/* 스캔 라인 */
 .choice-btn.ominous-btn::after {
   content: "";
   position: absolute;
@@ -329,7 +329,7 @@
   animation: ominousScan 2.6s linear infinite;
 }
 
-/* 숨이 가빠지는 느낌 */
+/* 가빠지는 느낌 */
 @keyframes ominousPulse {
   0% {
     transform: scale(1);
@@ -353,7 +353,7 @@
   }
 }
 
-/* 위 아래로 슬쩍 지나가는 불길한 빛 */
+/* 위 아래로 지나가는 불길한 빛 */
 @keyframes ominousScan {
   0% {
     opacity: 0;
@@ -491,7 +491,7 @@
   inset: 0;
   z-index: 9999;
 
-  display: none;               /* 기본은 숨김 (JS에서 flex로 켬) */
+  display: none;    
   justify-content: center;
   align-items: center;
 
@@ -502,14 +502,13 @@
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-/* JS에서 class "show" 붙이면 보이게 */
 #msgOverlay.msg-overlay.show {
   opacity: 1;
   visibility: visible;
 }
 
 #msgOverlay .msg-window {
-  width: min(92vw, 560px);     /* 더크게 */
+  width: min(92vw, 560px);   
   border-radius: 18px;
 
   background: #000 !important;
@@ -1271,6 +1270,34 @@ end3: {
     const choicesEl = document.getElementById("choices");
 
     const msgOverlay = document.getElementById("msgOverlay");
+    const msgHeaderEl = document.querySelector("#msgOverlay .msg-header");
+const msgBodyEl   = document.getElementById("msgBody");
+const msgCloseEl  = document.getElementById("msgClose");
+
+const ERROR_TEXT = `에러 발생!
+"gateway 0"과의 연결이 끊겼습니다.`;
+
+const MESSAGE_TEXT = `지나간 기록 말고는 아무것도 발견하지 못했습니다.`;
+
+let overlayMode = null; // "error" | "message" | null
+let endingBtnEl = null;
+
+function openOverlay(mode) {
+  overlayMode = mode;
+
+  if (msgHeaderEl) {
+    msgHeaderEl.textContent = (mode === "error") ? "SYSTEM ERROR" : "SYSTEM MESSAGE";
+  }
+  if (msgBodyEl) {
+    msgBodyEl.textContent = (mode === "error") ? ERROR_TEXT : MESSAGE_TEXT;
+  }
+  if (msgCloseEl) {
+    msgCloseEl.textContent = "확인";
+  }
+
+  openMsgOverlay();
+}
+
     const msgClose   = document.getElementById("msgClose");
     
     if (msgOverlay) {
@@ -1292,6 +1319,12 @@ function closeMsgOverlay() {
   setTimeout(() => {
     msgOverlay.style.display = "none";
     document.body.style.overflow = "";
+
+    if (overlayMode === "error" && endingBtnEl) {
+      endingBtnEl.style.display = "";
+    }
+    overlayMode = null;
+
   }, 300);
 }
     
@@ -1447,27 +1480,29 @@ function closeMsgOverlay() {
         voiceEl.play().catch(() => {});
       }
 
-      setTimeout(() => openMsgOverlay(), 250);
+     setTimeout(() => openOverlay("error"), 250);
       
-      // prevent duplicate button
       const oldBtn = contentEl.querySelector(".ending-msg-btn");
       if (oldBtn) oldBtn.remove();
 
-      const msgBtn = document.createElement("button");
-      msgBtn.className = "choice-btn ending-msg-btn";
-      msgBtn.style.marginTop = "92px";
+     const msgBtn = document.createElement("button");
+msgBtn.className = "choice-btn ending-msg-btn";
+msgBtn.style.marginTop = "92px";
 
-      const span = document.createElement("span");
-      span.textContent = "누르시겠습니까?";
-      msgBtn.appendChild(span);
+msgBtn.style.display = "none";
 
-      msgBtn.addEventListener("click", () => {
-  playHitSfx();      // 버튼 툭
-  openMsgOverlay();  // 에러창 뜸
+const span = document.createElement("span");
+span.textContent = "누르시겠습니까?";
+msgBtn.appendChild(span);
+
+endingBtnEl = msgBtn;
+
+msgBtn.addEventListener("click", () => {
+  playHitSfx();
+  openOverlay("message");
 });
-      
-      contentEl.appendChild(msgBtn);
 
+contentEl.appendChild(msgBtn);
       return;
     }
 
@@ -1667,19 +1702,3 @@ function closeMsgOverlay() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
