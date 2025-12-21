@@ -426,31 +426,104 @@
   }
 }
 
-    /* 버튼 글자만 잔떨림: 기본은 느리고, 가끔 툭 튄다 */
+    /* 버튼 글자만 잔떨림 */
 .choice-btn.shaky span{
   display:inline-block;
   will-change: transform;
-  animation:
-    btnJitter 0.32s steps(2,end) infinite,
-    btnTwitch 2.8s steps(1,end) infinite;
+  animation: btnJitterUT 0.72s steps(2,end) infinite;
 }
 
-@keyframes btnJitter{
+@keyframes btnJitterUT{
   0%   { transform: translate(0,0); }
-  25%  { transform: translate(-0.5px, 0.5px); }
-  50%  { transform: translate(0.5px,-0.5px); }
-  75%  { transform: translate(-0.5px,-0.5px); }
+  20%  { transform: translate(-0.5px, 0.5px); }
+  40%  { transform: translate(0.5px, 0); }
+  60%  { transform: translate(-0.5px,-0.5px); }
+  80%  { transform: translate(0, 0.5px); }
   100% { transform: translate(0,0); }
 }
 
-/* 대부분 가만히 있다가 아주 짧게만 “툭” */
-@keyframes btnTwitch{
-  0%, 92% { transform: translate(0,0); }
-  93%     { transform: translate(1px,-1px); }
-  94%     { transform: translate(-1px,1px); }
-  95%     { transform: translate(0,0); }
-  100%    { transform: translate(0,0); }
+    /* 비상: 더 굵고 더 네온 */
+.alarm-red{
+  font-weight: 800;
+  color: #ff3058;
+  text-shadow:
+    0 0 8px rgba(255, 40, 72, 0.95),
+    0 0 22px rgba(255, 40, 72, 0.85),
+    0 0 48px rgba(255, 40, 72, 0.65),
+    0 0 8px rgba(255,255,255,0.35);
 }
+
+/* 글자 자체 찢김 */
+.q-text{
+  position: relative;
+}
+
+.glitch-slice::before,
+.glitch-slice::after{
+  content: attr(data-glitch);
+  position: absolute;
+  inset: 0;
+  white-space: pre-wrap;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.glitch-slice::before{
+  transform: translate(1px, 0);
+  text-shadow: -2px 0 rgba(0,255,255,0.65);
+  clip-path: inset(0 0 65% 0);
+  animation: sliceA 0.28s steps(2,end) infinite;
+}
+
+.glitch-slice::after{
+  transform: translate(-1px, 0);
+  text-shadow: 2px 0 rgba(255,0,255,0.65);
+  clip-path: inset(45% 0 0 0);
+  animation: sliceB 0.22s steps(2,end) infinite;
+}
+
+@keyframes sliceA{
+  0%   { clip-path: inset(0 0 70% 0); transform: translate(1px,0) skewX(0deg); }
+  30%  { clip-path: inset(12% 0 55% 0); transform: translate(2px,-1px) skewX(-10deg); }
+  60%  { clip-path: inset(6% 0 62% 0); transform: translate(-2px,1px) skewX(12deg); }
+  100% { clip-path: inset(0 0 70% 0); transform: translate(1px,0) skewX(0deg); }
+}
+
+@keyframes sliceB{
+  0%   { clip-path: inset(52% 0 0 0); transform: translate(-1px,0) skewX(0deg); }
+  35%  { clip-path: inset(38% 0 10% 0); transform: translate(-3px,2px) skewX(14deg); }
+  70%  { clip-path: inset(60% 0 0 0); transform: translate(2px,-2px) skewX(-12deg); }
+  100% { clip-path: inset(52% 0 0 0); transform: translate(-1px,0) skewX(0deg); }
+}
+
+/* 화면 흔들림 강도 2단계 */
+.frame.shake-mid{
+  animation: shakeMid 0.45s steps(2,end) infinite;
+}
+@keyframes shakeMid{
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-1px, 1px); }
+  50%  { transform: translate(1px, -1px); }
+  75%  { transform: translate(-1px, -1px); }
+  100% { transform: translate(0,0); }
+}
+
+/* q2_2 전용: 더 빠르고 더 불규칙 약간 회전 */
+.frame.shake-hard{
+  animation: shakeHard 0.18s steps(2,end) infinite;
+  will-change: transform;
+}
+@keyframes shakeHard{
+  0%   { transform: translate(0,0) rotate(0deg); }
+  10%  { transform: translate(-4px, 2px) rotate(-0.6deg); }
+  22%  { transform: translate(3px,-3px) rotate(0.5deg); }
+  31%  { transform: translate(-2px,-4px) rotate(-0.4deg); }
+  47%  { transform: translate(4px, 1px) rotate(0.7deg); }
+  63%  { transform: translate(-3px, 3px) rotate(-0.5deg); }
+  79%  { transform: translate(2px,-2px) rotate(0.4deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
 
 /* 위 아래로 지나가는 불길한 빛 */
 @keyframes ominousScan {
@@ -1516,14 +1589,29 @@ if (msgCloseEl && msgOverlay) {
     }
 
     // reset styles
-    qTextEl.className = "q-text glow";
-    qTextEl.classList.remove("error-corner", "box-red", "flicker", "glitch", "pressure-text");
-    frameEl.classList.remove("shake");
-    qTextEl.style.fontSize = (node.fontSize || 25) + "px";
-    qTextEl.classList.remove("glitch-burst");
-    frameEl.classList.remove("shake-burst");
-    qTextEl.style.fontSize = (node.fontSize || 25) + "px";
-    qTextEl.style.marginTop = "0px";
+qTextEl.className = "q-text glow";
+
+qTextEl.classList.remove(
+  "error-corner",
+  "box-red",
+  "flicker",
+  "glitch",
+  "pressure-text",
+  "glitch-burst",
+  "alarm-red",
+  "glitch-slice"
+);
+
+frameEl.classList.remove(
+  "shake",
+  "shake-burst",
+  "shake-mid",
+  "shake-hard"
+);
+
+qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+qTextEl.style.marginTop = "0px";
+
 if (typeof node.textMarginTop === "number") {
   qTextEl.style.marginTop = node.textMarginTop + "px";
 }
@@ -1791,6 +1879,8 @@ contentEl.appendChild(msgBtn);
       index++;
       const visible = full.slice(0, index).replaceAll(PAUSE_TOKEN, "");
       qTextEl.innerHTML = visible.replace(/\n/g, "<br>");
+      qTextEl.dataset.glitch = visible;
+
     }
 
     typingTimer = setInterval(tick, speed);
@@ -1818,6 +1908,7 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
 
 
 
