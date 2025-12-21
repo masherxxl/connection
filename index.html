@@ -1393,9 +1393,8 @@ function openOverlay(mode) {
 
   if (msgHeaderEl) {
   msgHeaderEl.textContent = (mode === "error") ? "시스템 오류" : "남겨진 기록";
-}
-
   }
+
   if (msgBodyEl) {
     msgBodyEl.textContent = (mode === "error") ? ERROR_TEXT : MESSAGE_TEXT;
   }
@@ -1819,6 +1818,7 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
 
 
 
