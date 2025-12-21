@@ -1303,7 +1303,8 @@ end3: {
 }
 
     function openMsgOverlay() {
-  if (!msgOverlay) return;
+      if (!msgOverlay) return;
+      if (msgOverlay.classList.contains("show")) return;
       document.body.style.overflow = "hidden";
   msgOverlay.style.display = "flex";
   requestAnimationFrame(() => msgOverlay.classList.add("show"));
@@ -1506,11 +1507,6 @@ function closeMsgOverlay() {
   if (transitioning) return;
   transitioning = true;
 
-  if (opt.openMsg) {
-    openMsgOverlay();
-    transitioning = false;
-    return;
-  }
       
     if (opt.isThird) {
       thirdChoiceCount++;
@@ -1695,6 +1691,7 @@ function closeMsgOverlay() {
 </script>
 </body>
 </html>
+
 
 
 
