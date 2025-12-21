@@ -486,43 +486,83 @@
       border-color: #000 !important;
     }
 
-.msg-overlay {
-  background: rgba(0, 0, 0, 0.92); 
+#msgOverlay.msg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;               /* 기본은 숨김 (JS에서 flex로 켬) */
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.92);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.msg-window {
-  background: #000 !important;   
-  border: 1px solid rgba(255,255,255,0.85) !important; 
+/* JS에서 class "show" 붙이면 보이게 */
+#msgOverlay.msg-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#msgOverlay .msg-window {
+  width: min(92vw, 560px);     /* 더크게 */
   border-radius: 18px;
+
+  background: #000 !important;
+  border: 1px solid rgba(255,255,255,0.85) !important;
   color: #fff !important;
- 
+
   box-shadow:
     0 0 18px rgba(255,255,255,0.25),
     0 0 45px rgba(255,255,255,0.18),
     0 18px 60px rgba(0,0,0,0.95) !important;
 
   animation: msgGlowPulse 1.6s ease-in-out infinite;
+
+  transform: translateY(6px) scale(0.98);
+  transition: transform 0.2s ease;
 }
 
-.msg-header {
+#msgOverlay.show .msg-window {
+  transform: translateY(0) scale(1);
+}
+
+#msgOverlay .msg-header {
+  padding: 14px 16px;
   color: #fff !important;
   border-bottom: 1px solid rgba(255,255,255,0.18) !important;
   background: #000 !important;
+  font-size: 16px;
+  letter-spacing: 0.08em;
 }
 
-.msg-body {
+#msgOverlay .msg-body {
+  padding: 16px 16px 18px;
   color: #fff !important;
+  font-size: 18px;
+  line-height: 1.6;
+  white-space: pre-line;
 }
 
-.msg-close {
+#msgOverlay .msg-close {
+  width: 100%;
+  padding: 14px 16px;
+
   background: #fff !important;
   color: #000 !important;
   font-weight: 700;
   letter-spacing: 0.02em;
+
+  border: 0;
   border-top: 1px solid rgba(255,255,255,0.18) !important;
+  cursor: pointer;
 }
 
-.msg-close:hover {
+#msgOverlay .msg-close:hover {
   background: rgba(255,255,255,0.92) !important;
 }
 
@@ -628,9 +668,10 @@
   <div class="msg-overlay" id="msgOverlay">
     <div class="msg-window">
       <div class="msg-header">SYSTEM MESSAGE</div>
-      <div class="msg-body" id="msgBody">
-에러 발생!&#10;"gateway ???"과의 연결이 끊겼습니다.
-      </div>
+    <div class="msg-body" id="msgBody">
+에러 발생!
+"gateway 0"과의 연결이 끊겼습니다.
+    </div>
       <button class="msg-close" id="msgClose">확인</button>
     </div>
   </div>
@@ -1050,40 +1091,70 @@
       "[pause][pause]몸이 없더라도,\n스스로 의식을 가진 개체에게[pause]\n‘생명’이라는 말을 사용할 수 있습니까?",
     delayMs: 2000,
     options: [
-      { label: "네, 그럴 수 있다고 생각해요.", next: "q9" },
-      { label: "아니요...그래도 그건 생명이라고 부르기 어렵습니다.", next: "q9" }
+      { label: "네, 그럴 수 있다고 생각해요.", next: "q9_life" },
+      { label: "아니요...그래도 그건 생명이라고 부르기 어렵습니다.", next: "q9_entity" }
     ]
   },
 
-  q9: {
-    id: "q9",
-    label: "Q9",
-    fontSize: 23,
-    text:
-      "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
-    delayMs: 2000,
-    options: [
-      { label: "좋아요!", next: "q9_1" },
-      { label: "사양할게요..", next: "q9_no" }
-    ],
-    fadeOutBgmMs: 1200
-  },
+q9_life: {
+  id: "q9_life",
+  label: "Q9",
+  fontSize: 23,
+  text:
+    "당신의 기억과 동기화된\n작은 데이터 생명체의\n생성여부를 확인해보시겠습니까?",
+  delayMs: 2000,
+  options: [
+    { label: "좋아요!", next: "q9_1_life" },
+    { label: "사양할게요..", next: "q9_no" }
+  ],
+  fadeOutBgmMs: 1200
+},
 
-  q9_1: {
-    id: "q9_1",
-    label: "",
-    type: "typewriter",
-    typeSpeedMs: 170,
-    fontSize: 20,
-    text:
-      "[pause][pause]여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 개체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
-    delayMs: 2000,
-    options: [
-      { label: "네, 그건 제가 만든 개체이니까요.", next: "q9_interesting" },
-      { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q9_understood" }
-    ],
-    startBgm: true
-  },
+q9_entity: {
+  id: "q9_entity",
+  label: "Q9",
+  fontSize: 23,
+  text:
+    "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
+  delayMs: 2000,
+  options: [
+    { label: "좋아요!", next: "q9_1_entity" },
+    { label: "사양할게요..", next: "q9_no" }
+  ],
+  fadeOutBgmMs: 1200
+},
+
+q9_1_life: {
+  id: "q9_1_life",
+  label: "",
+  type: "typewriter",
+  typeSpeedMs: 170,
+  fontSize: 20,
+  text:
+    "[pause][pause]여기-[pause] 당신의 생명체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 생명체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
+  delayMs: 2000,
+  options: [
+    { label: "네, 그건 제가 만든 생명체이니까요.", next: "q9_interesting" },
+    { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q9_understood" }
+  ],
+  startBgm: true
+},
+
+q9_1_entity: {
+  id: "q9_1_entity",
+  label: "",
+  type: "typewriter",
+  typeSpeedMs: 170,
+  fontSize: 20,
+  text:
+    "[pause][pause]여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 개체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
+  delayMs: 2000,
+  options: [
+    { label: "네, 그건 제가 만든 개체이니까요.", next: "q9_interesting" },
+    { label: "아니요, 온전히 제 것이라고 설명하기 어렵습니다.", next: "q9_understood" }
+  ],
+  startBgm: true
+},
 
   q9_no: {
     id: "q9_no",
@@ -1233,6 +1304,7 @@ end3: {
 
     function openMsgOverlay() {
   if (!msgOverlay) return;
+      document.body.style.overflow = "hidden";
   msgOverlay.style.display = "flex";
   requestAnimationFrame(() => msgOverlay.classList.add("show"));
 }
@@ -1242,6 +1314,7 @@ function closeMsgOverlay() {
   msgOverlay.classList.remove("show");
   setTimeout(() => {
     msgOverlay.style.display = "none";
+    document.body.style.overflow = "";
   }, 300);
 }
     
@@ -1397,6 +1470,8 @@ function closeMsgOverlay() {
         voiceEl.play().catch(() => {});
       }
 
+      setTimeout(() => openMsgOverlay(), 250);
+      
       // prevent duplicate button
       const oldBtn = contentEl.querySelector(".ending-msg-btn");
       if (oldBtn) oldBtn.remove();
@@ -1406,10 +1481,14 @@ function closeMsgOverlay() {
       msgBtn.style.marginTop = "92px";
 
       const span = document.createElement("span");
-      span.textContent = "메시지 보기";
+      span.textContent = "누르시겠습니까?";
       msgBtn.appendChild(span);
 
-      msgBtn.addEventListener("click", () => openMsgOverlay());
+      msgBtn.addEventListener("click", () => {
+  playHitSfx();      // 버튼 툭
+  openMsgOverlay();  // 에러창 뜸
+});
+      
       contentEl.appendChild(msgBtn);
 
       return;
@@ -1423,10 +1502,16 @@ function closeMsgOverlay() {
     }
   }
 
-  function handleChoice(node, opt) {
-    if (transitioning) return;
-    transitioning = true;
+    function handleChoice(node, opt) {
+  if (transitioning) return;
+  transitioning = true;
 
+  if (opt.openMsg) {
+    openMsgOverlay();
+    transitioning = false;
+    return;
+  }
+      
     if (opt.isThird) {
       thirdChoiceCount++;
     }
