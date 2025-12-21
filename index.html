@@ -377,6 +377,24 @@
   }
 }
 
+    /* 버튼 글자만 흔들리게 */
+.choice-btn.shaky span {
+  display: inline-block;           /* transform적요옹 */
+  will-change: transform;
+  animation: btnJitter 0.12s infinite;
+}
+
+/*  좀 불규칙하게) */
+@keyframes btnJitter {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-1px, 1px); }
+  40%  { transform: translate(1px, -1px); }
+  60%  { transform: translate(-1px, -1px); }
+  80%  { transform: translate(1px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+
 /* 위 아래로 지나가는 불길한 빛 */
 @keyframes ominousScan {
   0% {
@@ -1037,12 +1055,12 @@
     fontSize: 20,
     text: "[pause]살리지 않기로 결정했습니다.\n당신은 어떤 느낌이 드십니까?",
     delayMs: 2000,
-    options: [
-      { label: "공포", next: "q6" },
-      { label: "안도감", next: "q6" },
-      { label: "죄책감", next: "q6" },
-      { label: "통쾌함", next: "q6", isThird: true }
-    ]
+options: [
+  { label: "공포", next: "q6", shaky: true },
+  { label: "안도감", next: "q6", shaky: true },
+  { label: "죄책감", next: "q6", shaky: true },
+  { label: "통쾌함", next: "q6", isThird: true, shaky: true }
+]
   },
 
   q6: {
@@ -1228,11 +1246,13 @@ q9_1_entity: {
     text:
       "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
     delayMs: 5000,
+    
     options: [
-      { label: "?̵?̴?̵", next: "end1", red: true, ominous: true },
-      { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̯̣̭ͅ", next: "end1", red: true, ominous: true },
-      { label: "???", next: "end1", red: true, ominous: true }
-    ]
+  { label: "?̵?̴?̵", next: "end1", red: true, ominous: true, shaky: true },
+  { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̣̭ͯͅ", next: "end1", red: true, ominous: true, shaky: true },
+  { label: "???", next: "end1", red: true, ominous: true, shaky: true }
+]
+
   },
 
  end1: {
@@ -1337,13 +1357,16 @@ function openOverlay(mode) {
 
 function closeMsgOverlay() {
   if (!msgOverlay) return;
+  
+  const closingMode = overlayMode;
+  
   msgOverlay.classList.remove("show");
   setTimeout(() => {
     msgOverlay.style.display = "none";
     document.body.style.overflow = "";
 
     if (overlayMode === "error" && endingBtnEl) {
-      endingBtnEl.style.display = "";
+      setTimeout(() => { endingBtnEl.style.display = ""; }, 200);
     }
     overlayMode = null;
   }, 300);
@@ -1384,10 +1407,10 @@ if (msgCloseEl && msgOverlay) {
       node.options.forEach((opt, index) => {
         const btn = document.createElement("button");
         btn.className = "choice-btn";
-        
+  
         if (opt.red) btn.classList.add("red");
-
         if (opt.ominous) btn.classList.add("ominous-btn");
+        if (opt.shaky) btn.classList.add("shaky");
         
         btn.style.animationDelay = `${0.05 * index}s`;
 
@@ -1719,4 +1742,5 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
 
