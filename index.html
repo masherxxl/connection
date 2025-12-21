@@ -8,6 +8,30 @@
 
   <style>
 
+    @keyframes msgGlowPulse {
+  0% {
+    box-shadow:
+      0 0 14px rgba(255,255,255,0.18),
+      0 0 34px rgba(255,255,255,0.12),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(0);
+  }
+  55% {
+    box-shadow:
+      0 0 22px rgba(255,255,255,0.28),
+      0 0 60px rgba(255,255,255,0.18),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(-1px);
+  }
+  100% {
+    box-shadow:
+      0 0 14px rgba(255,255,255,0.18),
+      0 0 34px rgba(255,255,255,0.12),
+      0 18px 60px rgba(0,0,0,0.95);
+    transform: translateY(0);
+  }
+}
+
 @font-face {
   font-family: "DeterminationK2";
   src: url("./DeterminationSansK2.woff2") format("woff2");
@@ -1297,18 +1321,16 @@ function openOverlay(mode) {
 
   openMsgOverlay();
 }
-
-    const msgClose   = document.getElementById("msgClose");
     
     if (msgOverlay) {
   msgOverlay.classList.remove("show");
   msgOverlay.style.display = "none";
 }
 
-    function openMsgOverlay() {
-      if (!msgOverlay) return;
-      if (msgOverlay.classList.contains("show")) return;
-      document.body.style.overflow = "hidden";
+ function openMsgOverlay() {
+  if (!msgOverlay) return;
+  if (msgOverlay.classList.contains("show")) return;
+  document.body.style.overflow = "hidden";
   msgOverlay.style.display = "flex";
   requestAnimationFrame(() => msgOverlay.classList.add("show"));
 }
@@ -1324,18 +1346,13 @@ function closeMsgOverlay() {
       endingBtnEl.style.display = "";
     }
     overlayMode = null;
-
   }, 300);
 }
-    
- if (msgClose && msgOverlay) {
-  msgClose.addEventListener("click", () => {
-    closeMsgOverlay();
-  });
+
+if (msgCloseEl && msgOverlay) {
+  msgCloseEl.addEventListener("click", closeMsgOverlay);
   msgOverlay.addEventListener("click", (e) => {
-    if (e.target === msgOverlay) {
-      closeMsgOverlay();
-    }
+    if (e.target === msgOverlay) closeMsgOverlay();
   });
 }
 
@@ -1702,3 +1719,4 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
