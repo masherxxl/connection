@@ -358,7 +358,7 @@
       width: 100%;
       max-width: 700px;
 
-      aspect-ratio: 3 / 1;
+      aspect-ratio: 4.3 / 1;
       height: auto;
 
       margin: 0 auto;
@@ -1290,6 +1290,7 @@ q9_1_entity: {
     typeSpeedMs: 15,
     fontSize: 35,
     shake: true,
+    textMarginTop: -24,
     text:
       "당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니까? 당신이 알고 있는 건 무엇입니ㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲㄲ",
     autoNext: "lastQ",
@@ -1522,6 +1523,12 @@ if (msgCloseEl && msgOverlay) {
     qTextEl.style.fontSize = (node.fontSize || 25) + "px";
     qTextEl.classList.remove("glitch-burst");
     frameEl.classList.remove("shake-burst");
+    qTextEl.style.fontSize = (node.fontSize || 25) + "px";
+    qTextEl.style.marginTop = "0px";
+if (typeof node.textMarginTop === "number") {
+  qTextEl.style.marginTop = node.textMarginTop + "px";
+}
+
 
     // colors / effects
     if (node.red) qTextEl.classList.add("red");
@@ -1812,6 +1819,7 @@ contentEl.appendChild(msgBtn);
 </script>
 </body>
 </html>
+
 
 
 
