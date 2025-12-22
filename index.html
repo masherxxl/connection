@@ -7,79 +7,6 @@
   <title>connection</title>
 
   <style>
-
-    @keyframes msgGlowPulse {
-      0% {
-        box-shadow:
-          0 0 14px rgba(255,255,255,0.18),
-          0 0 34px rgba(255,255,255,0.12),
-          0 18px 60px rgba(0,0,0,0.95);
-        transform: translateY(0);
-      }
-      55% {
-        box-shadow:
-          0 0 22px rgba(255,255,255,0.28),
-          0 0 60px rgba(255,255,255,0.18),
-          0 18px 60px rgba(0,0,0,0.95);
-        transform: translateY(-1px);
-      }
-      100% {
-        box-shadow:
-          0 0 14px rgba(255,255,255,0.18),
-          0 0 34px rgba(255,255,255,0.12),
-          0 18px 60px rgba(0,0,0,0.95);
-        transform: translateY(0);
-      }
-    }
-
-    /* 순간 글리치다요 */
-    .glitch-burst{
-      animation: glitchBurst 4.2s infinite;
-      will-change: transform, filter, text-shadow;
-    }
-
-    @keyframes glitchBurst{
-      0%, 78%{
-        transform: translate(0,0);
-        filter: none;
-        text-shadow: none;
-      }
-      80%{
-        transform: translate(-1px, 0);
-        text-shadow: 2px 0 rgba(255,0,255,0.75), -2px 0 rgba(0,255,255,0.75);
-      }
-      81%{
-        transform: translate(2px, -1px) skewX(-8deg);
-        filter: contrast(1.15) brightness(1.05);
-      }
-      82%{
-        transform: translate(-2px, 1px) skewX(10deg);
-      }
-      83%{
-        transform: translate(0,0);
-        filter: none;
-        text-shadow: none;
-      }
-      100%{
-        transform: translate(0,0);
-      }
-    }
-
-    .frame.shake-burst{
-      animation: shakeBurst 3.6s infinite;
-      will-change: transform;
-    }
-
-    @keyframes shakeBurst{
-      0%, 86% { transform: translate(0,0); }
-      87%     { transform: translate(-2px, 1px); }
-      88%     { transform: translate(2px, -1px); }
-      89%     { transform: translate(-1px, -2px); }
-      90%     { transform: translate(1px, 2px); }
-      91%     { transform: translate(0,0); }
-      100%    { transform: translate(0,0); }
-    }
-
     @font-face {
       font-family: "DeterminationK2";
       src: url("./DeterminationSansK2.woff2") format("woff2");
@@ -107,85 +34,8 @@
       font-family: "DeterminationK2", "Noto Sans KR", -apple-system, system-ui, sans-serif !important;
     }
 
-    .top-bar.topbar-hidden { opacity: 0; visibility: hidden; }
-
-    /* 404 효과 없음 */
-    .error-corner {
-      position: fixed;
-      top: 14px;
-      left: 14px;
-      margin: 0;
-      padding: 0;
-      max-width: calc(100vw - 28px);
-      text-align: left !important;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: 16px !important;
-      line-height: 1.35;
-      color: #f5f5ff;
-      text-shadow: none !important;
-    }
-
-    /* 불안하게 깜빡 텍스트 */
-    .flicker { animation: flicker 1.4s infinite; }
-
-    @keyframes flicker {
-      0%   { opacity: 1;   text-shadow: 0 0 8px rgba(255,255,255,0.8); }
-      10%  { opacity: 0.3; text-shadow: 0 0 2px rgba(255,255,255,0.4); }
-      20%  { opacity: 0.8; }
-      35%  { opacity: 0.2; }
-      50%  { opacity: 1;   text-shadow: 0 0 14px rgba(255,255,255,1); }
-      70%  { opacity: 0.4; }
-      85%  { opacity: 0.9; }
-      100% { opacity: 1; }
-    }
-
-    /* 글리치 효과 */
-    .glitch { animation: glitch 0.6s infinite; }
-
-    @keyframes glitch {
-      0% {
-        transform: translate(0, 0);
-        text-shadow: 1px 0 rgba(255, 0, 255, 0.8),
-                     -1px -1px rgba(0, 255, 255, 0.8);
-      }
-      20% {
-        transform: translate(-1px, 1px);
-        text-shadow: -2px 0 rgba(255, 0, 255, 0.6),
-                     2px 2px rgba(0, 255, 255, 0.6);
-      }
-      40% {
-        transform: translate(1px, -1px);
-        text-shadow: 2px -1px rgba(255, 0, 255, 0.9),
-                     -2px 1px rgba(0, 255, 255, 0.9);
-      }
-      60% {
-        transform: translate(0, 0);
-        text-shadow: -1px 1px rgba(255, 0, 255, 0.5),
-                     1px -1px rgba(0, 255, 255, 0.5);
-      }
-      80% {
-        transform: translate(1px, 0);
-        text-shadow: 2px 0 rgba(255, 0, 255, 0.7),
-                     -2px 0 rgba(0, 255, 255, 0.7);
-      }
-      100% {
-        transform: translate(0, 0);
-        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
-      }
-    }
-
-    /* 텍스트 자간이 좁아졌다 넓어졌다 */
-    .pressure-text { animation: pressureText 1.4s ease-in-out infinite; }
-
-    @keyframes pressureText {
-      0%   { letter-spacing: 0em; }
-      40%  { letter-spacing: -0.08em; }
-      70%  { letter-spacing: -0.03em; }
-      100% { letter-spacing: 0em; }
-    }
-
-    /* 인트로 */
-    .intro {
+    /* ───────────────── Intro ───────────────── */
+    .intro{
       position: fixed;
       inset: 0;
       background: #000;
@@ -194,7 +44,7 @@
       align-items: center;
       z-index: 10;
     }
-    .intro-text {
+    .intro-text{
       font-size: 25px;
       letter-spacing: 0.3em;
       color: #f5f5ff;
@@ -207,6 +57,7 @@
     .intro.fade-out { animation: introFadeOut 0.8s ease forwards; }
     @keyframes introFadeOut { to { opacity: 0; visibility: hidden; } }
 
+    /* ───────────────── Layout ───────────────── */
     .app {
       width: 100%;
       max-width: 900px;
@@ -228,6 +79,7 @@
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
+      will-change: transform;
     }
 
     .top-bar {
@@ -239,6 +91,7 @@
       background-size: 100% auto;
       pointer-events: none;
     }
+    .top-bar.topbar-hidden { opacity: 0; visibility: hidden; }
 
     .content {
       position: relative;
@@ -299,14 +152,151 @@
       margin-top: 24px;
     }
 
-    .choices {
+    /* 404 코너 텍스트 */
+    .error-corner {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      margin: 0;
+      padding: 0;
+      max-width: calc(100vw - 28px);
+      text-align: left !important;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 16px !important;
+      line-height: 1.35;
+      color: #f5f5ff;
+      text-shadow: none !important;
+    }
+
+    /* ───────────────── Text FX ───────────────── */
+    .flicker { animation: flicker 1.4s infinite; }
+    @keyframes flicker {
+      0%   { opacity: 1;   text-shadow: 0 0 8px rgba(255,255,255,0.8); }
+      10%  { opacity: 0.3; text-shadow: 0 0 2px rgba(255,255,255,0.4); }
+      20%  { opacity: 0.8; }
+      35%  { opacity: 0.2; }
+      50%  { opacity: 1;   text-shadow: 0 0 14px rgba(255,255,255,1); }
+      70%  { opacity: 0.4; }
+      85%  { opacity: 0.9; }
+      100% { opacity: 1; }
+    }
+
+    .glitch { animation: glitch 0.6s infinite; }
+    @keyframes glitch {
+      0% {
+        transform: translate(0, 0);
+        text-shadow: 1px 0 rgba(255, 0, 255, 0.8),
+                     -1px -1px rgba(0, 255, 255, 0.8);
+      }
+      20% {
+        transform: translate(-1px, 1px);
+        text-shadow: -2px 0 rgba(255, 0, 255, 0.6),
+                     2px 2px rgba(0, 255, 255, 0.6);
+      }
+      40% {
+        transform: translate(1px, -1px);
+        text-shadow: 2px -1px rgba(255, 0, 255, 0.9),
+                     -2px 1px rgba(0, 255, 255, 0.9);
+      }
+      60% {
+        transform: translate(0, 0);
+        text-shadow: -1px 1px rgba(255, 0, 255, 0.5),
+                     1px -1px rgba(0, 255, 255, 0.5);
+      }
+      80% {
+        transform: translate(1px, 0);
+        text-shadow: 2px 0 rgba(255, 0, 255, 0.7),
+                     -2px 0 rgba(0, 255, 255, 0.7);
+      }
+      100% {
+        transform: translate(0, 0);
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .pressure-text { animation: pressureText 1.4s ease-in-out infinite; }
+    @keyframes pressureText {
+      0%   { letter-spacing: 0em; }
+      40%  { letter-spacing: -0.08em; }
+      70%  { letter-spacing: -0.03em; }
+      100% { letter-spacing: 0em; }
+    }
+
+    /* 순간 글리치 */
+    .glitch-burst{
+      animation: glitchBurst 4.2s infinite;
+      will-change: transform, filter, text-shadow;
+    }
+    @keyframes glitchBurst{
+      0%, 78%{ transform: translate(0,0); filter: none; text-shadow: none; }
+      80%{ transform: translate(-1px, 0); text-shadow: 2px 0 rgba(255,0,255,0.75), -2px 0 rgba(0,255,255,0.75); }
+      81%{ transform: translate(2px, -1px) skewX(-8deg); filter: contrast(1.15) brightness(1.05); }
+      82%{ transform: translate(-2px, 1px) skewX(10deg); }
+      83%{ transform: translate(0,0); filter: none; text-shadow: none; }
+      100%{ transform: translate(0,0); }
+    }
+
+    /* ───────────────── Shake FX ───────────────── */
+    .frame.shake{ animation: shake 0.35s ease-in-out infinite; }
+    @keyframes shake{
+      0%   { transform: translate(0px, 0px); }
+      25%  { transform: translate(-1px, 1px); }
+      50%  { transform: translate(1px, -1px); }
+      75%  { transform: translate(-1px, -1px); }
+      100% { transform: translate(1px, 1px); }
+    }
+
+    .frame.shake-burst{
+      animation: shakeBurst 3.6s infinite;
+      will-change: transform;
+    }
+    @keyframes shakeBurst{
+      0%, 86% { transform: translate(0,0); }
+      87%     { transform: translate(-2px, 1px); }
+      88%     { transform: translate(2px, -1px); }
+      89%     { transform: translate(-1px, -2px); }
+      90%     { transform: translate(1px, 2px); }
+      91%     { transform: translate(0,0); }
+      100%    { transform: translate(0,0); }
+    }
+
+    /* 진짜 심하게 흔들림(요청한 "옛날 버전" 느낌) */
+    .frame.shake-mid{
+      animation: shakeMid 0.45s steps(2,end) infinite;
+      will-change: transform;
+    }
+    @keyframes shakeMid{
+      0%   { transform: translate(0,0); }
+      25%  { transform: translate(-1px, 1px); }
+      50%  { transform: translate(1px, -1px); }
+      75%  { transform: translate(-1px, -1px); }
+      100% { transform: translate(0,0); }
+    }
+
+    .frame.shake-hard{
+      animation: shakeHard 0.18s steps(2,end) infinite;
+      will-change: transform;
+    }
+    @keyframes shakeHard{
+      0%   { transform: translate(0,0) rotate(0deg); }
+      10%  { transform: translate(-4px, 2px) rotate(-0.6deg); }
+      22%  { transform: translate(3px,-3px) rotate(0.5deg); }
+      31%  { transform: translate(-2px,-4px) rotate(-0.4deg); }
+      47%  { transform: translate(4px, 1px) rotate(0.7deg); }
+      63%  { transform: translate(-3px, 3px) rotate(-0.5deg); }
+      79%  { transform: translate(2px,-2px) rotate(0.4deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    /* ───────────────── Choices / Buttons ───────────────── */
+    .choices{
       display: flex;
       flex-direction: column;
       gap: 4px;
       margin-top: 60px;
     }
 
-    .choice-btn {
+    .choice-btn{
       position: relative;
       display: flex;
       align-items: center;
@@ -334,20 +324,69 @@
 
       transform-origin: center;
 
-      /* ✅ 추가: 떨림/눌림 합성용 변수 */
+      /* 떨림/눌림 합성 변수 */
       --tx: 0px;
       --ty: 0px;
       --press: 1;
+
       transform: translate(var(--tx), var(--ty)) scale(var(--press));
       will-change: transform, filter;
     }
 
-    /* ───── 불안한 버튼 연출 ───── */
-    .choice-btn.ominous-btn {
-      animation: ominousPulse 1.7s ease-in-out infinite;
+    /* 모든 버튼 기본: "전기 끊김" 희미한 깜빡임 */
+    .choice-btn .btn-flicker{
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.22), transparent 55%),
+        linear-gradient(to bottom,
+          rgba(255,255,255,0.00) 0%,
+          rgba(255,255,255,0.06) 45%,
+          rgba(255,255,255,0.00) 100%);
+
+      mix-blend-mode: screen;
+      opacity: 0.10;
+      animation: btnPowerFlicker 3.25s steps(2,end) infinite;
     }
 
-    .choice-btn.ominous-btn::after {
+    @keyframes btnPowerFlicker{
+      0%   { opacity: 0.12; filter: none; }
+      8%   { opacity: 0.06; }
+      16%  { opacity: 0.13; }
+      27%  { opacity: 0.05; }
+      41%  { opacity: 0.16; filter: brightness(1.04) contrast(1.03); }
+      58%  { opacity: 0.07; filter: none; }
+      73%  { opacity: 0.18; filter: brightness(1.06) contrast(1.04); }
+      88%  { opacity: 0.08; filter: none; }
+      100% { opacity: 0.12; filter: none; }
+    }
+
+    /* 텍스트는 위로 */
+    .choice-btn span{
+      position: relative;
+      z-index: 1;
+      text-shadow:
+        0 0 4px rgba(0, 0, 0, 0.9),
+        0 0 12px rgba(0, 0, 0, 0.8);
+      white-space: normal;
+      word-break: keep-all;
+      overflow: hidden;
+      text-overflow: clip;
+      margin-left: 30px;
+      margin-top: 6px;
+    }
+
+    /* 눌림 */
+    .choice-btn:active{ --press: 0.97; }
+
+    /* ───── 불안한 버튼(빨간 스캔맥박) ───── */
+    .choice-btn.ominous-btn{
+      animation: ominousPulse 1.7s ease-in-out infinite;
+    }
+    .choice-btn.ominous-btn::after{
       content: "";
       position: absolute;
       inset: 0;
@@ -364,27 +403,34 @@
       animation: ominousScan 2.6s linear infinite;
     }
 
-    @keyframes ominousPulse {
+    @keyframes ominousPulse{
       0% {
-        transform: scale(1);
         filter: brightness(1) saturate(1);
         box-shadow: 0 0 0 rgba(255, 40, 72, 0);
+        transform: translate(var(--tx), var(--ty)) scale(var(--press));
       }
-      40% {
-        transform: scale(1.02);
+      40%{
         filter: brightness(1.05) saturate(1.2);
         box-shadow: 0 0 14px rgba(255, 40, 72, 0.55);
+        transform: translate(var(--tx), var(--ty)) scale(calc(var(--press) * 1.02));
       }
-      70% {
-        transform: scale(0.99);
+      70%{
         filter: brightness(0.95) saturate(0.9);
         box-shadow: 0 0 4px rgba(255, 40, 72, 0.25);
+        transform: translate(var(--tx), var(--ty)) scale(calc(var(--press) * 0.99));
       }
-      100% {
-        transform: scale(1);
+      100%{
         filter: brightness(1) saturate(1);
         box-shadow: 0 0 0 rgba(255, 40, 72, 0);
+        transform: translate(var(--tx), var(--ty)) scale(var(--press));
       }
+    }
+
+    @keyframes ominousScan{
+      0%   { opacity: 0; transform: translateY(-120%); }
+      20%  { opacity: 1; }
+      60%  { opacity: 0.4; transform: translateY(40%); }
+      100% { opacity: 0; transform: translateY(140%); }
     }
 
     /* 버튼 글자만 잔떨림 */
@@ -393,7 +439,6 @@
       will-change: transform;
       animation: btnJitterUT 0.72s steps(2,end) infinite;
     }
-
     @keyframes btnJitterUT{
       0%   { transform: translate(0,0); }
       20%  { transform: translate(-0.5px, 0.5px); }
@@ -403,86 +448,26 @@
       100% { transform: translate(0,0); }
     }
 
-    /* 위 아래로 지나가는 불길한 빛 */
-    @keyframes ominousScan {
-      0% { opacity: 0; transform: translateY(-120%); }
-      20% { opacity: 1; }
-      60% { opacity: 0.4; transform: translateY(40%); }
-      100% { opacity: 0; transform: translateY(140%); }
-    }
-
-    .choice-btn span {
-      position: relative;
-      z-index: 1;
-      text-shadow:
-        0 0 4px rgba(0, 0, 0, 0.9),
-        0 0 12px rgba(0, 0, 0, 0.8);
-      white-space: normal;
-      word-break: keep-all;
-      overflow: hidden;
-      text-overflow: clip;
-      margin-left: 30px;
-      margin-top: 6px;
-    }
-
-.choice-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background: radial-gradient(
-    circle at 0 0,
-    rgba(255, 255, 255, 0.18),
-    transparent 55%
-  );
-
-  opacity: 0.12;
-
-  animation: btnFaintFlicker 3.1s steps(2, end) infinite;
-  pointer-events: none;
-}
-
-.choice-btn:hover::before {
-  animation-play-state: paused;
-  opacity: 0.42;
-}
-
-@keyframes btnFaintFlicker {
-  0%   { opacity: 0.14; }
-  9%   { opacity: 0.07; }
-  18%  { opacity: 0.16; }
-  31%  { opacity: 0.09; }
-  47%  { opacity: 0.19; }
-  63%  { opacity: 0.10; }
-  78%  { opacity: 0.22; }
-  100% { opacity: 0.14; }
-}
-
-
-    .choices-enter .choice-btn {
+    /* enter 애니메이션: transform 덮어쓰기 금지(변수 합성 유지) */
+    .choices-enter .choice-btn{
       opacity: 0;
-      transform: translateY(10px) scale(0.96);
+      transform: translate(var(--tx), var(--ty)) translateY(10px) scale(calc(var(--press) * 0.96));
       animation: btnPop 0.28s ease-out forwards;
     }
-    @keyframes btnPop { to { opacity: 1; transform: translateY(0) scale(1); } }
-
-    .choices-hide { animation: choicesFadeOut 0.35s ease forwards; }
-    @keyframes choicesFadeOut { to { opacity: 0; transform: translateY(6px); } }
-
-    .fade-out { animation: textFadeOut 1s ease forwards; }
-    @keyframes textFadeOut { to { opacity: 0; } }
-
-    /* 지진 효과 */
-    .shake { animation: shake 0.35s ease-in-out infinite; }
-    @keyframes shake {
-      0%   { transform: translate(0px, 0px); }
-      25%  { transform: translate(-1px, 1px); }
-      50%  { transform: translate(1px, -1px); }
-      75%  { transform: translate(-1px, -1px); }
-      100% { transform: translate(1px, 1px); }
+    @keyframes btnPop{
+      to{
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) translateY(0) scale(var(--press));
+      }
     }
 
-    /* 화면 암전 */
+    .choices-hide{ animation: choicesFadeOut 0.35s ease forwards; }
+    @keyframes choicesFadeOut { to { opacity: 0; transform: translateY(6px); } }
+
+    .fade-out{ animation: textFadeOut 1s ease forwards; }
+    @keyframes textFadeOut{ to{ opacity: 0; } }
+
+    /* ───────────────── Screen / End ───────────────── */
     .screen-dark { animation: fadeToBlack 2.2s ease forwards; }
     @keyframes fadeToBlack { to { background: #000; color: #aeb0ff; } }
 
@@ -493,7 +478,32 @@
       border-color: #000 !important;
     }
 
-    #msgOverlay.msg-overlay {
+    /* ───────────────── Message Overlay ───────────────── */
+    @keyframes msgGlowPulse {
+      0% {
+        box-shadow:
+          0 0 14px rgba(255,255,255,0.18),
+          0 0 34px rgba(255,255,255,0.12),
+          0 18px 60px rgba(0,0,0,0.95);
+        transform: translateY(0);
+      }
+      55% {
+        box-shadow:
+          0 0 22px rgba(255,255,255,0.28),
+          0 0 60px rgba(255,255,255,0.18),
+          0 18px 60px rgba(0,0,0,0.95);
+        transform: translateY(-1px);
+      }
+      100% {
+        box-shadow:
+          0 0 14px rgba(255,255,255,0.18),
+          0 0 34px rgba(255,255,255,0.12),
+          0 18px 60px rgba(0,0,0,0.95);
+        transform: translateY(0);
+      }
+    }
+
+    #msgOverlay.msg-overlay{
       position: fixed;
       inset: 0;
       z-index: 9999;
@@ -507,7 +517,7 @@
     }
     #msgOverlay.msg-overlay.show { opacity: 1; visibility: visible; }
 
-    #msgOverlay .msg-window {
+    #msgOverlay .msg-window{
       width: min(92vw, 560px);
       border-radius: 18px;
       background: #000 !important;
@@ -521,9 +531,9 @@
       transform: translateY(6px) scale(0.98);
       transition: transform 0.2s ease;
     }
-    #msgOverlay.show .msg-window { transform: translateY(0) scale(1); }
+    #msgOverlay.show .msg-window{ transform: translateY(0) scale(1); }
 
-    #msgOverlay .msg-header {
+    #msgOverlay .msg-header{
       padding: 14px 16px;
       color: #fff !important;
       border-bottom: 1px solid rgba(255,255,255,0.18) !important;
@@ -532,7 +542,7 @@
       letter-spacing: 0.08em;
     }
 
-    #msgOverlay .msg-body {
+    #msgOverlay .msg-body{
       padding: 16px 16px 18px;
       color: #fff !important;
       font-size: 18px;
@@ -540,7 +550,7 @@
       white-space: pre-line;
     }
 
-    #msgOverlay .msg-close {
+    #msgOverlay .msg-close{
       width: 100%;
       padding: 14px 16px;
       background: #fff !important;
@@ -553,7 +563,7 @@
     }
     #msgOverlay .msg-close:hover { background: rgba(255,255,255,0.92) !important; }
 
-    /* 모바일 전용 */
+    /* ───────────────── Mobile ───────────────── */
     @media (max-width: 480px) {
       body { padding: 0 6px 8px; }
 
@@ -659,14 +669,12 @@
       });
     }
 
-    // 브금 꺼버리기
     function hardStopBgm() {
       if (!bgmEl) return;
       bgmEl.pause();
       bgmEl.currentTime = 0;
     }
 
-    // 브금 페이드 아웃
     function fadeOutBgm(durationMs = 1500) {
       if (!bgmEl) return;
 
@@ -690,14 +698,12 @@
       }, stepTime);
     }
 
-    // 효과음 한번 재생
     function playHitSfx() {
       if (!sfxHitEl) return;
       sfxHitEl.currentTime = 0;
       sfxHitEl.play().catch(() => {});
     }
 
-    // 브금 다시 켜기
     function resumeBgm(volume = 0.7) {
       if (!bgmEl) return;
       bgmEl.volume = volume;
@@ -728,7 +734,7 @@
 
     const BUTTON_DELAY_MS = 1200;
 
-    // ✅ 버튼 랜덤 잔떨림(진짜 불규칙 버전) - 이미지 프레임까지 흔들림
+    //  버튼 랜덤 잔떨림(불규칙 밝기스파이크) 프레임까지 흔들림
     function startBtnTremble(btn, preset = "soft") {
       const cfg = {
         soft: { base: 0.55, spike: 1.9, spikeChance: 0.10, min: 18, max: 55 },
@@ -737,7 +743,6 @@
       }[preset] || { base: 0.55, spike: 1.9, spikeChance: 0.10, min: 18, max: 55 };
 
       stopBtnTremble(btn);
-
       btn._trembleAlive = true;
 
       const tick = () => {
@@ -785,7 +790,7 @@
       document.querySelectorAll(".choice-btn").forEach(stopBtnTremble);
     }
 
-    // 스토리 노드
+    // 스토리 노드 (원문 유지)
     const NODES = {
       q0: {
         id: "q0",
@@ -912,23 +917,23 @@
         ]
       },
 
-     q2_2: {
-  id: "q2_2",
-  label: "",
-  red: true,
-  type: "typewriter",
-  typeSpeedMs: 65,
-  fontSize: 21,
-  boxRed: true,
-  glitch: true,
-  shakeHard: true,
-  panic: true,
-  text: `서버 로그 데이터를 기반으로
+      q2_2: {
+        id: "q2_2",
+        label: "",
+        red: true,
+        type: "typewriter",
+        typeSpeedMs: 65,
+        fontSize: 21,
+        boxRed: true,
+        glitch: true,
+        shakeHard: true,  
+        panic: true,
+        text: `서버 로그 데이터를 기반으로
 당신의 기억 정상 여부를
 재점검합니다.`,
-  autoNext: "q2_2_cut",
-  autoDelayMs: 4000
-},
+        autoNext: "q2_2_cut",
+        autoDelayMs: 4000
+      },
 
       q2_2_cut: {
         id: "q2_2_cut",
@@ -1299,9 +1304,7 @@
     const msgBodyEl   = document.getElementById("msgBody");
     const msgCloseEl  = document.getElementById("msgClose");
 
-    const ERROR_TEXT = `에러 발생!
-"gateway 0"과의 연결이 끊겼습니다.`;
-
+    const ERROR_TEXT = `에러 발생!\n"gateway 0"과의 연결이 끊겼습니다.`;
     const MESSAGE_TEXT = `[이제 이 공간에는 아무것도 남아있지 않은 듯 하다.]`;
 
     let overlayMode = null;
@@ -1313,20 +1316,12 @@
       if (msgHeaderEl) {
         msgHeaderEl.textContent = (mode === "error") ? "시스템 오류" : "남겨진 기록";
       }
-
       if (msgBodyEl) {
         msgBodyEl.textContent = (mode === "error") ? ERROR_TEXT : MESSAGE_TEXT;
       }
-      if (msgCloseEl) {
-        msgCloseEl.textContent = "확인";
-      }
+      if (msgCloseEl) msgCloseEl.textContent = "확인";
 
       openMsgOverlay();
-    }
-
-    if (msgOverlay) {
-      msgOverlay.classList.remove("show");
-      msgOverlay.style.display = "none";
     }
 
     function openMsgOverlay() {
@@ -1380,6 +1375,7 @@
       if (!node.options || !node.options.length) return;
 
       choicesEl.classList.add("choices-enter");
+
       node.options.forEach((opt, index) => {
         const btn = document.createElement("button");
         btn.className = "choice-btn";
@@ -1387,6 +1383,11 @@
         if (opt.red) btn.classList.add("red");
         if (opt.ominous) btn.classList.add("ominous-btn");
         if (opt.shaky) btn.classList.add("shaky");
+
+        /* ✅ 모든 버튼 기본: 깜빡 레이어 주입 */
+        const fx = document.createElement("i");
+        fx.className = "btn-flicker";
+        btn.appendChild(fx);
 
         if (opt.tremble) {
           startBtnTremble(btn, opt.tremble); // soft | mid | hard
@@ -1403,53 +1404,52 @@
       });
     }
 
- function renderNode(id) {
-  clearTimers();
-  transitioning = false;
+    function renderNode(id) {
+      clearTimers();
+      transitioning = false;
 
-  const node = NODES[id];
-  if (!node) return;
+      const node = NODES[id];
+      if (!node) return;
 
-  currentId = id;
+      currentId = id;
 
-  if (topBarEl) {
-    topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
-  }
+      if (topBarEl) {
+        topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
+      }
 
-  if (node.stopBgmHard) hardStopBgm();
-  if (node.fadeOutBgmMs) fadeOutBgm(node.fadeOutBgmMs);
-  if (node.playSfx === "hit") playHitSfx();
-  if (node.startBgm) resumeBgm();
+      if (node.stopBgmHard) hardStopBgm();
+      if (node.fadeOutBgmMs) fadeOutBgm(node.fadeOutBgmMs);
+      if (node.playSfx === "hit") playHitSfx();
+      if (node.startBgm) resumeBgm();
 
-  if (node.label) {
-    qLabelEl.textContent = node.label;
-    qLabelEl.style.display = "block";
-  } else {
-    qLabelEl.textContent = "";
-    qLabelEl.style.display = "none";
-  }
+      if (node.label) {
+        qLabelEl.textContent = node.label;
+        qLabelEl.style.display = "block";
+      } else {
+        qLabelEl.textContent = "";
+        qLabelEl.style.display = "none";
+      }
 
-  qTextEl.className = "q-text glow";
+      qTextEl.className = "q-text glow";
 
-  qTextEl.classList.remove(
-    "error-corner",
-    "box-red",
-    "flicker",
-    "glitch",
-    "pressure-text",
-    "glitch-burst",
-    "alarm-red",
-    "glitch-slice"
-  );
+      qTextEl.classList.remove(
+        "error-corner",
+        "box-red",
+        "flicker",
+        "glitch",
+        "pressure-text",
+        "glitch-burst"
+      );
 
-  frameEl.classList.remove(
-    "shake",
-    "shake-burst",
-    "shake-mid",
-    "shake-hard"
-  );
+      frameEl.classList.remove(
+        "shake",
+        "shake-burst",
+        "shake-mid",
+        "shake-hard"
+      );
 
-  if (node.shakeHard) frameEl.classList.add("shake-hard");
+      /* ✅ 강한 흔들림(요청한 q2_2) */
+      if (node.shakeHard) frameEl.classList.add("shake-hard");
 
       qTextEl.style.fontSize = (node.fontSize || 25) + "px";
       qTextEl.style.marginTop = "0px";
@@ -1465,6 +1465,7 @@
       if (node.flicker) qTextEl.classList.add("flicker");
       if (node.glitch) qTextEl.classList.add("glitch");
       if (node.pressure) qTextEl.classList.add("pressure-text");
+
       if (node.panic) {
         qTextEl.classList.add("glitch-burst");
         frameEl.classList.add("shake-burst");
@@ -1490,14 +1491,6 @@
         renderChoices(node);
       }
 
-      if (!node.noEnterAnim) {
-        contentEl.classList.remove("question-enter");
-        void contentEl.offsetWidth;
-        contentEl.classList.add("question-enter");
-      } else {
-        contentEl.classList.remove("question-enter");
-      }
-
       const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
       if (isTyping) return;
 
@@ -1519,6 +1512,11 @@
         msgBtn.className = "choice-btn ending-msg-btn";
         msgBtn.style.marginTop = "92px";
         msgBtn.style.display = "none";
+
+        /* 엔딩 버튼도 기본 깜빡 */
+        const fx = document.createElement("i");
+        fx.className = "btn-flicker";
+        msgBtn.appendChild(fx);
 
         const span = document.createElement("span");
         span.textContent = "누르시겠습니까?";
@@ -1546,14 +1544,11 @@
       if (transitioning) return;
       transitioning = true;
 
-      if (opt.isThird) {
-        thirdChoiceCount++;
-      }
+      if (opt.isThird) thirdChoiceCount++;
 
       choicesEl.classList.add("choices-hide");
 
       let nextId = opt.next;
-
       if (opt.isThird && thirdChoiceCount >= 3 && !bonusTriggered) {
         nextId = "bonus";
         bonusTriggered = true;
@@ -1575,18 +1570,13 @@
       const PAUSE_TOKEN = "[pause]";
       const PAUSE_TIME  = 800;
 
-      if (typingTimer) {
-        clearInterval(typingTimer);
-        typingTimer = null;
-      }
-
+      if (typingTimer) { clearInterval(typingTimer); typingTimer = null; }
       qTextEl.innerHTML = "";
 
       function finishNode() {
         if (node.options && node.options.length) {
           setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
         }
-
         if (node.autoNext) {
           const delay = node.autoDelayMs || 1700;
           timerId = setTimeout(() => renderNode(node.autoNext), delay);
@@ -1602,10 +1592,7 @@
         const seg = segments[segIndex];
 
         if (seg.pauseMs) {
-          setTimeout(() => {
-            segIndex++;
-            runNextSegment();
-          }, seg.pauseMs);
+          setTimeout(() => { segIndex++; runNextSegment(); }, seg.pauseMs);
           return;
         }
 
@@ -1669,18 +1656,13 @@
           typingTimer = null;
 
           if (node.options && node.options.length) {
-            setTimeout(() => {
-              renderChoices(node);
-            }, BUTTON_DELAY_MS);
+            setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
           }
 
           if (node.autoNext) {
             const delay = node.autoDelayMs || 1700;
-            timerId = setTimeout(() => {
-              renderNode(node.autoNext);
-            }, delay);
+            timerId = setTimeout(() => renderNode(node.autoNext), delay);
           }
-
           return;
         }
 
@@ -1727,4 +1709,3 @@
   </script>
 </body>
 </html>
-
