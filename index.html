@@ -274,7 +274,7 @@
     }
 
     .frame.shake-hard{
-      animation: shakeHard 0.18s steps(2,end) infinite;
+      animation: shakeHard 0.50s steps(2,end) infinite;
       will-change: transform;
     }
     @keyframes shakeHard{
@@ -333,36 +333,45 @@
       will-change: transform, filter;
     }
 
-    /* 모든 버튼 기본: "전기 끊김" 희미한 깜빡임 */
-    .choice-btn .btn-flicker{
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+.choice-btn .btn-flicker{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
 
-      background:
-        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.22), transparent 55%),
-        linear-gradient(to bottom,
-          rgba(255,255,255,0.00) 0%,
-          rgba(255,255,255,0.06) 45%,
-          rgba(255,255,255,0.00) 100%);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,0.26), transparent 58%),
+    linear-gradient(to bottom,
+      rgba(255,255,255,0.00) 0%,
+      rgba(255,255,255,0.10) 48%,
+      rgba(255,255,255,0.00) 100%);
+  mix-blend-mode: screen;
 
-      mix-blend-mode: screen;
-      opacity: 0.10;
-      animation: btnPowerFlicker 3.25s steps(2,end) infinite;
-    }
+  opacity: 0.16;
+  animation: btnPowerFlicker 2.85s steps(2,end) infinite;
+  will-change: opacity, filter, transform;
+}
 
-    @keyframes btnPowerFlicker{
-      0%   { opacity: 0.12; filter: none; }
-      8%   { opacity: 0.06; }
-      16%  { opacity: 0.13; }
-      27%  { opacity: 0.05; }
-      41%  { opacity: 0.16; filter: brightness(1.04) contrast(1.03); }
-      58%  { opacity: 0.07; filter: none; }
-      73%  { opacity: 0.18; filter: brightness(1.06) contrast(1.04); }
-      88%  { opacity: 0.08; filter: none; }
-      100% { opacity: 0.12; filter: none; }
-    }
+@keyframes btnPowerFlicker{
+  0%   { opacity: 0.16; filter: none; transform: translateY(0); }
+  9%   { opacity: 0.06; }
+  18%  { opacity: 0.18; }
+
+  /* 스파이크 전기 튐 */
+  31%  { opacity: 0.04; }
+  33%  { opacity: 0.32; filter: brightness(1.10) contrast(1.08); transform: translateY(-0.5px); }
+  36%  { opacity: 0.14; filter: none; transform: translateY(0); }
+
+  52%  { opacity: 0.08; }
+  66%  { opacity: 0.22; }
+
+  /* 두번째 스파이크 */
+  79%  { opacity: 0.05; }
+  81%  { opacity: 0.30; filter: brightness(1.12) contrast(1.10); transform: translateY(0.5px); }
+  84%  { opacity: 0.16; filter: none; transform: translateY(0); }
+
+  100% { opacity: 0.16; filter: none; transform: translateY(0); }
+}
 
     /* 텍스트는 위로 */
     .choice-btn span{
@@ -562,6 +571,30 @@
       cursor: pointer;
     }
     #msgOverlay .msg-close:hover { background: rgba(255,255,255,0.92) !important; }
+
+    /* 라벨/텍스트 등장: 페이드인 + 살짝 위로 */
+.content.question-enter .q-label,
+.content.question-enter .q-text {
+  animation: qEnter 0.55s cubic-bezier(.2,.8,.2,1) both;
+  will-change: opacity, transform, filter;
+}
+
+.content.question-enter .q-label { animation-delay: 0ms; }
+.content.question-enter .q-text  { animation-delay: 60ms; }
+
+@keyframes qEnter {
+  from { opacity: 0; transform: translateY(10px); filter: blur(1px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* 코너 에러 텍스트 예외 */
+.error-corner {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
 
     /* ───────────────── Mobile ───────────────── */
     @media (max-width: 480px) {
@@ -1448,7 +1481,7 @@
         "shake-hard"
       );
 
-      /* ✅ 강한 흔들림(요청한 q2_2) */
+      /*  강한 흔들림(요청한 q2_2) */
       if (node.shakeHard) frameEl.classList.add("shake-hard");
 
       qTextEl.style.fontSize = (node.fontSize || 25) + "px";
@@ -1475,6 +1508,14 @@
         qTextEl.classList.add("error-corner");
         qTextEl.classList.remove("glow", "red", "blue");
       }
+
+if (!node.noEnterAnim && !node.cornerText) {
+  contentEl.classList.remove("question-enter");
+  void contentEl.offsetWidth;
+  contentEl.classList.add("question-enter");
+} else {
+  contentEl.classList.remove("question-enter");
+}
 
       if (node.type === "typewriterRich") {
         qTextEl.textContent = "";
@@ -1709,3 +1750,4 @@
   </script>
 </body>
 </html>
+
