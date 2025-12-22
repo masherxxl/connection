@@ -425,27 +425,39 @@
       margin-top: 6px;
     }
 
-    .choice-btn::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 55%);
-      opacity: 0;
-      transition: opacity 0.18s ease;
-    }
-    .choice-btn:hover::before { opacity: 0.4; }
+.choice-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 
-    /* ✅ 변경: 눌림이 transform을 덮어쓰지 않게 */
-    .choice-btn:active { --press: 0.97; }
+  background: radial-gradient(
+    circle at 0 0,
+    rgba(255, 255, 255, 0.18),
+    transparent 55%
+  );
 
-    .choice-btn.red span { color: #ffdae2; }
+  opacity: 0.12;
 
-    /* 질문 / 버튼 등장 애니메이션 */
-    .question-enter { animation: questionIn 0.6s ease-out forwards; }
-    @keyframes questionIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to   { opacity: 1; transform: scale(1); }
-    }
+  animation: btnFaintFlicker 3.1s steps(2, end) infinite;
+  pointer-events: none;
+}
+
+.choice-btn:hover::before {
+  animation-play-state: paused;
+  opacity: 0.42;
+}
+
+@keyframes btnFaintFlicker {
+  0%   { opacity: 0.14; }
+  9%   { opacity: 0.07; }
+  18%  { opacity: 0.16; }
+  31%  { opacity: 0.09; }
+  47%  { opacity: 0.19; }
+  63%  { opacity: 0.10; }
+  78%  { opacity: 0.22; }
+  100% { opacity: 0.14; }
+}
+
 
     .choices-enter .choice-btn {
       opacity: 0;
@@ -900,25 +912,23 @@
         ]
       },
 
-      q2_2: {
-        id: "q2_2",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 65,
-        fontSize: 21,
-        boxRed: true,
-        glitch: true,
-        shake: true,
-        panic: true,
-        text: `서버 로그 데이터를 기반으로
+     q2_2: {
+  id: "q2_2",
+  label: "",
+  red: true,
+  type: "typewriter",
+  typeSpeedMs: 65,
+  fontSize: 21,
+  boxRed: true,
+  glitch: true,
+  shakeHard: true,
+  panic: true,
+  text: `서버 로그 데이터를 기반으로
 당신의 기억 정상 여부를
-재점검합니다.
-[pause]
-CRC mismatch.`,
-        autoNext: "q2_2_cut",
-        autoDelayMs: 4000
-      },
+재점검합니다.`,
+  autoNext: "q2_2_cut",
+  autoDelayMs: 4000
+},
 
       q2_2_cut: {
         id: "q2_2_cut",
@@ -950,7 +960,7 @@ CRC mismatch.`,
         label: "Q4",
         type: "typewriter",
         typeSpeedMs: 150,
-        fontSize: 20,
+        fontSize: 21,
         text:
           "[pause][pause]당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면[pause]\n살리시겠습니까?[pause]\n방관하시겠습니까?",
         delayMs: 2000,
@@ -1029,7 +1039,7 @@ CRC mismatch.`,
         label: "Q5",
         type: "typewriter",
         typeSpeedMs: 173,
-        fontSize: 20,
+        fontSize: 21,
         text: "[pause]살리지 않기로 결정했습니다.\n[pause]당신은 어떤 느낌이 드십니까?",
         delayMs: 2000,
         options: [
@@ -1393,51 +1403,53 @@ CRC mismatch.`,
       });
     }
 
-    function renderNode(id) {
-      clearTimers();
-      transitioning = false;
+ function renderNode(id) {
+  clearTimers();
+  transitioning = false;
 
-      const node = NODES[id];
-      if (!node) return;
+  const node = NODES[id];
+  if (!node) return;
 
-      currentId = id;
+  currentId = id;
 
-      if (topBarEl) {
-        topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
-      }
+  if (topBarEl) {
+    topBarEl.classList.toggle("topbar-hidden", !!node.hideTopBar);
+  }
 
-      if (node.stopBgmHard) hardStopBgm();
-      if (node.fadeOutBgmMs) fadeOutBgm(node.fadeOutBgmMs);
-      if (node.playSfx === "hit") playHitSfx();
-      if (node.startBgm) resumeBgm();
+  if (node.stopBgmHard) hardStopBgm();
+  if (node.fadeOutBgmMs) fadeOutBgm(node.fadeOutBgmMs);
+  if (node.playSfx === "hit") playHitSfx();
+  if (node.startBgm) resumeBgm();
 
-      if (node.label) {
-        qLabelEl.textContent = node.label;
-        qLabelEl.style.display = "block";
-      } else {
-        qLabelEl.textContent = "";
-        qLabelEl.style.display = "none";
-      }
+  if (node.label) {
+    qLabelEl.textContent = node.label;
+    qLabelEl.style.display = "block";
+  } else {
+    qLabelEl.textContent = "";
+    qLabelEl.style.display = "none";
+  }
 
-      qTextEl.className = "q-text glow";
+  qTextEl.className = "q-text glow";
 
-      qTextEl.classList.remove(
-        "error-corner",
-        "box-red",
-        "flicker",
-        "glitch",
-        "pressure-text",
-        "glitch-burst",
-        "alarm-red",
-        "glitch-slice"
-      );
+  qTextEl.classList.remove(
+    "error-corner",
+    "box-red",
+    "flicker",
+    "glitch",
+    "pressure-text",
+    "glitch-burst",
+    "alarm-red",
+    "glitch-slice"
+  );
 
-      frameEl.classList.remove(
-        "shake",
-        "shake-burst",
-        "shake-mid",
-        "shake-hard"
-      );
+  frameEl.classList.remove(
+    "shake",
+    "shake-burst",
+    "shake-mid",
+    "shake-hard"
+  );
+
+  if (node.shakeHard) frameEl.classList.add("shake-hard");
 
       qTextEl.style.fontSize = (node.fontSize || 25) + "px";
       qTextEl.style.marginTop = "0px";
@@ -1715,3 +1727,4 @@ CRC mismatch.`,
   </script>
 </body>
 </html>
+
