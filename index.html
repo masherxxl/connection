@@ -8,12 +8,15 @@
 
   <style>
     @font-face {
-      font-family: "DeterminationK2";
-      src: url("./DeterminationSansK2.woff2") format("woff2");
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
+  font-family: "DeterminationK2";
+  src:
+    url("./DeterminationSansK2.woff2") format("woff2"),
+    url("./DeterminationSansK2.woff")  format("woff"),
+    url("./DeterminationSansK2.ttf")   format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; height: 100%; }
@@ -1750,4 +1753,5 @@ if (!node.noEnterAnim && !node.cornerText) {
   </script>
 </body>
 </html>
+
 
