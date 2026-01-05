@@ -7,12 +7,12 @@
   <title>connection</title>
 
   <style>
-    @font-face {
+@font-face {
   font-family: "DeterminationK2";
   src:
-    url("./DeterminationSansK2.woff2") format("woff2"),
-    url("./DeterminationSansK2.woff")  format("woff"),
-    url("./DeterminationSansK2.ttf")   format("truetype");
+    url("/connection/DeterminationSansK2.woff2?v=999") format("woff2"),
+    url("/connection/DeterminationSansK2.woff?v=999")  format("woff"),
+    url("/connection/DeterminationSansK2.ttf?v=999")   format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -33,6 +33,15 @@
       padding: 2px 8px 8px;
     }
 
+
+body::before{
+  content:"FONT TEST";
+  display:block;
+  font-family:"DeterminationK2";
+  font-size:32px;
+}
+
+    
     body, .q-label, .q-text, .choice-btn, .choice-btn span {
       font-family: "DeterminationK2", "Noto Sans KR", -apple-system, system-ui, sans-serif !important;
     }
@@ -1753,5 +1762,6 @@ if (!node.noEnterAnim && !node.cornerText) {
   </script>
 </body>
 </html>
+
 
 
