@@ -6,13 +6,12 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>connection</title>
 
- <style>
+<style>
 @font-face{
   font-family:"DeterminationK2";
   src:
     url("./DeterminationSansK2.woff2") format("woff2"),
-    url("./DeterminationSansK2.woff")  format("woff"),
-    url("./DeterminationSansK2.ttf")   format("truetype");
+    url("./DeterminationSansK2.woff")  format("woff");
   font-weight:400;
   font-style:normal;
   font-display:swap;
@@ -1756,7 +1755,7 @@ if (!node.noEnterAnim && !node.cornerText) {
 
 
   
- <script>
+<script>
 (async () => {
   const box = document.createElement("div");
   box.style.cssText = `
@@ -1768,28 +1767,52 @@ if (!node.noEnterAnim && !node.cornerText) {
   `;
   document.body.appendChild(box);
 
-  const targets = [
-    "./DeterminationSansK2.woff2",
-    "./DeterminationSansK2.woff",
+  const v = Date.now(); // 캐시 무력화
+  const tests = [
+    { label: "woff2", url: `./DeterminationSansK2.woff2?v=${v}` },
+    { label: "woff",  url: `./DeterminationSansK2.woff?v=${v}`  },
+    { label: "ttf",   url: `./DeterminationSansK2.ttf?v=${v}`   },
   ];
 
   const lines = [];
-  for (const url of targets) {
+  lines.push("page = " + location.href);
+
+  for (const t of tests) {
+    const abs = new URL(t.url, location.href).href;
+
+    // 1) fetch 확인
+    let status = "?", ctype = "?";
     try {
-      const res = await fetch(url, { cache: "no-store" });
-      const ct = res.headers.get("content-type") || "?";
-      const ab = await res.arrayBuffer();
-      const u8 = new Uint8Array(ab.slice(0, 8));
-      const ascii = Array.from(u8.slice(0,4)).map(b => (b>=32 && b<127) ? String.fromCharCode(b) : ".").join("");
-      const hex = Array.from(u8).map(b => b.toString(16).padStart(2,"0")).join(" ");
-      lines.push(`${url}
-status=${res.status} type=${ct} len=${ab.byteLength}
-head(ascii)=${ascii} head(hex)=${hex}`);
+      const r = await fetch(abs, { cache: "no-store" });
+      status = r.status;
+      ctype = r.headers.get("content-type") || "?";
+      if (!r.ok) {
+        lines.push(`${t.label}: fetch ${status} (${ctype})`);
+        continue;
+      }
     } catch (e) {
-      lines.push(`${url}\nERROR: ${e && e.message ? e.message : String(e)}`);
+      lines.push(`${t.label}: fetch FAIL: ${e?.message || e}`);
+      continue;
     }
-    lines.push("----");
+
+    // 2) 디코딩(진짜 핵심)
+    try {
+      const fam = "DK2_" + t.label;
+      const ff = new FontFace(fam, `url("${abs}")`, { weight: "400", style: "normal" });
+      await ff.load();
+      document.fonts.add(ff);
+
+      const okLatin  = document.fonts.check(`32px "${fam}"`, "ABCxyz0123");
+      const okHangul = document.fonts.check(`32px "${fam}"`, "가나다라마바사아자차");
+
+      lines.push(`${t.label}: fetch ${status} (${ctype}) | DECODE OK | check Latin=${okLatin} Hangul=${okHangul}`);
+    } catch (e) {
+      lines.push(`${t.label}: fetch ${status} (${ctype}) | DECODE FAIL: ${e?.message || e}`);
+    }
   }
+
+  lines.push("computed body font-family = " + getComputedStyle(document.body).fontFamily);
+  lines.push("UA = " + navigator.userAgent);
 
   box.textContent = lines.join("\n");
 })();
@@ -1797,9 +1820,11 @@ head(ascii)=${ascii} head(hex)=${hex}`);
 
 
 
+
   
 </body>
 </html>
+
 
 
 
