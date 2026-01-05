@@ -6,22 +6,10 @@
   <meta name="robots" content="noindex,nofollow" />
   <title>connection</title>
 
-  <style>
-
-    <div style="position:fixed;top:8px;right:8px;z-index:1000000;
-background:rgba(255,255,255,.12);color:#fff;padding:6px 8px;
-font:12px/1.2 ui-monospace;border:1px solid rgba(255,255,255,.25);
-border-radius:8px">
-BUILD 2026-01-06 01:20
-</div>
-
-    
+ <style>
 @font-face{
   font-family:"DeterminationK2";
-  src:
-    url("./DeterminationSansK2-v2.woff2") format("woff2"),
-    url("./DeterminationSansK2-v2.woff")  format("woff"),
-    url("./DeterminationSansK2-v2.ttf")   format("truetype");
+  src: url("/connection/DeterminationSansK2.ttf?v=1") format("truetype");
   font-weight:400;
   font-style:normal;
   font-display:swap;
@@ -1762,29 +1750,48 @@ if (!node.noEnterAnim && !node.cornerText) {
     });
   </script>
 
+
+
+  
   <script>
 (async () => {
+
   const box = document.createElement("div");
   box.style.cssText = `
-    position:fixed; left:8px; bottom:8px; z-index:999999;
+    position:fixed; left:8px; bottom:8px; z-index:1000000;
     background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
     font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
     border:1px solid rgba(255,255,255,.35); border-radius:10px;
     max-width:92vw; white-space:pre-wrap;
   `;
+  box.textContent = "Font debug: loading...";
   document.body.appendChild(box);
 
+  const file = "DeterminationSansK2.ttf";
+  const url  = new URL("/connection/" + file + "?v=1", location.href).href;
+
+
+  let fetchLine = "";
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    fetchLine = `${file} -> ${res.status} | type=${res.headers.get("content-type") || "?"}`;
+  } catch (e) {
+    fetchLine = `${file} -> fetch error: ${e && e.message ? e.message : String(e)}`;
+  }
+
+ 
   const fam = '"DeterminationK2", sans-serif';
   const fontSpec = '32px "DeterminationK2"';
 
-  // 로드 트리거
-  await document.fonts.load(fontSpec);
+  try {
+    if (document.fonts && document.fonts.load) {
+      await document.fonts.load(fontSpec);
+    }
+  } catch (_) {}
 
-  // ✅ 핵심: 특정 글자(라틴/한글)까지 지원하는지 검사
-  const okLatin  = document.fonts.check(fontSpec, "ABCxyz0123");
-  const okHangul = document.fonts.check(fontSpec, "가나다라마바사아자차");
+  const okLatin  = document.fonts && document.fonts.check ? document.fonts.check(fontSpec, "ABCxyz0123") : false;
+  const okHangul = document.fonts && document.fonts.check ? document.fonts.check(fontSpec, "가나다라마바사아자차") : false;
 
-  // 실제 렌더 폭 비교(지원 안 되면 폭이 fallback과 같게 나오는 경우가 많음)
   const mk = (ff, text) => {
     const el = document.createElement("span");
     el.textContent = text;
@@ -1795,15 +1802,18 @@ if (!node.noEnterAnim && !node.cornerText) {
     return w;
   };
 
-  const wLatinCustom  = mk(fam, "ABCxyz0123");
-  const wLatinFallback= mk("sans-serif", "ABCxyz0123");
-  const wHanCustom    = mk(fam, "가나다라마바사아자차");
-  const wHanFallback  = mk("sans-serif", "가나다라마바사아자차");
+  const wLatinCustom   = mk(fam, "ABCxyz0123");
+  const wLatinFallback = mk("sans-serif", "ABCxyz0123");
+  const wHanCustom     = mk(fam, "가나다라마바사아자차");
+  const wHanFallback   = mk("sans-serif", "가나다라마바사아자차");
+
+  const status = (document.fonts && document.fonts.status) ? document.fonts.status : "no-fonts-api";
 
   box.textContent =
-    "Font debug:\n" +
+    "Debug:\n" +
     "page = " + location.href + "\n" +
-    "fonts.status = " + document.fonts.status + "\n" +
+    fetchLine + "\n" +
+    "fonts.status = " + status + "\n" +
     "check(Latin)  = " + okLatin + "\n" +
     "check(Hangul) = " + okHangul + "\n" +
     "width Latin  custom/fallback = " + wLatinCustom.toFixed(2) + " / " + wLatinFallback.toFixed(2) + "\n" +
@@ -1816,6 +1826,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
