@@ -1788,8 +1788,52 @@ if (!node.noEnterAnim && !node.cornerText) {
       });
     })();
   </script>
+
+  <script>
+(async () => {
+  const box = document.createElement("div");
+  box.style.cssText = `
+    position:fixed; right:8px; bottom:8px; z-index:999999;
+    background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
+    font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+    border:1px solid rgba(255,255,255,.35); border-radius:10px;
+    max-width:92vw; white-space:pre-wrap;
+  `;
+  document.body.appendChild(box);
+
+  const files = [
+    "DeterminationSansK2-v2.woff2",
+    "DeterminationSansK2-v2.woff",
+    "DeterminationSansK2-v2.ttf"
+  ];
+
+  const lines = [];
+  lines.push("Fetch debug:");
+  lines.push("page = " + location.href);
+
+  for (const f of files) {
+    const u = new URL(f, location.href).href;
+    try {
+      const res = await fetch(u, { cache: "no-store" });
+      lines.push(`${f} -> ${res.status} | type=${res.headers.get("content-type") || "?"}`);
+    } catch (e) {
+      lines.push(`${f} -> fetch error: ${e && e.message ? e.message : e}`);
+    }
+  }
+
+  const perf = performance.getEntriesByType("resource")
+    .filter(e => files.some(f => e.name.includes(f)))
+    .map(e => `${e.name.split("/").pop()} transfer=${e.transferSize||0}B`);
+  lines.push("perf = " + (perf.length ? perf.join(", ") : "(none)"));
+
+  box.textContent = lines.join("\n");
+})();
+</script>
+
+  
 </body>
 </html>
+
 
 
 
