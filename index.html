@@ -1754,46 +1754,10 @@ if (!node.noEnterAnim && !node.cornerText) {
   </script>
 
   <script>
-    (() => {
-      const box = document.createElement("div");
-      box.style.cssText = `
-        position:fixed; left:8px; bottom:8px; z-index:999999;
-        background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
-        font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
-        border:1px solid rgba(255,255,255,.35); border-radius:10px;
-        max-width:92vw; white-space:pre-wrap;
-      `;
-      box.textContent = "Font debug: loading...";
-      document.body.appendChild(box);
-
-      const test = document.createElement("div");
-      test.textContent = "FONT TEST 0123 ABC xyz";
-      test.style.cssText = "position:fixed; left:-9999px; top:-9999px; font-size:32px;";
-      test.style.fontFamily = '"DeterminationK2", sans-serif';
-      document.body.appendChild(test);
-
-      function report(msg){ box.textContent = msg; }
-
-      document.fonts.load('32px "DeterminationK2"').then(() => {
-        const ok = document.fonts.check('32px "DeterminationK2"');
-        const computed = getComputedStyle(test).fontFamily;
-        report(
-          "Font debug:\n" +
-          "fonts.check = " + ok + "\n" +
-          "computed font-family = " + computed + "\n" +
-          "UA = " + navigator.userAgent
-        );
-      }).catch(e => {
-        report("Font debug error:\n" + (e && e.message ? e.message : String(e)));
-      });
-    })();
-  </script>
-
-  <script>
 (async () => {
   const box = document.createElement("div");
   box.style.cssText = `
-    position:fixed; right:8px; bottom:8px; z-index:999999;
+    position:fixed; left:8px; bottom:8px; z-index:999999;
     background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
     font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
     border:1px solid rgba(255,255,255,.35); border-radius:10px;
@@ -1801,38 +1765,49 @@ if (!node.noEnterAnim && !node.cornerText) {
   `;
   document.body.appendChild(box);
 
-  const files = [
-    "DeterminationSansK2-v2.woff2",
-    "DeterminationSansK2-v2.woff",
-    "DeterminationSansK2-v2.ttf"
-  ];
+  const fam = '"DeterminationK2", sans-serif';
+  const fontSpec = '32px "DeterminationK2"';
 
-  const lines = [];
-  lines.push("Fetch debug:");
-  lines.push("page = " + location.href);
+  // 로드 트리거
+  await document.fonts.load(fontSpec);
 
-  for (const f of files) {
-    const u = new URL(f, location.href).href;
-    try {
-      const res = await fetch(u, { cache: "no-store" });
-      lines.push(`${f} -> ${res.status} | type=${res.headers.get("content-type") || "?"}`);
-    } catch (e) {
-      lines.push(`${f} -> fetch error: ${e && e.message ? e.message : e}`);
-    }
-  }
+  // ✅ 핵심: 특정 글자(라틴/한글)까지 지원하는지 검사
+  const okLatin  = document.fonts.check(fontSpec, "ABCxyz0123");
+  const okHangul = document.fonts.check(fontSpec, "가나다라마바사아자차");
 
-  const perf = performance.getEntriesByType("resource")
-    .filter(e => files.some(f => e.name.includes(f)))
-    .map(e => `${e.name.split("/").pop()} transfer=${e.transferSize||0}B`);
-  lines.push("perf = " + (perf.length ? perf.join(", ") : "(none)"));
+  // 실제 렌더 폭 비교(지원 안 되면 폭이 fallback과 같게 나오는 경우가 많음)
+  const mk = (ff, text) => {
+    const el = document.createElement("span");
+    el.textContent = text;
+    el.style.cssText = `position:fixed; left:-9999px; top:-9999px; font-size:32px; font-family:${ff};`;
+    document.body.appendChild(el);
+    const w = el.getBoundingClientRect().width;
+    el.remove();
+    return w;
+  };
 
-  box.textContent = lines.join("\n");
+  const wLatinCustom  = mk(fam, "ABCxyz0123");
+  const wLatinFallback= mk("sans-serif", "ABCxyz0123");
+  const wHanCustom    = mk(fam, "가나다라마바사아자차");
+  const wHanFallback  = mk("sans-serif", "가나다라마바사아자차");
+
+  box.textContent =
+    "Font debug:\n" +
+    "page = " + location.href + "\n" +
+    "fonts.status = " + document.fonts.status + "\n" +
+    "check(Latin)  = " + okLatin + "\n" +
+    "check(Hangul) = " + okHangul + "\n" +
+    "width Latin  custom/fallback = " + wLatinCustom.toFixed(2) + " / " + wLatinFallback.toFixed(2) + "\n" +
+    "width Hangul custom/fallback = " + wHanCustom.toFixed(2) + " / " + wHanFallback.toFixed(2) + "\n" +
+    "UA = " + navigator.userAgent;
 })();
 </script>
+
 
   
 </body>
 </html>
+
 
 
 
