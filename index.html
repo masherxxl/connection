@@ -1768,41 +1768,30 @@ if (!node.noEnterAnim && !node.cornerText) {
   `;
   document.body.appendChild(box);
 
-  const fileUrl = new URL("/connection/DeterminationSansK2.ttf?v=2", location.href).href;
+  const targets = [
+    "./DeterminationSansK2.woff2",
+    "./DeterminationSansK2.woff",
+  ];
 
-  // 1) 네트워크 확인
-  let fetchLine = "";
-  try {
-    const res = await fetch(fileUrl, { cache: "no-store" });
-    fetchLine = `fetch -> ${res.status} | type=${res.headers.get("content-type") || "?"}`;
-  } catch (e) {
-    fetchLine = `fetch error -> ${e && e.message ? e.message : String(e)}`;
+  const lines = [];
+  for (const url of targets) {
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      const ct = res.headers.get("content-type") || "?";
+      const ab = await res.arrayBuffer();
+      const u8 = new Uint8Array(ab.slice(0, 8));
+      const ascii = Array.from(u8.slice(0,4)).map(b => (b>=32 && b<127) ? String.fromCharCode(b) : ".").join("");
+      const hex = Array.from(u8).map(b => b.toString(16).padStart(2,"0")).join(" ");
+      lines.push(`${url}
+status=${res.status} type=${ct} len=${ab.byteLength}
+head(ascii)=${ascii} head(hex)=${hex}`);
+    } catch (e) {
+      lines.push(`${url}\nERROR: ${e && e.message ? e.message : String(e)}`);
+    }
+    lines.push("----");
   }
 
-  // 2) 디코딩(파싱) 확인: 여기서 실패하면 이유가 뜹니다
-  let fontLine = "";
-  try {
-    const ff = new FontFace("DeterminationK2", `url("${fileUrl}")`, { weight: "400", style: "normal" });
-    const loaded = await ff.load();          // <- 여기서 실패하면 catch로 갑니다
-    document.fonts.add(loaded);
-    fontLine = "FontFace.load -> OK (decoded)";
-  } catch (e) {
-    fontLine = "FontFace.load -> FAIL: " + (e && e.message ? e.message : String(e));
-  }
-
-  // 3) 최종 적용 체크
-  const spec = '32px "DeterminationK2"';
-  const okLatin  = document.fonts.check(spec, "ABCxyz0123");
-  const okHangul = document.fonts.check(spec, "가나다라마바사아자차");
-
-  box.textContent =
-    "Debug:\n" +
-    "page = " + location.href + "\n" +
-    fetchLine + "\n" +
-    fontLine + "\n" +
-    "check(Latin)  = " + okLatin + "\n" +
-    "check(Hangul) = " + okHangul + "\n" +
-    "UA = " + navigator.userAgent;
+  box.textContent = lines.join("\n");
 })();
 </script>
 
@@ -1811,6 +1800,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
