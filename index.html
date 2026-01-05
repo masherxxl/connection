@@ -1745,11 +1745,47 @@ if (!node.noEnterAnim && !node.cornerText) {
           introEl.style.display = "none";
           appEl.classList.add("visible");
 
-          renderNode("q0");
+                   renderNode("q0");
           fadeInBgm(1800, 0.7);
         }, 800);
       }, 5000);
     });
+  </script>
+
+  <script>
+    (() => {
+      const box = document.createElement("div");
+      box.style.cssText = `
+        position:fixed; left:8px; bottom:8px; z-index:999999;
+        background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
+        font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+        border:1px solid rgba(255,255,255,.35); border-radius:10px;
+        max-width:92vw; white-space:pre-wrap;
+      `;
+      box.textContent = "Font debug: loading...";
+      document.body.appendChild(box);
+
+      const test = document.createElement("div");
+      test.textContent = "FONT TEST 0123 ABC xyz";
+      test.style.cssText = "position:fixed; left:-9999px; top:-9999px; font-size:32px;";
+      test.style.fontFamily = '"DeterminationK2", sans-serif';
+      document.body.appendChild(test);
+
+      function report(msg){ box.textContent = msg; }
+
+      document.fonts.load('32px "DeterminationK2"').then(() => {
+        const ok = document.fonts.check('32px "DeterminationK2"');
+        const computed = getComputedStyle(test).fontFamily;
+        report(
+          "Font debug:\n" +
+          "fonts.check = " + ok + "\n" +
+          "computed font-family = " + computed + "\n" +
+          "UA = " + navigator.userAgent
+        );
+      }).catch(e => {
+        report("Font debug error:\n" + (e && e.message ? e.message : String(e)));
+      });
+    })();
   </script>
 </body>
 </html>
