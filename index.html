@@ -10,8 +10,8 @@
 @font-face{
   font-family:"DeterminationK2";
   src:
-    url("./DeterminationSansK2-FIX.woff2?v=2") format("woff2"),
-    url("./DeterminationSansK2-FIX.woff?v=2")  format("woff");
+    url("./DeterminationSansK2-FIX.woff2?v=3") format("woff2"),
+    url("./DeterminationSansK2-FIX.woff?v=3")  format("woff");
   font-weight:400;
   font-style:normal;
   font-display:swap;
@@ -1420,7 +1420,6 @@
         if (opt.ominous) btn.classList.add("ominous-btn");
         if (opt.shaky) btn.classList.add("shaky");
 
-        /* ✅ 모든 버튼 기본: 깜빡 레이어 주입 */
         const fx = document.createElement("i");
         fx.className = "btn-flicker";
         btn.appendChild(fx);
@@ -1484,7 +1483,6 @@
         "shake-hard"
       );
 
-      /*  강한 흔들림(요청한 q2_2) */
       if (node.shakeHard) frameEl.classList.add("shake-hard");
 
       qTextEl.style.fontSize = (node.fontSize || 25) + "px";
@@ -1557,7 +1555,6 @@ if (!node.noEnterAnim && !node.cornerText) {
         msgBtn.style.marginTop = "92px";
         msgBtn.style.display = "none";
 
-        /* 엔딩 버튼도 기본 깜빡 */
         const fx = document.createElement("i");
         fx.className = "btn-flicker";
         msgBtn.appendChild(fx);
@@ -1767,7 +1764,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   `;
   document.body.appendChild(box);
 
-  const v = Date.now(); // 캐시 무력화
+  const v = Date.now();
  const tests = [
   { label: "woff2", url: `./DeterminationSansK2-FIX.woff2?v=${v}` },
   { label: "woff",  url: `./DeterminationSansK2-FIX.woff?v=${v}`  },
@@ -1779,7 +1776,6 @@ if (!node.noEnterAnim && !node.cornerText) {
   for (const t of tests) {
     const abs = new URL(t.url, location.href).href;
 
-    // 1) fetch 확인
     let status = "?", ctype = "?";
     try {
       const r = await fetch(abs, { cache: "no-store" });
@@ -1794,7 +1790,6 @@ if (!node.noEnterAnim && !node.cornerText) {
       continue;
     }
 
-    // 2) 디코딩(진짜 핵심)
     try {
       const fam = "DK2_" + t.label;
       const ff = new FontFace(fam, `url("${abs}")`, { weight: "400", style: "normal" });
@@ -1823,6 +1818,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
