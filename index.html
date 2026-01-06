@@ -1749,75 +1749,10 @@ if (!node.noEnterAnim && !node.cornerText) {
     });
   </script>
 
-
-
-  
-<script>
-(async () => {
-  const box = document.createElement("div");
-  box.style.cssText = `
-    position:fixed; left:8px; bottom:8px; z-index:1000000;
-    background:rgba(0,0,0,.78); color:#fff; padding:10px 12px;
-    font:12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
-    border:1px solid rgba(255,255,255,.35); border-radius:10px;
-    max-width:92vw; white-space:pre-wrap;
-  `;
-  document.body.appendChild(box);
-
-  const v = Date.now();
- const tests = [
-  { label: "woff2", url: `./DeterminationSansK2-FIX.woff2?v=${v}` },
-  { label: "woff",  url: `./DeterminationSansK2-FIX.woff?v=${v}`  },
-];
-
-  const lines = [];
-  lines.push("page = " + location.href);
-
-  for (const t of tests) {
-    const abs = new URL(t.url, location.href).href;
-
-    let status = "?", ctype = "?";
-    try {
-      const r = await fetch(abs, { cache: "no-store" });
-      status = r.status;
-      ctype = r.headers.get("content-type") || "?";
-      if (!r.ok) {
-        lines.push(`${t.label}: fetch ${status} (${ctype})`);
-        continue;
-      }
-    } catch (e) {
-      lines.push(`${t.label}: fetch FAIL: ${e?.message || e}`);
-      continue;
-    }
-
-    try {
-      const fam = "DK2_" + t.label;
-      const ff = new FontFace(fam, `url("${abs}")`, { weight: "400", style: "normal" });
-      await ff.load();
-      document.fonts.add(ff);
-
-      const okLatin  = document.fonts.check(`32px "${fam}"`, "ABCxyz0123");
-      const okHangul = document.fonts.check(`32px "${fam}"`, "가나다라마바사아자차");
-
-      lines.push(`${t.label}: fetch ${status} (${ctype}) | DECODE OK | check Latin=${okLatin} Hangul=${okHangul}`);
-    } catch (e) {
-      lines.push(`${t.label}: fetch ${status} (${ctype}) | DECODE FAIL: ${e?.message || e}`);
-    }
-  }
-
-  lines.push("computed body font-family = " + getComputedStyle(document.body).fontFamily);
-  lines.push("UA = " + navigator.userAgent);
-
-  box.textContent = lines.join("\n");
-})();
-</script>
-
-
-
-
   
 </body>
 </html>
+
 
 
 
