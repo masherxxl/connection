@@ -1527,12 +1527,13 @@
       }
 
 if (!node.noEnterAnim && !node.cornerText) {
-  contentEl.classList.remove("question-enter");
-  void contentEl.offsetWidth;
-  contentEl.classList.add("question-enter");
+  contentEl.classList.add("question-pre");
+  void contentEl.offsetWidth; // 강제 리플로우(한 프레임 고정)
+  contentEl.classList.remove("question-pre");
 } else {
-  contentEl.classList.remove("question-enter");
+  contentEl.classList.remove("question-pre");
 }
+
 
       if (node.type === "typewriterRich") {
         qTextEl.textContent = "";
@@ -1768,6 +1769,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
