@@ -114,7 +114,8 @@
         0 0 6px rgba(255, 255, 255, 0.9),
         0 0 18px rgba(255, 255, 255, 0.9);
       margin-bottom: 2px;
-      display: none;
+      visibility: hidden;
+  opacity: 0; 
     }
 
     .q-text {
@@ -1168,8 +1169,8 @@
           "당신의 기억과 동기화된\n작은 데이터 생명체의\n생성여부를 확인해보시겠습니까?",
         delayMs: 2000,
         options: [
-          { label: "좋아요!", next: "q9_1_life" },
-          { label: "사양할게요..", next: "q9_no" }
+          { label: "확인해본다", next: "q9_1_life" },
+          { label: "확인하지 않는다", next: "q9_no" }
         ],
         fadeOutBgmMs: 1200
       },
@@ -1182,8 +1183,8 @@
           "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
         delayMs: 2000,
         options: [
-          { label: "좋아요!", next: "q9_1_entity" },
-          { label: "사양할게요..", next: "q9_no" }
+          { label: "확인해본다", next: "q9_1_entity" },
+          { label: "확인하지 않는다", next: "q9_no" }
         ],
         fadeOutBgmMs: 1200
       },
@@ -1289,7 +1290,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 5,
-        fontSize: 27,
+        fontSize: 25,
         shake: true,
         text:
           "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
@@ -1476,13 +1477,15 @@
       if (node.playSfx === "hit") playHitSfx();
       if (node.startBgm) resumeBgm();
 
-      if (node.label) {
-        qLabelEl.textContent = node.label;
-        qLabelEl.style.display = "block";
-      } else {
-        qLabelEl.textContent = "";
-        qLabelEl.style.display = "none";
-      }
+   if (node.label) {
+  qLabelEl.textContent = node.label;
+  qLabelEl.style.visibility = "visible";
+  qLabelEl.style.opacity = "1";
+} else {
+  qLabelEl.textContent = "";
+  qLabelEl.style.visibility = "hidden";
+  qLabelEl.style.opacity = "0";
+}
 
       qTextEl.className = "q-text glow";
 
@@ -1531,8 +1534,13 @@
 
 if (!node.noEnterAnim && !node.cornerText) {
   contentEl.classList.add("question-pre");
-  void contentEl.offsetWidth; // 강제 리플로우(한 프레임 고정)
-  contentEl.classList.remove("question-pre");
+  void contentEl.offsetWidth;
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      contentEl.classList.remove("question-pre");
+    });
+  });
 } else {
   contentEl.classList.remove("question-pre");
 }
@@ -1777,6 +1785,7 @@ if (node.type === "typewriterRich") {
   
 </body>
 </html>
+
 
 
 
