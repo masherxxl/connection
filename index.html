@@ -48,7 +48,7 @@
       z-index: 10;
     }
     .intro-text{
-      font-size: 32px;
+      font-size: 29px;
       letter-spacing: 0.5em;
       color: #f5f5ff;
       text-shadow:
@@ -125,6 +125,11 @@
       margin-top: 0;
       position: relative;
     }
+
+ .q-label, .q-text {
+  backface-visibility: hidden;
+  will-change: opacity, transform, filter;
+}
 
     .glow {
       text-shadow:
@@ -589,16 +594,22 @@
 }
 
 @keyframes qEnterLabel {
-  0%   { opacity: 0;   transform: translateY(24px); filter: blur(3px); }
-  60%  { opacity: 0.6; transform: translateY(10px); filter: blur(1.4px); }
-  100% { opacity: 1;   transform: translateY(0);    filter: blur(0); }
+  0%   { opacity: 0;    transform: translate3d(0,24px,0); filter: blur(3px); }
+  35%  { opacity: 0.25; transform: translate3d(0,16px,0); filter: blur(2.4px); }
+  65%  { opacity: 0.60; transform: translate3d(0,9px,0);  filter: blur(1.6px); }
+  85%  { opacity: 0.85; transform: translate3d(0,3px,0);  filter: blur(0.9px); }
+  100% { opacity: 1;    transform: translate3d(0,0,0);    filter: blur(0.12px); }
 }
 
 @keyframes qEnterText {
-  0%   { opacity: 0;    transform: translateY(16px); filter: blur(2px); }
-  60%  { opacity: 0.65; transform: translateY(6px);  filter: blur(1px); }
-  100% { opacity: 1;    transform: translateY(0);    filter: blur(0); }
+  0%   { opacity: 0;    transform: translate3d(0,16px,0); filter: blur(2px); }
+  35%  { opacity: 0.25; transform: translate3d(0,11px,0); filter: blur(1.6px); }
+  65%  { opacity: 0.65; transform: translate3d(0,6px,0);  filter: blur(1.1px); }
+  85%  { opacity: 0.88; transform: translate3d(0,2px,0);  filter: blur(0.7px); }
+  100% { opacity: 1;    transform: translate3d(0,0,0);    filter: blur(0.12px); }
 }
+
+
 
 
 
@@ -921,7 +932,7 @@
         label: "Q2",
         type: "typewriter",
         typeSpeedMs: 173,
-        fontSize: 22,
+        fontSize: 25,
         text: "[pause]지금 [pause]말을 걸고 있는 존재가\n누구인지 알고 있습니까?[pause]",
         delayMs: 2000,
         options: [
@@ -935,7 +946,7 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 180,
-        fontSize: 23,
+        fontSize: 27,
         text: "[pause]좋습니다.",
         autoNext: "q3",
         autoDelayMs: 2000
@@ -947,7 +958,7 @@
         red: true,
         type: "typewriter",
         typeSpeedMs: 250,
-        fontSize: 24,
+        fontSize: 26,
         text: "...[pause]확실합니까?",
         delayMs: 2000,
         options: [
@@ -991,7 +1002,7 @@
         label: "Q3",
         type: "typewriter",
         typeSpeedMs: 160,
-        fontSize: 22,
+        fontSize: 25,
         text: "[pause][pause]당신에게는 소중한 사람이나\n가족이 있습니까?[pause]",
         delayMs: 2000,
         options: [
@@ -1005,7 +1016,7 @@
         label: "Q4",
         type: "typewriter",
         typeSpeedMs: 150,
-        fontSize: 21,
+        fontSize: 23,
         text:
           "[pause][pause]당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면[pause]\n살리시겠습니까?[pause]\n방관하시겠습니까?",
         delayMs: 2000,
@@ -1756,6 +1767,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
