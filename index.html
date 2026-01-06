@@ -10,12 +10,13 @@
 @font-face{
   font-family:"DeterminationK2";
   src:
-    url("./DeterminationSansK2-FIX.woff2") format("woff2"),
-    url("./DeterminationSansK2-FIX.woff")  format("woff");
+    url("./DeterminationSansK2-FIX.woff2?v=2") format("woff2"),
+    url("./DeterminationSansK2-FIX.woff?v=2")  format("woff");
   font-weight:400;
   font-style:normal;
   font-display:swap;
 }
+  
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; height: 100%; }
 
@@ -1767,11 +1768,10 @@ if (!node.noEnterAnim && !node.cornerText) {
   document.body.appendChild(box);
 
   const v = Date.now(); // 캐시 무력화
-  const tests = [
-    { label: "woff2", url: `./DeterminationSansK2.woff2?v=${v}` },
-    { label: "woff",  url: `./DeterminationSansK2.woff?v=${v}`  },
-    { label: "ttf",   url: `./DeterminationSansK2.ttf?v=${v}`   },
-  ];
+ const tests = [
+  { label: "woff2", url: `./DeterminationSansK2-FIX.woff2?v=${v}` },
+  { label: "woff",  url: `./DeterminationSansK2-FIX.woff?v=${v}`  },
+];
 
   const lines = [];
   lines.push("page = " + location.href);
