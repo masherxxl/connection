@@ -1530,20 +1530,25 @@ if (!node.noEnterAnim && !node.cornerText) {
 }
 
 
-      if (node.type === "typewriterRich") {
-        qTextEl.textContent = "";
-        choicesEl.innerHTML = "";
-        choicesEl.classList.remove("choices-hide", "choices-enter");
-        startTypewriterRich(node);
-      } else if (node.type === "typewriter") {
-        qTextEl.textContent = "";
-        choicesEl.innerHTML = "";
-        choicesEl.classList.remove("choices-hide", "choices-enter");
-        startTypewriter(node);
-      } else {
-        qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
-        renderChoices(node);
-      }
+   const ENTER_WAIT_MS = 1100; // 타이핑 시작 늦출것
+
+if (node.type === "typewriterRich") {
+  qTextEl.textContent = "";
+  choicesEl.innerHTML = "";
+  choicesEl.classList.remove("choices-hide", "choices-enter");
+  setTimeout(() => startTypewriterRich(node), ENTER_WAIT_MS);
+
+} else if (node.type === "typewriter") {
+  qTextEl.textContent = "";
+  choicesEl.innerHTML = "";
+  choicesEl.classList.remove("choices-hide", "choices-enter");
+  setTimeout(() => startTypewriter(node), ENTER_WAIT_MS);
+
+} else {
+  qTextEl.innerHTML = (node.text || "").replace(/\n/g, "<br>");
+  renderChoices(node);
+}
+
 
       const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
       if (isTyping) return;
@@ -1764,6 +1769,7 @@ if (!node.noEnterAnim && !node.cornerText) {
   
 </body>
 </html>
+
 
 
 
