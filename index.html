@@ -626,14 +626,14 @@
 .content.question-pre .q-label{
   opacity: 0;
   transform: translate3d(0,15px,0);
-  filter: blur(2.2px);
+  filter: blur(1.4px);
 }
 
   
 .content.question-pre .q-text{
   opacity: 0;
   transform: translate3d(0,16px,0);
-  filter: blur(1.6px);
+  filter: blur(1.0px);
 }
 
 
@@ -815,7 +815,8 @@
     const CLICK_ADVANCE_CUT_MS = 350; // 버튼 누른 뒤 딜레이 보정값, 여기임!
 
     //  버튼 랜덤 잔떨림(불규칙 밝기스파이크) 프레임까지 흔들림
-    function startBtnTremble(btn, preset = "soft") {
+   function startBtnTremble(btn, preset = "soft", visibleBtnCount = 1) {
+     
       const cfg = {
         micro:{ base: 0.12, spike: 0.45, spikeChance: 0.04, min: 60, max: 130 },
         soft: { base: 0.55, spike: 1.9, spikeChance: 0.10, min: 18, max: 55 },
@@ -823,6 +824,9 @@
         hard: { base: 1.15, spike: 3.6, spikeChance: 0.16, min: 14, max: 38 },
       }[preset] || { base: 0.55, spike: 1.9, spikeChance: 0.10, min: 18, max: 55 };
 
+     if (visibleBtnCount >= 3) cfg.spikeChance *= 0.55;
+     if (visibleBtnCount >= 4) cfg.spikeChance *= 0.70;
+      
       stopBtnTremble(btn);
       btn._trembleAlive = true;
 
@@ -1098,8 +1102,8 @@
         id: "q5",
         label: "Q5",
         type: "typewriter",
-        typeSpeedMs: 150,
-        fontSize: 20,
+        typeSpeedMs: 155,
+        fontSize: 23,
         text:
           "[pause][pause]소중한 사람이 계속해서 죽어갈 때마다 \n다시 살려낼 것 입니까? \n[pause]아니면, 죽어가도록 내버려두겠습니까?",
         delayMs: 2000,
@@ -1163,7 +1167,7 @@
         label: "Q7",
         type: "typewriter",
         typeSpeedMs: 172,
-        fontSize: 23,
+        fontSize: 24,
         text: "[pause][pause]당신에게 있어, ‘죽음’이란 무엇입니까?",
         delayMs: 2000,
         options: [
@@ -1452,6 +1456,8 @@ q9_entity: {
 
     function renderChoices(node) {
       stopAllBtnTremble();
+      
+      const plannedCount = node.options?.length || 0;
 
       choicesEl.innerHTML = "";
       choicesEl.classList.remove("choices-hide", "choices-enter");
@@ -1472,11 +1478,8 @@ q9_entity: {
         fx.className = "btn-flicker";
         btn.appendChild(fx);
 
-if (opt.tremble) {
-  startBtnTremble(btn, opt.tremble); // soft | mid | hard | micro
-} else {
-  startBtnTremble(btn, "micro");     // 아주 미미한 떨림
-}
+startBtnTremble(btn, opt.tremble || "micro", plannedCount);
+
         btn.style.animationDelay = `${0.05 * index}s`;
 
        const span = document.createElement("span");
@@ -1662,8 +1665,9 @@ if (isTyping) return;
       if (transitioning) return;
       transitioning = true;
 
-      if (opt.isThird) thirdChoiceCount++;
+       stopAllBtnTremble();
 
+      if (opt.isThird) thirdChoiceCount++;
       choicesEl.classList.add("choices-hide");
 
       let nextId = opt.next;
@@ -1876,6 +1880,7 @@ function startTypewriterGlyph(node) {
   
 </body>
 </html>
+
 
 
 
