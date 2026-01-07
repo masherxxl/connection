@@ -163,6 +163,11 @@
       margin-top: 24px;
     }
 
+.choice-btn.red,
+.choice-btn.red span{
+  color: #ff3058 !important;
+}
+  
     /* 404 코너 텍스트 */
     .error-corner {
       position: fixed;
@@ -1125,8 +1130,8 @@
         text: "[pause]살리지 않기로 결정했습니다.\n[pause]당신은 어떤 느낌이 드십니까?",
         delayMs: 2000,
         
-    choiceFontSize: 22, 
-
+        choiceFontSize: 22,
+        
   options: [
     { label: "공포",   next: "q6", tremble: "mid" },
     { label: "안도감", next: "q6", tremble: "mid" },
@@ -1138,8 +1143,8 @@
         id: "q6",
         label: "Q6",
         type: "typewriter",
-        typeSpeedMs: 150,
-        fontSize: 21,
+        typeSpeedMs: 155,
+        fontSize: 23,
         text:
           "[pause][pause]어떤 방식이든 가능하기만 하다면,[pause]\n삶을 끝없이 이어 붙일 수 있다고\n생각하십니까?",
         delayMs: 2000,
@@ -1157,8 +1162,8 @@
         id: "q7",
         label: "Q7",
         type: "typewriter",
-        typeSpeedMs: 170,
-        fontSize: 22,
+        typeSpeedMs: 172,
+        fontSize: 23,
         text: "[pause][pause]당신에게 있어, ‘죽음’이란 무엇입니까?",
         delayMs: 2000,
         options: [
@@ -1173,8 +1178,8 @@
         id: "q8",
         label: "Q8",
         type: "typewriter",
-        typeSpeedMs: 150,
-        fontSize: 21,
+        typeSpeedMs: 155,
+        fontSize: 23,
         text:
           "[pause][pause]몸이 없더라도,\n스스로 의식을 가진 개체에게[pause]\n‘생명’이라는 말을 사용할 수 있습니까?",
         delayMs: 2000,
@@ -1184,40 +1189,40 @@
         ]
       },
 
-      q9_life: {
-        id: "q9_life",
-        label: "Q9",
-        fontSize: 23,
-        text:
-          "당신의 기억과 동기화된\n작은 데이터 생명체의\n생성여부를 확인해보시겠습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "확인해본다", next: "q9_1_life" },
-          { label: "확인하지 않는다", next: "q9_no" }
-        ],
-        fadeOutBgmMs: 1200
-      },
+   q9_life: {
+  id: "q9_life",
+  label: "",      
+  fontSize: 23,
+  text:
+    "당신의 기억과 동기화된\n작은 데이터 생명체의\n생성여부를 확인해보시겠습니까?",
+  delayMs: 2000,
+  options: [
+    { label: "확인해본다", next: "q9_1_life" },
+    { label: "확인하지 않는다", next: "q9_no" }
+  ],
+  fadeOutBgmMs: 1200
+},
 
-      q9_entity: {
-        id: "q9_entity",
-        label: "Q9",
-        fontSize: 23,
-        text:
-          "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
-        delayMs: 2000,
-        options: [
-          { label: "확인해본다", next: "q9_1_entity" },
-          { label: "확인하지 않는다", next: "q9_no" }
-        ],
-        fadeOutBgmMs: 1200
-      },
+q9_entity: {
+  id: "q9_entity",
+  label: "",      
+  fontSize: 23,
+  text:
+    "당신의 기억과 동기화된\n작은 데이터 개체의\n생성여부를 확인해보시겠습니까?",
+  delayMs: 2000,
+  options: [
+    { label: "확인해본다", next: "q9_1_entity" },
+    { label: "확인하지 않는다", next: "q9_no" }
+  ],
+  fadeOutBgmMs: 1200
+},
 
       q9_1_life: {
         id: "q9_1_life",
         label: "",
         type: "typewriter",
         typeSpeedMs: 170,
-        fontSize: 20,
+        fontSize: 24,
         text:
           "[pause][pause]여기-[pause] 당신의 생명체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 생명체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
         delayMs: 2000,
@@ -1233,7 +1238,7 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 170,
-        fontSize: 20,
+        fontSize: 24,
         text:
           "[pause][pause]여기-[pause] 당신의 데이터 개체가\n이 곳을 벗어나기 위해,\n애원하며 많은 질문을 던져옵니다.[pause][pause]\n이 개체를 삭제할 권리가\n당신에게 있다고 생각하십니까?",
         delayMs: 2000,
@@ -1252,7 +1257,7 @@
         typeSpeedMs: 160,
         text: "잘 이해했습니다.",
         autoNext: "q10",
-        autoDelayMs: 2000,
+        autoDelayMs: 3000,
         startBgm: true
       },
 
@@ -1264,7 +1269,7 @@
         typeSpeedMs: 160,
         text: "잘 이해했습니다.",
         autoNext: "q10",
-        autoDelayMs: 2000
+        autoDelayMs: 3000
       },
 
       q9_interesting: {
@@ -1275,7 +1280,7 @@
         typeSpeedMs: 190,
         text: "[pause][pause]점점 흥미로워집니다.",
         autoNext: "q10",
-        autoDelayMs: 2000
+        autoDelayMs: 4000
       },
 
       q10: {
@@ -1283,9 +1288,9 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 170,
-        fontSize: 23,
+        fontSize: 24,
         text: "[pause][pause]마지막으로....[pause]\n당신은 자신이 어떤 존재인지\n알고 있습니까?[pause]",
-        delayMs: 2000,
+        delayMs: 3000,
         options: [
           { label: "저는 제가 어떤 존재인지 꽤 명확히 이해하고 있습니다.", next: "lastQ" },
           { label: "...저는 단 하나의 말로 정의하기 어렵습니다.", next: "lastQ" },
@@ -1316,7 +1321,7 @@
         fontSize: 25,
         shake: true,
         text:
-          "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
+          "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ \n알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
       options: [
   { label: "?̵?̴?̵", next: "end1", red: true, ominous: true, shaky: true, tremble: "mid" },
@@ -1330,8 +1335,8 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 173,
-        fontSize: 23,
-        text: "[pause]협조해 주셔서 감사합니다.[pause]\n응답기록을 모두 보관하였습니다.[pause]\n당신의 데이터 검사가 완료되었습니다-",
+        fontSize: 24,
+        text: "[pause]협조해 주셔서 감사합니다.[pause]\n응답기록을 모두 보관하였습니다.[pause]\n\n당신의 데이터 검사가 완료되었습니다-",
         autoNext: "end2",
         autoDelayMs: 3000
       },
@@ -1350,7 +1355,7 @@
           }
         ],
         autoNext: "end_swap",
-        autoDelayMs: 3000
+        autoDelayMs: 2000
       },
 
       end_swap: {
@@ -1359,7 +1364,7 @@
         fontSize: 24,
         text: "대상 교체를 시작합니다.\n이전 개체와의 연결을 종료합니다.",
         autoNext: "end3",
-        autoDelayMs: 3800
+        autoDelayMs: 4000
       },
 
       end3: {
@@ -1384,7 +1389,7 @@
     const msgCloseEl  = document.getElementById("msgClose");
 
     const ERROR_TEXT = `에러 발생!\n"gateway 0"과의 연결이 끊겼습니다.`;
-    const MESSAGE_TEXT = `[이제 이 공간에는 아무것도 남아있지 않은 듯 하다.]`;
+    const MESSAGE_TEXT = `[이제 이 공간에는 아무것도 남아있지\n않은 듯 하다.]`;
 
     let overlayMode = null;
     let endingBtnEl = null;
@@ -1393,7 +1398,7 @@
       overlayMode = mode;
 
       if (msgHeaderEl) {
-        msgHeaderEl.textContent = (mode === "error") ? "시스템 오류" : "남겨진 기록";
+        msgHeaderEl.textContent = (mode === "error") ? "오류" : "???";
       }
       if (msgBodyEl) {
         msgBodyEl.textContent = (mode === "error") ? ERROR_TEXT : MESSAGE_TEXT;
@@ -1871,6 +1876,7 @@ function startTypewriterGlyph(node) {
   
 </body>
 </html>
+
 
 
 
