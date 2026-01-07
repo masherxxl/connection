@@ -47,9 +47,11 @@
       align-items: center;
       z-index: 10;
     }
+  
+  /*연결합니다 자간 변경*/
     .intro-text{
       font-size: 29px;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.2em;
       color: #f5f5ff;
       text-shadow:
         0 0 8px rgba(255, 255, 255, 0.9),
@@ -230,6 +232,22 @@
       70%  { letter-spacing: -0.03em; }
       100% { letter-spacing: 0em; }
     }
+
+/* q2_1 전용: 약한 잔떨림 */
+.q-text.tiny-jitter{
+  display: inline-block;
+  animation: tinyJitter 0.55s steps(2,end) infinite;
+  will-change: transform;
+}
+
+@keyframes tinyJitter{
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-0.15px, 0.15px); }
+  50%  { transform: translate(0.15px, -0.15px); }
+  75%  { transform: translate(-0.15px, -0.15px); }
+  100% { transform: translate(0,0); }
+}
+
 
     /* 순간 글리치 */
     .glitch-burst{
@@ -789,10 +807,12 @@
     }
 
     const BUTTON_DELAY_MS = 1200;
+    const CLICK_ADVANCE_CUT_MS = 350; // 버튼 누른 뒤 딜레이 보정값, 여기임!
 
     //  버튼 랜덤 잔떨림(불규칙 밝기스파이크) 프레임까지 흔들림
     function startBtnTremble(btn, preset = "soft") {
       const cfg = {
+        micro:{ base: 0.12, spike: 0.45, spikeChance: 0.04, min: 60, max: 130 },
         soft: { base: 0.55, spike: 1.9, spikeChance: 0.10, min: 18, max: 55 },
         mid:  { base: 0.85, spike: 2.8, spikeChance: 0.13, min: 16, max: 45 },
         hard: { base: 1.15, spike: 3.6, spikeChance: 0.16, min: 14, max: 38 },
@@ -867,7 +887,7 @@
         label: "",
         type: "typewriter",
         typeSpeedMs: 190,
-        fontSize: 25,
+        fontSize: 26,
         text: "[pause][pause]성공적으로\n[pause]연결 되었습니다.",
         autoNext: "q0_start",
         autoDelayMs: 2000
@@ -889,7 +909,7 @@
         id: "q0_start",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 183,
+        typeSpeedMs: 180,
         fontSize: 25,
         text: "[pause]그러면...[pause]\n바로 질문을 시작하도록 할까요.",
         autoNext: "q1",
@@ -900,7 +920,7 @@
         id: "q1",
         label: "Q1",
         type: "typewriter",
-        typeSpeedMs: 175,
+        typeSpeedMs: 173,
         fontSize: 25,
         text: "[pause][pause]당신은 누구입니까?",
         delayMs: 2000,
@@ -950,28 +970,29 @@
         id: "q2_unknown",
         label: "",
         type: "typewriter",
-        typeSpeedMs: 180,
+        typeSpeedMs: 183,
         fontSize: 27,
         text: "[pause]좋습니다.",
         autoNext: "q3",
         autoDelayMs: 2000
       },
 
-      q2_1: {
-        id: "q2_1",
-        label: "",
-        red: true,
-        type: "typewriter",
-        typeSpeedMs: 250,
-        fontSize: 26,
-        text: "...[pause]확실합니까?",
-        delayMs: 2000,
-        options: [
-          { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
-          { label: "사실 잘 모르겠습니다.", next: "q3" },
-          { label: "글쎄요...", next: "q3" }
-        ]
-      },
+     q2_1: {
+  id: "q2_1",
+  label: "",
+  red: true,
+  type: "typewriterGlyph",     
+  glyphSpeedMs: 430,   // 딱.딱. 간격
+  fontSize: 26,
+  text: "확실합니까?",     
+  tinyJitter: true, 
+  delayMs: 2000,
+  options: [
+    { label: "네, 저는 당신이 누군지 알아요.", next: "q2_2" },
+    { label: "사실 잘 모르겠습니다.", next: "q3" },
+    { label: "글쎄요...", next: "q3" }
+  ]
+},
 
       q2_2: {
         id: "q2_2",
@@ -1006,9 +1027,9 @@
         id: "q3",
         label: "Q3",
         type: "typewriter",
-        typeSpeedMs: 160,
+        typeSpeedMs: 165,
         fontSize: 25,
-        text: "[pause][pause]당신에게는 소중한 사람이나\n가족이 있습니까?[pause]",
+        text: "[pause][pause]당신에게는 소중한 사람이나\n가족이 존재합니까?[pause]",
         delayMs: 2000,
         options: [
           { label: ".....", next: "q4" },
@@ -1020,10 +1041,10 @@
         id: "q4",
         label: "Q4",
         type: "typewriter",
-        typeSpeedMs: 150,
-        fontSize: 23,
+        typeSpeedMs: 160,
+        fontSize: 24,
         text:
-          "[pause][pause]당신의 소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면[pause]\n살리시겠습니까?[pause]\n방관하시겠습니까?",
+          "[pause][pause]소중한 사람이 눈앞에서\n죽어가고 있을 때,\n살릴 수 있는 방법을 알게 된다면[pause]\n살리시겠습니까?[pause]\n방관하시겠습니까?",
         delayMs: 2000,
         options: [
           { label: "어떻게든 살려낸다.", next: "q4_r1" },
@@ -1038,7 +1059,7 @@
         type: "typewriter",
         typeSpeedMs: 195,
         fontSize: 23,
-        text: ".[pause].[pause].[pause]\n그렇군요.[pause] 당신은 그렇군요.",
+        text: "...[pause][pause][pause]\n그렇군요.[pause] 당신은 그렇군요.",
         autoNext: "q5",
         autoDelayMs: 4000
       },
@@ -1049,7 +1070,7 @@
         type: "typewriter",
         typeSpeedMs: 195,
         fontSize: 23,
-        text: ".[pause].[pause].[pause]\n그렇군요.[pause]\n당신은 그렇군요.",
+        text: "...[pause][pause][pause]\n그렇군요.[pause] 당신은 그렇군요.",
         autoNext: "q5_alt",
         autoDelayMs: 4000
       },
@@ -1058,14 +1079,14 @@
         id: "q4_r3",
         label: "",
         red: true,
-        fontSize: 30,
+        fontSize: 35,
         text: "데이터에 이상이 감지되었습니다!",
         noEnterAnim: true,
         cornerText: true,
         stopBgmHard: true,
         hideTopBar: true,
         autoNext: "q5",
-        autoDelayMs: 4000
+        autoDelayMs: 7000
       },
 
       q5: {
@@ -1100,17 +1121,19 @@
         label: "Q5",
         type: "typewriter",
         typeSpeedMs: 173,
-        fontSize: 21,
+        fontSize: 24,
         text: "[pause]살리지 않기로 결정했습니다.\n[pause]당신은 어떤 느낌이 드십니까?",
         delayMs: 2000,
-        options: [
-          { label: "공포",   next: "q6", tremble: "mid" },
-          { label: "안도감", next: "q6", tremble: "mid" },
-          { label: "죄책감", next: "q6", tremble: "mid" },
-          { label: "통쾌함", next: "q6", isThird: true, tremble: "mid" }
-        ]
-      },
+        
+    choiceFontSize: 22, 
 
+  options: [
+    { label: "공포",   next: "q6", tremble: "mid" },
+    { label: "안도감", next: "q6", tremble: "mid" },
+    { label: "죄책감", next: "q6", tremble: "mid" },
+    { label: "통쾌함", next: "q6", isThird: true, tremble: "mid" }
+  ]
+},
       q6: {
         id: "q6",
         label: "Q6",
@@ -1295,11 +1318,11 @@
         text:
           "당҈̘̩̝͚̣̞͚̰͍̘͉̣̙̤̩̰̰͍̭̮̱͚̲̊̾͛̊̍̀͌̌̑͛͂̉̎ͅ신̶̲̱̞̙͚͉͉͇͇̪̪̞̱̖̥͙̳͎̓̍̓̆̉̎̄͗͊̄̀̇̾̈̋̽̍͒̊ͅ은҉̘̟͚̠͍̩̞̰͚̳͖̤̣̜̘̫̮̈̏̓̾̎̒̆̇̀͛̌̂̀̏́̐͐̑̚ 자҈̳̠͎͈̞͈̱̭̪̬̥̯͉̰̮̮͍̀̌͒̿̆͛͑̈͆̿̽̿͊͐̄̇̐̍̚신̸̤̣̜̤̰̮͔̘̱̟̱̞̆̉̽̌́̑̏̀̀̈̉̂́̍͑́이̴̘̪̗̱͉̥͙͔̰̥͈͉̞͔̫̫̳́̅͆͊̎̑͗͒̎́͗̈͆̇̌̑̀ͅ 어̷̲̲̮̪͓͇̠̭̳͕͙̗̪̖͓͖̯̯͈̓͛̋̆̔̇̔̑̒͛̐̍̓̒̅̑̚떤̶̤̰̫͚̰͎̯̞̩̯͈̟̦̩̖̅̔̎̉͐̅̀̊̆̉͒͑́̄̏̒͐ 존̵͔͎̭̦͕̗͈̖̮͙͕͇̏̋͋̌̏́̀́̉̏͂͆̽̓̈̓͛͆̀̏͂̄재̸͇̥̗̤͇̥̣̮̤̦̥̮͚͕̞͔͚̲̟̏̍̂̿̈́̔̀̃͛͆̇͑͛͒̓̔̃̍̐̒̿̚인̵̥̦͎͇̟̣̖͕͇͉̰͚̯͔͖͓͓͇̩͚͍̣̣̖̆̉͌͑̅͌͂͗͐́̑̽̾̾̀̊̆́̇͊̈́̽͒지̵̖͇̳̫̪̜̭̦̬͖̳͇̫̣̘̜̙͎̲̟̔͆͆͛͛̊́͑͗̆͆͋̀͆̆̆͗̎̊͛͌̇̀̚ 알҉̭̱͈̮̫͓̲̫͉͚̬̥̝̫̣͙̬̮͊́̄̄̏̀̓̇̽̋̐͐̆̎고̴̭͖͇̪̭̥̦̳̜̲̲̭̱͚̙͍̬͇̬̳̎̒̒̿͆̈́̅̅̂̆̀͊̎ 있҈̮̠̥̦̥̟͕̯̤͔͙͔̊̉̐̃̓͌̈̏̐̈̌̿̇̇̀̆͆̿̏͐̎̀̀습҉͖̟̘̳̙̲̪̖̟̱̘̦̳̜͔̩̜̭͈̉͑̓̇́̉̄̌̐́̒̌̀̿͆̇̒̌̽̂̉̃͒니҈̤̭̫̰̪͈͙͉̦̦̬̰̲̩̍̎͂͌͋͌̓̄̓̃̍́͋̿̀̑͋̊ͅ까̷͓̟͍̣̪͙̞͔͓̳̦̞͖̩̯͈̘̦̝̄̎̇̀̎͑̐͛͋̃́͌͂̉͆̍͆̒̃̈́ͮ?",
         delayMs: 5000,
-        options: [
-          { label: "?̵?̴?̵", next: "end1", red: true, ominous: true, shaky: true },
-          { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̣̭ͯͅ", next: "end1", red: true, ominous: true, shaky: true },
-          { label: "???", next: "end1", red: true, ominous: true, shaky: true }
-        ]
+      options: [
+  { label: "?̵?̴?̵", next: "end1", red: true, ominous: true, shaky: true, tremble: "mid" },
+  { label: "?̧̥͙̗̯̤̳̯̗͕̲ͅ?̡͈͖̱͙̲?̨͇̱̱̥̞̰͉̣̭ͯͅ", next: "end1", red: true, ominous: true, shaky: true, tremble: "mid" },
+  { label: "???", next: "end1", red: true, ominous: true, shaky: true, tremble: "mid" }
+]
       },
 
       end1: {
@@ -1444,15 +1467,20 @@
         fx.className = "btn-flicker";
         btn.appendChild(fx);
 
-        if (opt.tremble) {
-          startBtnTremble(btn, opt.tremble); // soft | mid | hard
-        }
-
+if (opt.tremble) {
+  startBtnTremble(btn, opt.tremble); // soft | mid | hard | micro
+} else {
+  startBtnTremble(btn, "micro");     // 아주 미미한 떨림
+}
         btn.style.animationDelay = `${0.05 * index}s`;
 
-        const span = document.createElement("span");
-        span.textContent = opt.label;
-        btn.appendChild(span);
+       const span = document.createElement("span");
+span.textContent = opt.label;
+
+//  q5_alt 특정 노드에서 버튼 글자 크기 조절...
+if (node.choiceFontSize) span.style.fontSize = node.choiceFontSize + "px";
+
+btn.appendChild(span);
 
         btn.addEventListener("click", () => handleChoice(node, opt));
         choicesEl.appendChild(btn);
@@ -1488,6 +1516,8 @@
 }
 
       qTextEl.className = "q-text glow";
+      qTextEl.classList.remove("tiny-jitter");
+
 
       qTextEl.classList.remove(
         "error-corner",
@@ -1554,6 +1584,12 @@ if (node.type === "typewriterRich") {
   choicesEl.classList.remove("choices-hide", "choices-enter");
   setTimeout(() => startTypewriterRich(node), ENTER_WAIT_MS);
 
+  } else if (node.type === "typewriterGlyph") {  
+  qTextEl.textContent = "";
+  choicesEl.innerHTML = "";
+  choicesEl.classList.remove("choices-hide", "choices-enter");
+  setTimeout(() => startTypewriterGlyph(node), ENTER_WAIT_MS);
+  
 } else if (node.type === "typewriter") {
   qTextEl.textContent = "";
   choicesEl.innerHTML = "";
@@ -1565,9 +1601,12 @@ if (node.type === "typewriterRich") {
   renderChoices(node);
 }
 
+    const isTyping =
+  node.type === "typewriter" ||
+  node.type === "typewriterRich" ||
+  node.type === "typewriterGlyph";
+if (isTyping) return;
 
-      const isTyping = node.type === "typewriter" || node.type === "typewriterRich";
-      if (isTyping) return;
 
       if (node.finalBlack) {
         frameEl.classList.add("hard-black");
@@ -1628,7 +1667,8 @@ if (node.type === "typewriterRich") {
         bonusTriggered = true;
       }
 
-      const wait = node.delayMs || 2000;
+      const baseWait = node.delayMs || 1700;  // 다음 구간으로 넘어가는 공백 시간 변경
+      const wait = Math.max(250, baseWait - CLICK_ADVANCE_CUT_MS);
 
       timerId = setTimeout(() => {
         choicesEl.innerHTML = "";
@@ -1716,6 +1756,52 @@ if (node.type === "typewriterRich") {
       runNextSegment();
     }
 
+    
+    function splitGraphemes(str) {
+  // 최신 브라우저/모바일은 대부분 지원
+  if (window.Intl && Intl.Segmenter) {
+    const seg = new Intl.Segmenter("ko", { granularity: "grapheme" });
+    return Array.from(seg.segment(str), s => s.segment);
+  }
+  // fallback: 그래도 대부분 한글은 문제없이 동작
+  return Array.from(str);
+}
+
+function startTypewriterGlyph(node) {
+  const full = node.text || "";
+  const glyphs = splitGraphemes(full);
+  const speed = node.glyphSpeedMs ?? 420;
+
+  let i = 0;
+
+  // q2_1 전용: 아주 약한 잔떨림 적용
+  qTextEl.classList.toggle("tiny-jitter", !!node.tinyJitter);
+
+  qTextEl.innerHTML = "";
+  if (typingTimer) { clearInterval(typingTimer); typingTimer = null; }
+
+  typingTimer = setInterval(() => {
+    if (i >= glyphs.length) {
+      clearInterval(typingTimer);
+      typingTimer = null;
+
+      if (node.options && node.options.length) {
+        setTimeout(() => renderChoices(node), BUTTON_DELAY_MS);
+      }
+      if (node.autoNext) {
+        const delay = node.autoDelayMs || 1700;
+        timerId = setTimeout(() => renderNode(node.autoNext), delay);
+      }
+      return;
+    }
+
+    qTextEl.innerHTML += glyphs[i].replace(/\n/g, "<br>");
+    i++;
+  }, speed);
+}
+
+
+    
     function startTypewriter(node) {
       const full  = node.text || "";
       let index   = 0;
@@ -1785,6 +1871,7 @@ if (node.type === "typewriterRich") {
   
 </body>
 </html>
+
 
 
 
